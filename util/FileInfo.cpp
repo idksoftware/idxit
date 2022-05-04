@@ -2,7 +2,7 @@
 // =========== FileInfo.cpp ===========
 //
 #include "FileInfo.h"
-#include "FileInfo.h"
+
 #include "crc64.h"
 #include "sha256.h"
 #include "UniqueId.h"
@@ -19,7 +19,7 @@ static char THIS_FILE[] = __FILE__;
 #include <random>
 #include <sstream>
 
-namespace simplearchive {
+//namespace simplearchive {
 
 /*
 	namespace uuid {
@@ -131,20 +131,18 @@ namespace simplearchive {
 		Init(path);
 	}
 
-	const ExifDateTime FileInfo::getCreateTime() const {
+	const CIDKDate FileInfo::getCreateTime() const {
 		std::filesystem::file_time_type time = std::filesystem::last_write_time(m_path);
 		time_t timet = to_time_t(time);
-		ExifDateTime createTime;
-		createTime.setDateTime(timet);
+		CIDKDate createTime(timet);
 		
 		return createTime;
 	}
 
-	const ExifDateTime FileInfo::getModTime() const {
+	const CIDKDate FileInfo::getModTime() const {
 		std::filesystem::file_time_type time = std::filesystem::last_write_time(m_path);
 		time_t timet = to_time_t(time);
-		ExifDateTime modTime;
-		modTime.setDateTime(timet);
+		CIDKDate modTime(timet);
 		return modTime;
 	}
 
@@ -181,4 +179,4 @@ namespace simplearchive {
 
 
 
-};
+//};

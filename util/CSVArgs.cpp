@@ -47,7 +47,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+//namespace simplearchive {
 
 	CSVArgs::CSVArgs(char delim) {
 		m_delim = delim;
@@ -124,4 +124,4 @@ namespace simplearchive {
 	}
 
 
-} /* namespace simplearchive */
+//} /* namespace simplearchive */

@@ -91,7 +91,9 @@ public:
 	 */
 
 	//	default constructor
-    CIDKDate	() ;						
+    CIDKDate	() ;
+
+	CIDKDate(const char* str);
     
 	//	copy constructor
 	CIDKDate	(const CIDKDate& dtValue) ;			
@@ -104,6 +106,8 @@ public:
 
 	// sets the time Now
 	void Now();
+
+	bool fromString(const char* str);
 
 	// Assignment
     CIDKDate&	operator=	(const CIDKDate& dtValue) ;

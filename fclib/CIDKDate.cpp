@@ -51,6 +51,13 @@ CIDKDate::CIDKDate	()
 	m_nTime = 0;
 }
 
+CIDKDate::CIDKDate(const char* str) {
+
+	if (fromString(str) == false) {
+		//m_isOk = false;
+	}
+	return;
+}
 
 CIDKDate::CIDKDate	(const CIDKDate& dtValue)
 {
@@ -69,6 +76,42 @@ CIDKDate::~CIDKDate	(void)
 void CIDKDate::Now()
 {
 	time(&m_nTime);
+}
+
+bool CIDKDate::fromString(const char* str) {
+	if (str == nullptr || str[0] == '\0') {
+		return false;
+	}
+	else {
+		std::string datestr = str;
+		size_t s = 0;
+		size_t e = datestr.find_first_of(":.");
+		std::string numstr = datestr.substr(s, e);
+		long nYear = strtol(numstr.c_str(), NULL, 10);
+		s = e + 1;
+		e = datestr.find_first_of(":.", s);
+		numstr = datestr.substr(s, e - s);
+		long nMonth = strtol(numstr.c_str(), NULL, 10);
+		s = e + 1;
+		e = datestr.find_first_of(" .", s);
+		numstr = datestr.substr(s, e - s);
+		long nDay = strtol(numstr.c_str(), NULL, 10);
+		s = e + 1;
+		e = datestr.find_first_of(":.", s);
+		numstr = datestr.substr(s, e - s);
+		long nHour = strtol(numstr.c_str(), NULL, 10);
+		s = e + 1;
+		e = datestr.find_first_of(":.", s);
+		numstr = datestr.substr(s, e - s);
+		long nMinute = strtol(numstr.c_str(), NULL, 10);
+		s = e + 1;
+		e = datestr.length();
+		numstr = datestr.substr(s, e - s);
+		long nSecond = strtol(numstr.c_str(), NULL, 10);
+		SetDate(nYear, nMonth, nDay, nHour, nMinute, nSecond);
+
+	}
+	return true;
 }
 
 

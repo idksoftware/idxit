@@ -10,7 +10,7 @@
 #include <chrono>
 #include <iomanip>
 #include <fstream>
-#include "ExifDateTime.h"
+#include "CIDKDate.h"
 
 /*
 Media Pro
@@ -28,7 +28,7 @@ Media Pro
 <ThumbnailSource>Thumbnails_(Catalog2)\P1160039.jpg</ThumbnailSource>
 */
 
-namespace simplearchive {
+//namespace simplearchive {
 
 	class FileInfo
 	{
@@ -88,10 +88,10 @@ namespace simplearchive {
 			return m_path.extension().string();
 		}
 
-		const ExifDateTime getCreateTime() const;
-		const ExifDateTime getModTime() const;
+		const CIDKDate getCreateTime() const;
+		const CIDKDate getModTime() const;
 
 	};
 
 
-};
+//};

@@ -164,6 +164,7 @@
     <ClCompile Include="FileVersion.cpp" />
     <ClCompile Include="HomePaths.cpp" />
     <ClCompile Include="ImageEncode.cpp" />
+    <ClCompile Include="ImageIndex.cpp" />
     <ClCompile Include="Quiet.cpp" />
     <ClCompile Include="SequenceNumber.cpp" />
     <ClCompile Include="sha256.cpp" />
@@ -192,6 +193,7 @@
     <ClCompile Include="pathcontroller.cpp" />
     <ClCompile Include="Base32.cpp" />
     <ClCompile Include="WorkspaceFiles.cpp" />
+    <ClCompile Include="XMLWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddressScope.h" />
@@ -211,6 +213,7 @@
     <ClInclude Include="FileVersion.h" />
     <ClInclude Include="HomePaths.h" />
     <ClInclude Include="ImageEncode.h" />
+    <ClInclude Include="ImageIndex.h" />
     <ClInclude Include="Quiet.h" />
     <ClInclude Include="SequenceNumber.h" />
     <ClInclude Include="sha256.h" />
@@ -244,6 +247,7 @@
     <ClInclude Include="pathcontroller.h" />
     <ClInclude Include="Base32.h" />
     <ClInclude Include="WorkspaceFiles.h" />
+    <ClInclude Include="XMLWriter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
