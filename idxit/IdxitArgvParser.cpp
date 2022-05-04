@@ -15,6 +15,7 @@
 #include "IdxitParseOptions.h"
 //#include "ParseProperties.h"
 #include "IdxitAbout.h"
+#include "IdxitScan.h"
 
 // beyond compare
 using namespace CommandLineProcessing;
@@ -312,9 +313,10 @@ bool IdxitArgvParser::doInitalise(int argc, char **argv) {
 	}
 	
 	std::shared_ptr <IdxitAbout>		aboutCmd		= std::make_shared<IdxitAbout>(*this);
-	
+	std::shared_ptr <IdxitScan>			scanCmd			= std::make_shared<IdxitScan>(*this);
 
 	addSubCommand(aboutCmd);
+	addSubCommand(scanCmd);
 	
 	return doCommand();
 }

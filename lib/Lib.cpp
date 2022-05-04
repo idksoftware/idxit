@@ -245,7 +245,8 @@ namespace simplearchive {
 	using namespace std::filesystem;
 
 
-	int main(int argc, char* argv[]) {
+	bool IDXLib::scan(const char* sourePath, const char* tempPath)
+	{
 
 		/*
 			Storage::setPath("c://temp/vfs");
@@ -270,7 +271,7 @@ namespace simplearchive {
 		//testVisitor_ptr->addFilter(".mp4");
 		DirectoryVisitor directoryVisitor(testVisitor_ptr);
 		directoryVisitor.process(distPath.c_str());
-		return 0;
+		return true;
 	}
 
 

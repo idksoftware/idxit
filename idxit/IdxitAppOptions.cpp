@@ -111,6 +111,7 @@ const char *IdxitAppOptions::getName() {
 
 void IdxitAppOptions::setCommandMode(const IdxitAppOptions::CommandMode mode)
 {
+	m_commandMode = mode;
 }
 
 void IdxitAppOptions::setName(const char *name) {

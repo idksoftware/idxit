@@ -220,6 +220,11 @@ bool IdxitApp::doRun()
 	{
 		return about(appOptions.getTextOutputType(), appOptions.getOutputFile());
 	}
+	case IdxitAppOptions::CommandMode::CM_Scan:
+	{
+		IDXLib idxLib;
+		return idxLib.scan(appOptions.getSourcePath(), appOptions.getOutputFile());
+	}
 	case IdxitAppOptions::CommandMode::CM_Unknown:
 		setError( CLogger::getLastCode(), CLogger::getLastMessage());
 		break;
