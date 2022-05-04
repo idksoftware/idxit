@@ -21,10 +21,10 @@ namespace simplearchive {
 		std::string homePath = temp
 		*/
 		
-		ImgArchiveHome& imgArchiveHome = ImgArchiveHome::getObject();
+		IdxItHome& idxItHome = IdxItHome::getObject();
 		
-		HomePathType homePathType = imgArchiveHome.type();
-		if (imgArchiveHome.isValid() == false) {
+		HomePathType homePathType = idxItHome.type();
+		if (idxItHome.isValid() == false) {
 			printf("Archive not found at default loacation");
 			return false;
 		}
@@ -50,14 +50,14 @@ namespace simplearchive {
 			//printf("Unknown error");
 			return false;
 		}
-		const std::string &s_homePath = ImgArchiveHome::getImgArchiveHome();
+		const std::string &s_homePath = IdxItHome::getIdxItHome();
 		
 		std::string homePath = s_homePath;
 		m_configfile = homePath + "/config/" + "config.dat";
 		if (SAUtils::FileExists(m_configfile.c_str()) == false) {
 
-			//printf("ImgArchive Unable to start? No config.dat file found in the default location or"
-			//	" the environment variable IMGARCHIVE_HOME not set.\nUse siaadmin to initalise an archive.\n");
+			//printf("IdxIt Unable to start? No config.dat file found in the default location or"
+			//	" the environment variable IDXIT_HOME not set.\nUse siaadmin to initalise an archive.\n");
 			return false;
 		}
 		AppConfigReader configReader;
@@ -69,7 +69,7 @@ namespace simplearchive {
 	}
 	bool UpdateConfig::update(const char* configOptionBlock, const char* configOption, const char* configValue)
 	{
-		SIAARCConfig imgaConfig;
+		IDXITAppConfig imgaConfig;
 		if (read(imgaConfig) == false) {
 			return false;
 		}

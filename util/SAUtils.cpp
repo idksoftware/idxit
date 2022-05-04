@@ -998,7 +998,7 @@ std::string SAUtils::GetEnv(const std::string& value, bool all)
 	}
 	if (!error) {
 		if (RegQueryValueEx(hKey, value.c_str(), nullptr, nullptr, (BYTE*)buf, &dwBufSize) != ERROR_SUCCESS)
-			//if (RegQueryValueEx(hKey, "IMGARCHIVE_HOME", NULL, NULL, (BYTE*)buf, &dwBufSize) != ERROR_SUCCESS)
+			//if (RegQueryValueEx(hKey, "IDXIT_HOME", NULL, NULL, (BYTE*)buf, &dwBufSize) != ERROR_SUCCESS)
 		{
 			error = true;
 		}

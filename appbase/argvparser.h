@@ -70,7 +70,7 @@ namespace CommandLineProcessing
 * \author Michael Hanke
 */
 
-#define AVAILABLE_COMMANDS "These are common ImgArchive commands used in various situations"
+#define AVAILABLE_COMMANDS "These are common IdxIt commands used in various situations"
 
 class ArgvParser
 {

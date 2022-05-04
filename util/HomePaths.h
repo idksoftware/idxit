@@ -27,13 +27,6 @@ enum class HPError {
 
 enum class HomePathID {
 	HomePath,
-	MasterPath,
-	DerivativePath,
-	WorkspacePath,
-	MetadataPath,
-	PicturePath,
-	WWWImagePath,
-	UserspacePath,
 	InvalidPath
 };
 
@@ -94,14 +87,14 @@ public:
 	static bool loadEnv();
 };
 
-class ImgArchiveHome {
+class IdxItHome {
 	static std::vector<HomePathsBase*> m_list;
 
 	bool m_found{ false };	// string found
 	bool m_valid{ false };	// in file system
 	HomePathType m_type{ HomePathType::Unknown };
 	HPError m_error{ HPError::Unknown };
-	static std::string m_imgArchiveHome;
+	static std::string m_home;
 	static std::string m_primaryPath;
 	void initHomePaths();
 	
@@ -109,7 +102,7 @@ class ImgArchiveHome {
 	
 protected:
 
-	ImgArchiveHome() noexcept {
+	IdxItHome() noexcept {
 		if (setArchiveHome() == false) {
 			return; // m_error set
 		}
@@ -122,7 +115,7 @@ protected:
 
 public:
 	
-	~ImgArchiveHome() = default;
+	~IdxItHome() = default;
 
 	bool init();
 	bool checkAndMakePaths();
@@ -143,11 +136,11 @@ public:
 		return m_valid;
 	}
 	
-	static const std::string& getImgArchiveHome();
+	static const std::string& getIdxItHome();
 	static const std::string& getPrimaryPath();
-	static ImgArchiveHome& getObject() {
-		static ImgArchiveHome imgArchiveHome;
-		return imgArchiveHome;
+	static IdxItHome& getObject() {
+		static IdxItHome idxItHome;
+		return idxItHome;
 	}
 
 
@@ -155,297 +148,3 @@ public:
 
 
 
-class MasterPath : public HomePathsBase {
-
-	static std::string m_path;
-protected:
-	
-public:
-	MasterPath() = default;
-	virtual ~MasterPath() {};
-
-	virtual HomePathID getID() const {
-		return HomePathID::MasterPath;
-	};
-
-	bool init() override;
-	bool setPath(const char* p) override;
-	
-	static const std::string& get();
-	static MasterPath& getObject() {
-		static MasterPath masterPath;
-		return masterPath;
-	}
-};
-
-class MasterBackupOnePath : public HomePathsBase {
-
-	static std::string m_path;
-	static bool m_enabled;
-protected:
-
-public:
-	MasterBackupOnePath() = default;
-	virtual ~MasterBackupOnePath() {};
-
-	virtual HomePathID getID() const {
-		return HomePathID::MasterPath;
-	};
-
-	bool init() override;
-	bool setPath(const char* p) override;
-	void enabled(bool b) { m_enabled = b; };
-
-	static bool enabled() { return m_enabled; };
-	static const std::string& get();
-	static MasterBackupOnePath& getObject() {
-		static MasterBackupOnePath masterBackupOnePath;
-		return masterBackupOnePath;
-	}
-};
-
-class MasterBackupTwoPath : public HomePathsBase {
-
-	static std::string m_path;
-	static bool m_enabled;
-protected:
-
-public:
-	MasterBackupTwoPath() = default;
-	virtual ~MasterBackupTwoPath() {};
-
-	virtual HomePathID getID() const {
-		return HomePathID::MasterPath;
-	};
-
-	bool init() override;
-	bool setPath(const char* p) override;
-	void enabled(bool b) { m_enabled = b; };
-
-	static bool enabled() { return m_enabled; };
-	static const std::string& get();
-	static MasterBackupTwoPath& getObject() {
-		static MasterBackupTwoPath masterBackupTwoPath;
-		return masterBackupTwoPath;
-	}
-};
-
-
-
-class DerivativePath : public HomePathsBase {
-
-	static std::string m_path;
-protected:
-	
-public:
-	DerivativePath() = default;
-	virtual ~DerivativePath() {};
-	
-	
-	HomePathID getID() const override {
-		return HomePathID::DerivativePath;
-	};
-
-	
-	bool init() override;
-	bool setPath(const char* p) override;
-
-	static const std::string& get();
-	static DerivativePath& getObject() {
-		static DerivativePath derivativePath;
-		return derivativePath;
-	}
-};
-
-class DerivativeBackupOnePath : public HomePathsBase {
-
-	static std::string m_path;
-	static bool m_enabled;
-protected:
-
-public:
-	DerivativeBackupOnePath() = default;
-	virtual ~DerivativeBackupOnePath() {};
-
-	virtual HomePathID getID() const {
-		return HomePathID::MasterPath;
-	};
-
-	bool init() override;
-	bool setPath(const char* p) override;
-	void enabled(bool b) { m_enabled = b; };
-
-	static bool enabled() { return m_enabled; };
-	static const std::string& get();
-	static DerivativeBackupOnePath& getObject() {
-		static DerivativeBackupOnePath derivativeBackupOnePath;
-		return derivativeBackupOnePath;
-	}
-};
-
-class DerivativeBackupTwoPath : public HomePathsBase {
-
-	static std::string m_path;
-	static bool m_enabled;
-protected:
-
-public:
-	DerivativeBackupTwoPath() = default;
-	virtual ~DerivativeBackupTwoPath() {};
-
-	virtual HomePathID getID() const {
-		return HomePathID::MasterPath;
-	};
-
-	bool init() override;
-	bool setPath(const char* p) override;
-	void enabled(bool b) { m_enabled = b; };
-
-	static bool enabled() { return m_enabled; };
-	static const std::string& get();
-	static DerivativeBackupTwoPath& getObject() {
-		static DerivativeBackupTwoPath derivativeBackupTwoPath;
-		return derivativeBackupTwoPath;
-	}
-};
-
-class UserspacePath : public HomePathsBase {
-
-	static std::string m_path;
-	static std::string m_hidden;
-	static bool m_autoView;
-protected:
-
-public:
-	UserspacePath() = default;
-	virtual ~UserspacePath() {};
-
-	HomePathID getID() const override {
-		return HomePathID::UserspacePath;
-	};
-
-	bool init() override;
-	bool checkAndMakePath() override;
-	bool setPath(const char* p) override;
-	void setAutoViewOn(bool b) { m_autoView; };
-
-	static bool autoViewOn();
-	static const std::string& get();
-	static const std::string& getHidden() { return m_hidden; };
-	static UserspacePath& getObject() {
-		static UserspacePath userspacePath;
-		return userspacePath;
-	}
-};
-
-class WorkspacePath : public HomePathsBase {
-
-	static std::string m_path;
-	static std::string m_hidden;
-	static bool m_autoView;
-	static bool m_autoCheckout;
-protected:
-	
-public:
-	WorkspacePath() = default;
-	virtual ~WorkspacePath() {};
-	
-	HomePathID getID() const override {
-		return HomePathID::WorkspacePath;
-	};
-
-	bool init() override;
-	bool checkAndMakePath() override;
-	bool setPath(const char* p) override;
-	void setAutoCheckout(bool b) { m_autoCheckout; };
-	void setAutoViewOn(bool b) { m_autoView; };
-
-	static bool autoCheckout();
-	static bool autoViewOn();
-	static const std::string& get();
-
-	static WorkspacePath& getObject() {
-		static WorkspacePath workspacePath;
-		return workspacePath;
-	}
-};
-
-class PicturePath : public HomePathsBase {
-
-	static std::string m_path;
-	static std::string m_hidden;
-	static bool m_autoView;
-public:
-	PicturePath() = default;
-	virtual ~PicturePath() {};
-	
-	HomePathID getID() const override {
-		return HomePathID::PicturePath;
-	};
-
-	bool init() override;
-	bool checkAndMakePath() override;
-	bool setPath(const char* p) override;
-	void setAutoViewOn(bool b) { m_autoView; };
-
-	static bool autoViewOn();
-	static const std::string& get();
-
-	static PicturePath& getObject() {
-		static PicturePath picturePath;
-		return picturePath;
-	}
-};
-
-class WWWImagePath : public HomePathsBase {
-
-	static std::string m_path;
-	static std::string m_hidden;
-	static bool m_autoView;
-public:
-	WWWImagePath() = default;
-	virtual ~WWWImagePath() {};
-
-	HomePathID getID() const override {
-		return HomePathID::WWWImagePath;
-	};
-
-	bool init();
-	bool checkAndMakePath() override;
-	bool setPath(const char* p);
-	void setAutoViewOn(bool b) { m_autoView = b; };
-
-	static bool autoViewOn();
-	static const std::string& get();
-
-	static WWWImagePath& getObject() {
-		static WWWImagePath wwwImagePath;
-		return wwwImagePath;
-	}
-};
-
-class UserMetadataPath : public HomePathsBase {
-
-	static std::string m_path;
-	static bool m_autoView;
-public:
-	UserMetadataPath() = default;
-	virtual ~UserMetadataPath() {};
-
-	HomePathID getID() const override {
-		return HomePathID::MetadataPath;
-	};
-
-	bool init();
-	bool checkAndMakePath();
-	bool setPath(const char* p);
-	void setAutoViewOn(bool b) { m_autoView = b; };
-
-	static bool autoViewOn();
-	static const std::string& get();
-
-	static UserMetadataPath& getObject() {
-		static UserMetadataPath userMetadataPath;
-		return userMetadataPath;
-	}
-};

@@ -18,6 +18,26 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="IdxitAbout.cpp" />
+    <ClCompile Include="IdxitApp.cpp" />
+    <ClCompile Include="IdxitAppOptions.cpp" />
+    <ClCompile Include="IdxitArgvParser.cpp" />
+    <ClCompile Include="IdxitEnvFunc.cpp" />
+    <ClCompile Include="IdxitParseOptions.cpp" />
+    <ClCompile Include="IdxitScan.cpp" />
+    <ClCompile Include="IdxitShow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IdxitAbout.h" />
+    <ClInclude Include="IdxitApp.h" />
+    <ClInclude Include="IdxitAppOptions.h" />
+    <ClInclude Include="IdxitArgvParser.h" />
+    <ClInclude Include="IdxitEnvFunc.h" />
+    <ClInclude Include="IdxitParseOptions.h" />
+    <ClInclude Include="IdxitScan.h" />
+    <ClInclude Include="IdxitShow.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -117,12 +137,12 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>../Util;../fclib;../appbase;../lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Util;../fclib;../appbase;../lib;../csv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>..\x64\Debug\fclib.lib;..\x64\Debug\util.lib;..\x64\Debug\excmd.lib;..\x64\Debug\Lib.lib;..\x64\Debug\appbase.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\x64\Debug\fclib.lib;..\x64\Debug\util.lib;..\x64\Debug\excmd.lib;..\x64\Debug\Lib.lib;..\x64\Debug\appbase.lib;..\x64\Debug\csv.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -141,22 +161,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="EnvFunc.cpp" />
-    <ClCompile Include="IaarcAbout.cpp" />
-    <ClCompile Include="IaarcApp.cpp" />
-    <ClCompile Include="IaarcAppOptions.cpp" />
-    <ClCompile Include="IaarcArgvParser.cpp" />
-    <ClCompile Include="IAParseOptions.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="EnvFunc.h" />
-    <ClInclude Include="IaarcAbout.h" />
-    <ClInclude Include="IaarcApp.h" />
-    <ClInclude Include="IaarcAppOptions.h" />
-    <ClInclude Include="IaarcArgvParser.h" />
-    <ClInclude Include="IAParseOptions.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

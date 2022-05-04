@@ -147,7 +147,7 @@
     <ClInclude Include="JsonCommand.h" />
     <ClInclude Include="ParseOptions.h" />
     <ClInclude Include="ReturnCode.h" />
-    <ClInclude Include="SIAArgvParser.h" />
+    <ClInclude Include="PrjArgvParser.h" />
     <ClInclude Include="TextOut.h" />
   </ItemGroup>
   <ItemGroup>
@@ -160,7 +160,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../util</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="ReturnCode.cpp" />
-    <ClCompile Include="SIAArgvParser.cpp" />
+    <ClCompile Include="PrjArgvParser.cpp" />
     <ClCompile Include="TextOut.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

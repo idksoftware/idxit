@@ -72,7 +72,7 @@ void ConfigBlock::printAll() {
 
 std::ostream& operator<< (std::ostream& stream, const AppConfigBase& config) {
 	
-	stream << "# Configuration file for ImgArchive\n";
+	stream << "# Configuration file for IdxIt\n";
 	// &logger = CLogger::getLogger();
 	for (auto ii = config.begin(); ii != config.end(); ++ii) {
 		stream << "[" << ii->first << "]\n";

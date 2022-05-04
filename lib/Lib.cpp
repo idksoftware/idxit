@@ -52,7 +52,7 @@
 
 #include "SummaryFile.h"
 #include "CIDKDate.h"
-//#include "MirrorManager.h"
+
 
 #include "UDPOut.h"
 
@@ -377,6 +377,10 @@ namespace simplearchive {
 				return false;
 			}
 		}
+
+		CIDKDate date;
+
+		date.Now();
 
 
 		//logger.log(LOG_STARTING, CLogger::Level::SUMMARY, "Application starting at %s", date.Print().c_str());

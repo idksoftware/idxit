@@ -99,29 +99,10 @@ constexpr auto DEFAULT_METADATA_PATH			= "/.imga/history";
 #define CHKSTATUS_PATH					"/chkout"
 #define SQLITE3_DB						"IASqlite3.db"
 
-#define DEFAULT_HOME_PATH		   "/IDK-Software/ImgArchive"
+#define DEFAULT_HOME_PATH		   "/IDK-Software/IdxIt"
 
-constexpr auto IMGARCHIVE_HOME = "IMGARCHIVE_HOME";
-constexpr auto IMGA_USERSPACE = "IMGA_USERSPACE";
-constexpr auto IMGA_HIDDEN_USERSPACE = "IMGA_HIDDEN_USERSPACE";
-constexpr auto IMGA_WORKSPACE = "IMGA_WORKSPACE";
-constexpr auto IMGA_METADATA = "IMGA_METADATA";
-constexpr auto IMGA_WORKSPACE_ENABLE = "IMGA_WORKSPACE_ENABLE";
-constexpr auto IMGA_WORKSPACE_CHKOUT = "IMGA_WORKSPACE_CHKOUT";
-constexpr auto IMGA_PICTURE = "IMGA_PICTURE";
-constexpr auto IMGA_PICTURE_ENABLE = "IMGA_PICTURE_ENABLE";
-constexpr auto IMGA_WWWIMAGE = "IMGA_WWWIMAGE";
-constexpr auto IMGA_WWWIMAGE_ENABLE = "IMGA_WWWIMAGE_ENABLE";
-constexpr auto IMGA_MASTER = "IMGA_MASTER";
-constexpr auto IMGA_DERIVATIVE = "IMGA_DERIVATIVE";
-constexpr auto IMGA_MASTER_BACKUP1 = "IMGA_MASTER_BACKUP1";
-constexpr auto IMGA_MASTER_BACKUP2 = "IMGA_MASTER_BACKUP2";
-constexpr auto IMGA_MASTER_BACKUP1_ENABLE = "IMGA_MASTER_BACKUP1_ENABLE";
-constexpr auto IMGA_MASTER_BACKUP2_ENABLE = "IMGA_MASTER_BACKUP2_ENABLE";
-constexpr auto IMGA_DERIVATIVE_BACKUP1 = "IMGA_DERIVATIVE_BACKUP1";
-constexpr auto IMGA_DERIVATIVE_BACKUP2 = "IMGA_DERIVATIVE_BACKUP2";
-constexpr auto IMGA_DERIVATIVE_BACKUP1_ENABLE = "IMGA_DERIVATIVE_BACKUP1_ENABLE";
-constexpr auto IMGA_DERIVATIVE_BACKUP2_ENABLE = "IMGA_DERIVATIVE_BACKUP2_ENABLE";
+constexpr auto IDXIT_HOME = "IDXIT_HOME";
+
 
 constexpr auto BASE_LINUX_BIN_PATH = "/";
 constexpr auto LINUX_OPT = "/opt"; // /opt Optional application software packages
@@ -132,27 +113,27 @@ constexpr auto LINUX_VAR_CACHE = "/var/cache";
 // /var/cache Application cache data. Such data are locally generated as a result of time-consuming I/O or calculation. The application must be able to regenerate or restore the data. The cached files can be deleted without loss of data.
 constexpr auto LINUX_VAR_OPT = "/var/opt"; // /var/opt Variable data from add-on packages that are stored in /opt.
 
-constexpr auto DEFAULT_ALLUSER_HOME_PATH = "/IDK-Software/ImgArchive";
-constexpr auto DEFAULT_ALLUSER_WWWIMAGE_PATH = "/IDK-Software/ImgArchive/IAWWWPictures";
-constexpr auto DEFAULT_ALLUSER_PICTURE_PATH = "/ImgArchive/Pictures";
-constexpr auto DEFAULT_ALLUSER_WORKSPACE_PATH = "/ImgArchive/Workspace";
+constexpr auto DEFAULT_ALLUSER_HOME_PATH = "/IDK-Software/IdxIt";
+constexpr auto DEFAULT_ALLUSER_WWWIMAGE_PATH = "/IDK-Software/IdxIt/IAWWWPictures";
+constexpr auto DEFAULT_ALLUSER_PICTURE_PATH = "/IdxIt/Pictures";
+constexpr auto DEFAULT_ALLUSER_WORKSPACE_PATH = "/IdxIt/Workspace";
 constexpr auto DEFAULT_ALLUSER_MASTER_PATH = "/master";
 constexpr auto DEFAULT_ALLUSER_DERIVATIVE_PATH = "/derivative";
 
 #ifdef WIN32
-constexpr auto DEFAULT_LOCAL_HOME_PATH = "/ImgArchive";
-constexpr auto DEFAULT_LOCAL_WWWIMAGE_PATH = "/ImgArchive/WWWPictures";
-constexpr auto DEFAULT_LOCAL_PICTURE_PATH = "/ImgArchive/Pictures";
-constexpr auto DEFAULT_LOCAL_WORKSPACE_PATH = "/ImgArchive/Workspace";
+constexpr auto DEFAULT_LOCAL_HOME_PATH = "/IdxIt";
+constexpr auto DEFAULT_LOCAL_WWWIMAGE_PATH = "/IdxIt/WWWPictures";
+constexpr auto DEFAULT_LOCAL_PICTURE_PATH = "/IdxIt/Pictures";
+constexpr auto DEFAULT_LOCAL_WORKSPACE_PATH = "/IdxIt/Workspace";
 constexpr auto DEFAULT_LOCAL_MASTER_PATH = "/master";
 constexpr auto DEFAULT_LOCAL_DERIVATIVE_PATH = "/derivative";
 #else
-constexpr auto DEFAULT_LOCAL_HOME_PATH = "/.ImgArchive";
-constexpr auto DEFAULT_LOCAL_WWWIMAGE_PATH = "/ImgArchive/WWWPictures";
-constexpr auto DEFAULT_LOCAL_PICTURE_PATH = "/ImgArchive/Pictures";
-constexpr auto DEFAULT_LOCAL_WORKSPACE_PATH = "/ImgArchive/Workspace";
-constexpr auto DEFAULT_LOCAL_MASTER_PATH = "/.ImgArchive/master";
-constexpr auto DEFAULT_LOCAL_DERIVATIVE_PATH = "/.ImgArchive/derivative";
+constexpr auto DEFAULT_LOCAL_HOME_PATH = "/.IdxIt";
+constexpr auto DEFAULT_LOCAL_WWWIMAGE_PATH = "/IdxIt/WWWPictures";
+constexpr auto DEFAULT_LOCAL_PICTURE_PATH = "/IdxIt/Pictures";
+constexpr auto DEFAULT_LOCAL_WORKSPACE_PATH = "/IdxIt/Workspace";
+constexpr auto DEFAULT_LOCAL_MASTER_PATH = "/.IdxIt/master";
+constexpr auto DEFAULT_LOCAL_DERIVATIVE_PATH = "/.IdxIt/derivative";
 #endif
 
 //constexpr autoEFAULT_WORKSPACE_PATH = "/IAWorkspace";

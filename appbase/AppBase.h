@@ -7,7 +7,7 @@
 #include <sstream>
 #include <iomanip>
 #include <string>
-#include "SIAArgvParser.h"
+#include "PrjArgvParser.h"
 
 #define VERSION	"0.901"
 #define BUILD	"474c9bc..8940731"
@@ -33,7 +33,7 @@ namespace CommandLineProcessing {
 		
 		static std::string m_appName;
 	protected:
-		std::shared_ptr<SIAArgvParser> m_argvParser;
+		std::shared_ptr<PrjArgvParser> m_argvParser;
 		
 		std::string  m_configPath;
 		std::string  m_homePath;
@@ -41,7 +41,7 @@ namespace CommandLineProcessing {
 		static ReturnCode m_returnCode;
 		static std::string m_returnString;
 
-		AppBase(const char* appName, std::shared_ptr<SIAArgvParser> argvParser) :
+		AppBase(const char* appName, std::shared_ptr<PrjArgvParser> argvParser) :
 			m_argvParser(argvParser),
 			m_configured(false)
 		{

@@ -67,7 +67,7 @@ std::string AboutTextOut::writePlain() {
 
 	std::stringstream str;
 
-	str << "ImgArchive " << m_name.c_str() << " tool\n";
+	str << "IdxIt " << m_name.c_str() << " tool\n";
 	str << m_appName.c_str() << " version \"" << m_version << "\" (build " << m_build << ") " << __DATE__ << " " << __TIME__ << "\n";
 	str << m_platform << " Copyright@(2017-2020) IDK Solutions Ltd.\n";
 	
@@ -76,7 +76,7 @@ std::string AboutTextOut::writePlain() {
 }
 
 std::string AboutTextOut::writeXML() {
-	std::string appText = "ImgArchive " + m_name + " tool";
+	std::string appText = "IdxIt " + m_name + " tool";
 	std::stringstream str;
 	str << "<About>" << '\n';
 	str << "\t" << writeXMLTag("Application", m_appName.c_str());
@@ -94,7 +94,7 @@ std::string AboutTextOut::writeXML() {
 }
 
 std::string AboutTextOut::writeJson() {
-	std::string appText = "ImgArchive " + m_name + " tool";
+	std::string appText = "IdxIt " + m_name + " tool";
 	std::stringstream str;
 	str << "{" << '\n';
 	str << "\t" << writeJsonTag("Application", m_appName.c_str()) << ",\n";
