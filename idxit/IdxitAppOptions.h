@@ -228,6 +228,11 @@ private:
 	static std::string m_outputFile;
 	static std::string m_textOutputType;
 	static ShowCommandOption m_showCommandOption;
+	static std::string m_windowsFolderExclude;
+	static std::string m_folderExclude;
+	static std::string m_fileExclude;
+	static std::string m_folderInclude;
+	static std::string m_fileInclude;
 
 	static DefaultArgumentsContainer defaultArgumentsContainer;
 

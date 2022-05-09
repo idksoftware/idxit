@@ -159,10 +159,10 @@
     <ClInclude Include="CUnqueName.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="HookCmd.h" />
+    <ClInclude Include="IndexSpecifications.h" />
     <ClInclude Include="RemoteServer.h" />
     <ClInclude Include="UpdateConfig.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="SACmdArgs.h" />
     <ClInclude Include="SIAApplicationState.h" />
     <ClInclude Include="Lib.h" />
     <ClInclude Include="StandardOut.h" />
@@ -174,9 +174,9 @@
     <ClCompile Include="CUnqueName.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="HookCmd.cpp" />
+    <ClCompile Include="IndexSpecifications.cpp" />
     <ClCompile Include="RemoteServer.cpp" />
     <ClCompile Include="UpdateConfig.cpp" />
-    <ClCompile Include="SACmdArgs.cpp" />
     <ClCompile Include="SIAApplicationState.cpp" />
     <ClCompile Include="Lib.cpp" />
     <ClCompile Include="StandardOut.cpp" />
