@@ -32,22 +32,20 @@
 **
 ** #$$@@$$# */
 
-#ifndef IMAGEEXTENTIONS_H_
-#define IMAGEEXTENTIONS_H_
+#pragma once
 
 #include <string>
 #include <memory>
-#include "ImageType.h"
+#include "ExtentionType.h"
 #include "CSVArgs.h"
 
-namespace simplearchive
-{
-	class CExtentionsFile;
+
+	class ExtentionsFilterFile;
 
 	enum class AllowSelectionType
 	{
-		Raw,
-		Picture,
+		User,
+		System,
 		All
 	};
 
@@ -65,7 +63,7 @@ namespace simplearchive
 
 	private:
 		std::string m_ext;
-		ImageType m_type;
+		ExtentionType m_type;
 		std::string m_mimeType;
 		std::string m_desciption;
 		ExtError m_error;
@@ -76,7 +74,7 @@ namespace simplearchive
 		ExtentionItem() noexcept
 		{
 			m_ext = "";
-			m_type = ImageType::Type::UNKNOWN_EXT;
+			m_type = ExtentionType::Type::UNKNOWN_EXT;
 		}
 
 		ExtentionItem(const char* row, char delim = ':')
@@ -94,7 +92,7 @@ namespace simplearchive
 		}
 
 		ExtentionItem(std::string& ext,
-		              ImageType type,
+					ExtentionType type,
 		              std::string& mimeType,
 		              std::string& desciption)
 		{
@@ -111,7 +109,7 @@ namespace simplearchive
 
 		bool isValid()
 		{
-			if (m_type.getType() == ImageType::Type::UNKNOWN_EXT)
+			if (m_type.getType() == ExtentionType::Type::UNKNOWN_EXT)
 			{
 				m_error = ExtError::UnknownImageType;
 				return false;
@@ -170,12 +168,12 @@ namespace simplearchive
 			m_mimeType = mimeType;
 		}
 
-		ImageType getType()
+		ExtentionType getType()
 		{
 			return m_type;
 		}
 
-		void setType(ImageType& type)
+		void setType(ExtentionType& type)
 		{
 			m_type = type;
 		}
@@ -189,43 +187,43 @@ namespace simplearchive
 
 	typedef std::unique_ptr<ExtentionItem> ExtentionItem_Ptr;
 
-	class ImageExtentions
+	class ExtentionsFilterObject
 	{
 	private:
-		ImageExtentions() = default;
-		~ImageExtentions() = default;
-
-		static bool m_once;
-		static std::unique_ptr<CExtentionsFile> m_extentionsFile;
-		static std::string m_extentionsFilePath;
-		static bool m_isError;
+		
+		bool m_once;
+		std::shared_ptr<ExtentionsFilterFile> m_extentionsFile;
+		std::string m_extentionsFilePath;
+		bool m_isError;
+		static ExtentionType defaultExtentionItem;
 	public:
+		ExtentionsFilterObject() = default;
+		~ExtentionsFilterObject() = default;;
 
-		ImageType getType(const char* filename);
-		ImageType findType(const char* ext);
+		ExtentionType getType(const char* filename);
+		ExtentionType findType(const char* ext);
 		std::shared_ptr<ExtentionItem> find(const char* ext);
 		bool insert(ExtentionItem& extentionItem);
 		bool update(ExtentionItem& extentionItem);
 		bool remove(const char* ext);
-		static ImageExtentions& get();
+		
 		bool isAllowed(const char* ext);
 		//bool IsValid(const char *filename);
 		bool IsValidXML(const char* filename);
 		bool write();
 
-		static const std::string& getExtentionsFilePath()
+		const std::string& getExtentionsFilePath()
 		{
 			return m_extentionsFilePath;
 		}
 
 		bool getList(std::vector<std::shared_ptr<ExtentionItem>>& list, AllowSelectionType selectionType);
 
-		static bool setExtentionsFilePath(const char* extentionsFilePath);
+		bool setExtentionsFilePath(const char* extentionsFilePath);
 
-		static bool isError()
+		bool isError()
 		{
 			return m_isError;
 		}
 	};
-} /* namespace simplearchive */
-#endif /* IMAGEEXTENTIONS_H_ */
+

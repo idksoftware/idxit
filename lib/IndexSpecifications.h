@@ -1,6 +1,7 @@
 #pragma once
 #include <set>
 #include <string>
+#include "ExtentionsFilterFile.h"
 
 class IndexFilters {
 	std::set<std::string> m_included;
@@ -12,11 +13,12 @@ public:
 	virtual bool read() = 0;
 };
 
-class ExtentionsFilter : public IndexFilters {
+class ExtentionsFilter : public IndexFilters { //}; , public ExtentionsFilterObject{
 public:
 	ExtentionsFilter() = default;
 	~ExtentionsFilter() = default;
 	bool process() override;
+	bool read() override;
 };
 
 class FolderFilter : public IndexFilters {
@@ -24,13 +26,15 @@ public:
 	FolderFilter() = default;
 	~FolderFilter() = default;
 	bool process() override;
+	bool read() override;
 };
 
-class OSExtentionsFilter : public IndexFilters {
+class OSExtentionsFilter : public IndexFilters { //}; , public ExtentionsFilterObject{
 public:
 	OSExtentionsFilter() = default;
 	~OSExtentionsFilter() = default;
 	bool process() override;
+	bool read() override;
 };
 
 class OSFolderFilter : public IndexFilters {
@@ -38,6 +42,7 @@ public:
 	OSFolderFilter() = default;
 	~OSFolderFilter() = default;
 	bool process() override;
+	bool read() override;
 };
 
 
@@ -47,9 +52,19 @@ bool ExtentionsFilter::process()
 	return true;
 }
 
+inline bool ExtentionsFilter::read()
+{
+	return false;
+}
+
 bool FolderFilter::process()
 {
 	return true;
+}
+
+inline bool FolderFilter::read()
+{
+	return false;
 }
 
 bool OSExtentionsFilter::process()
@@ -57,9 +72,19 @@ bool OSExtentionsFilter::process()
 	return true;
 }
 
+inline bool OSExtentionsFilter::read()
+{
+	return false;
+}
+
 bool OSFolderFilter::process()
 {
 	return true;
+}
+
+inline bool OSFolderFilter::read()
+{
+	return false;
 }
 
 class IndexSpecifications

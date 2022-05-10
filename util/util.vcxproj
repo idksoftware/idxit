@@ -174,7 +174,7 @@
     <ClCompile Include="CLogger.cpp" />
     <ClCompile Include="ErrorCode.cpp" />
     <ClCompile Include="ExternalProcess.cpp" />
-    <ClCompile Include="ImageExtentions.cpp" />
+    <ClCompile Include="ExtentionsFilterFile.cpp" />
     <ClCompile Include="ipsock.cpp" />
     <ClCompile Include="JpegEXIF.cpp" />
     <ClCompile Include="LogFilename.cpp" />
@@ -228,8 +228,8 @@
     <ClInclude Include="JpegEXIF.h" />
     <ClInclude Include="println.h" />
     <ClInclude Include="siaglobal.h" />
-    <ClInclude Include="ImageExtentions.h" />
-    <ClInclude Include="ImageType.h" />
+    <ClInclude Include="ExtentionsFilterFile.h" />
+    <ClInclude Include="ExtentionType.h" />
     <ClInclude Include="ipsock.h" />
     <ClInclude Include="LogFilename.h" />
     <ClInclude Include="DirectoryVisitor.h" />

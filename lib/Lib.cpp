@@ -39,7 +39,6 @@
 
 #include "StandardOut.h"
 
-#include "ImageExtentions.h"
 
 #include "SAUtils.h"
 #include "CLogger.h"

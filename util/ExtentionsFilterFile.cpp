@@ -36,7 +36,7 @@
 #include <fstream>
 #include <sstream>
 #include <map>
-#include "ImageExtentions.h"
+#include "ExtentionsFilterFile.h"
 #include "SAUtils.h"
 
 #ifdef _DEBUG
@@ -45,8 +45,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive
-{
+
 	std::string ExtentionItem::toString()
 	{
 		std::stringstream s;
@@ -57,13 +56,13 @@ namespace simplearchive
 	typedef std::map<std::string, std::shared_ptr<ExtentionItem>> ExtentionsContainer;
 
 
-	class CExtentionsFile
+	class ExtentionsFilterFile
 	{
 		ExtentionsContainer m_extentionsContainer;
 		bool insert(const char* row);
 	public:
-		CExtentionsFile() = default;
-		virtual ~CExtentionsFile() = default;
+		ExtentionsFilterFile() = default;
+		virtual ~ExtentionsFilterFile() = default;
 
 		bool read(const char* datafile);
 		bool write(const char* datafile);
@@ -75,7 +74,7 @@ namespace simplearchive
 	};
 
 
-	bool CExtentionsFile::read(const char* datafile)
+	bool ExtentionsFilterFile::read(const char* datafile)
 	{
 		std::string text;
 		std::ifstream file(datafile);
@@ -93,7 +92,7 @@ namespace simplearchive
 		return true;
 	}
 
-	bool CExtentionsFile::write(const char* datafile)
+	bool ExtentionsFilterFile::write(const char* datafile)
 	{
 		std::ofstream file(datafile);
 		if (file.is_open() == false)
@@ -110,22 +109,22 @@ namespace simplearchive
 		return true;
 	}
 
-	bool CExtentionsFile::getList(std::vector<std::shared_ptr<ExtentionItem>>& list, AllowSelectionType selectionType)
+	bool ExtentionsFilterFile::getList(std::vector<std::shared_ptr<ExtentionItem>>& list, AllowSelectionType selectionType)
 	{
 		for (auto ii = m_extentionsContainer.begin(); ii != m_extentionsContainer.end(); ++ii)
 		{
 			std::shared_ptr<ExtentionItem> data = ii->second;
-			ImageType type = data->getType();
+			ExtentionType type = data->getType();
 			switch (selectionType)
 			{
-			case AllowSelectionType::Picture:
-				if (type.getType() == ImageType::Type::PICTURE_EXT)
+			case AllowSelectionType::System:
+				if (type.getType() == ExtentionType::Type::SYSTEM_EXT)
 				{
 					list.push_back(data);
 				}
 				break;
-			case AllowSelectionType::Raw:
-				if (type.getType() == ImageType::Type::RAW_EXT)
+			case AllowSelectionType::User:
+				if (type.getType() == ExtentionType::Type::USER_EXT)
 				{
 					list.push_back(data);
 				}
@@ -140,12 +139,12 @@ namespace simplearchive
 		return true;
 	}
 
-	bool CExtentionsFile::remove(const char* ext)
+	bool ExtentionsFilterFile::remove(const char* ext)
 	{
 		return (m_extentionsContainer.erase(ext)) ? true : false;
 	}
 
-	bool CExtentionsFile::edit(ExtentionItem& extentionItem)
+	bool ExtentionsFilterFile::edit(ExtentionItem& extentionItem)
 	{
 		auto i = m_extentionsContainer.find(extentionItem.getExt());
 		bool replaced = (i != m_extentionsContainer.end());
@@ -167,13 +166,13 @@ namespace simplearchive
 		return true;
 	}
 	*/
-	bool CExtentionsFile::insert(const char* row)
+	bool ExtentionsFilterFile::insert(const char* row)
 	{
 		ExtentionItem extentionItem(row);
 		return insert(extentionItem);
 	}
 
-	bool CExtentionsFile::insert(ExtentionItem& extentionItem)
+	bool ExtentionsFilterFile::insert(ExtentionItem& extentionItem)
 	{
 		auto i = m_extentionsContainer.find(extentionItem.getExt());
 		if (i == m_extentionsContainer.end())
@@ -187,7 +186,7 @@ namespace simplearchive
 	}
 
 
-	std::shared_ptr<ExtentionItem> CExtentionsFile::find(const char* ext)
+	std::shared_ptr<ExtentionItem> ExtentionsFilterFile::find(const char* ext)
 	{
 		std::string tmp = ext;
 		std::transform(tmp.begin(), tmp.end(), tmp.begin(), tolower);
@@ -202,17 +201,19 @@ namespace simplearchive
 		return nullptr;
 	}
 
-	std::string ImageExtentions::m_extentionsFilePath;
+	//std::string ExtentionsFilterObject::m_extentionsFilePath;
 
-	std::unique_ptr<CExtentionsFile> ImageExtentions::m_extentionsFile = nullptr;
-	bool ImageExtentions::m_once = true;
-	bool ImageExtentions::m_isError = false;
-	static ImageType defaultImageType;
-	static ExtentionItem defaultExtentionItem;
+	//std::unique_ptr<ExtentionsFilterFile> ExtentionsFilterObject::m_extentionsFile = nullptr;
+	//bool ExtentionsFilterObject::m_once = true;
+	//bool ExtentionsFilterObject::m_isError = false;
+	//static ImageType defaultImageType;
+	ExtentionType ExtentionsFilterObject::defaultExtentionItem;
 
-	ImageExtentions& ImageExtentions::get()
+	
+	/*
+	ExtentionsFilterObject& ExtentionsFilterObject::get()
 	{
-		static ImageExtentions INSTANCE;
+		static ExtentionsFilterObject INSTANCE;
 		if (m_once)
 		{
 			std::string path = m_extentionsFilePath + "/ext.dat";
@@ -221,19 +222,21 @@ namespace simplearchive
 				m_isError = true;
 				throw std::exception();
 			}
-			m_extentionsFile = std::make_unique<CExtentionsFile>();
+			m_extentionsFile = std::make_unique<ExtentionsFilterFile>();
 			m_extentionsFile->read(path.c_str());
 			m_once = false;
 		}
 		return INSTANCE;
 	}
+	*/
+	
 
-	bool ImageExtentions::getList(std::vector<std::shared_ptr<ExtentionItem>>& list, AllowSelectionType selectionType)
+	bool ExtentionsFilterObject::getList(std::vector<std::shared_ptr<ExtentionItem>>& list, AllowSelectionType selectionType)
 	{
 		return m_extentionsFile->getList(list, selectionType);
 	}
 
-	bool ImageExtentions::write()
+	bool ExtentionsFilterObject::write()
 	{
 		std::string path = m_extentionsFilePath + "/ext.dat";
 		if (SAUtils::FileExists(path.c_str()) == false)
@@ -244,8 +247,8 @@ namespace simplearchive
 
 		return m_extentionsFile->write(path.c_str());
 	}
-
-	bool ImageExtentions::setExtentionsFilePath(const char* extentionsFilePath)
+	
+	bool ExtentionsFilterObject::setExtentionsFilePath(const char* extentionsFilePath)
 	{
 		m_extentionsFilePath = extentionsFilePath;
 		std::string path = m_extentionsFilePath + "/ext.dat";
@@ -257,7 +260,10 @@ namespace simplearchive
 		return true;
 	}
 
-	std::shared_ptr<ExtentionItem> ImageExtentions::find(const char* filename)
+	
+
+	
+	std::shared_ptr<ExtentionItem> ExtentionsFilterObject::find(const char* filename)
 	{
 		std::string ext = SAUtils::getExtention(filename);
 		std::transform(ext.begin(), ext.end(), ext.begin(), tolower);
@@ -265,22 +271,22 @@ namespace simplearchive
 		return item;
 	}
 
-	bool ImageExtentions::insert(ExtentionItem& extentionItem)
+	bool ExtentionsFilterObject::insert(ExtentionItem& extentionItem)
 	{
 		return m_extentionsFile->insert(extentionItem);
 	}
 
-	bool ImageExtentions::update(ExtentionItem& extentionItem)
+	bool ExtentionsFilterObject::update(ExtentionItem& extentionItem)
 	{
 		return m_extentionsFile->edit(extentionItem);
 	}
 
-	bool ImageExtentions::remove(const char* ext)
+	bool ExtentionsFilterObject::remove(const char* ext)
 	{
 		return m_extentionsFile->remove(ext);
 	}
 
-	bool ImageExtentions::isAllowed(const char* ext)
+	bool ExtentionsFilterObject::isAllowed(const char* ext)
 	{
 		std::string tmp = ext;
 		std::transform(tmp.begin(), tmp.end(), tmp.begin(), tolower);
@@ -292,40 +298,42 @@ namespace simplearchive
 		return true;
 	}
 
-	ImageType ImageExtentions::findType(const char* ext)
+	ExtentionType ExtentionsFilterObject::findType(const char* ext)
 	{
 		std::string tmp = ext;
 		std::transform(tmp.begin(), tmp.end(), tmp.begin(), tolower);
 		std::shared_ptr<ExtentionItem> item = m_extentionsFile->find(ext);
 		if (item != nullptr)
 		{
-			ImageType type = item->getType();
+			ExtentionType type = item->getType();
 			return type;
 		}
-		return defaultImageType;
+		return defaultExtentionItem;
 	}
 
-	ImageType ImageExtentions::getType(const char* filename)
+	ExtentionType ExtentionsFilterObject::getType(const char* filename)
 	{
 		std::string ext = SAUtils::getExtention(filename);
 		return findType(ext.c_str());
 	}
 
 	/*
-	bool ImageExtentions::IsValid(const char *filename) {
+	bool ExtentionsFilterObject::IsValid(const char *filename) {
 	
 		if (SAUtils::hasExt(filename) == false) {
 			return false;
 		}
 		std::string ext = SAUtils::getExtention(filename);
-		ImageType &type = findType(ext.c_str());
-		if (type.getType() == ImageType::UNKNOWN_EXT) {
+		ExtentionType& type = findType(ext.c_str());
+		if (type.getType() == ExtentionType::Type::UNKNOWN_EXT) {
 			return false;
 		}
 		return true;
 	}
 	*/
-	bool ImageExtentions::IsValidXML(const char* filename)
+
+	
+	bool ExtentionsFilterObject::IsValidXML(const char* filename)
 	{
 		if (SAUtils::hasExt(filename) == false)
 		{
@@ -339,4 +347,4 @@ namespace simplearchive
 		}
 		return false;
 	}
-} /* namespace simplearchive */
+

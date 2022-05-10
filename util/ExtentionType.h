@@ -36,31 +36,31 @@
 #include <string>
 #include "SAUtils.h"
 
-/// This class defines the file type (picture, raw or 
-class ImageType {
+/// This class defines the Extention type (System, User).
+class ExtentionType {
 public:
 	enum class Type {
 		UNKNOWN_EXT = -1,
-		PICTURE_EXT,
-		RAW_EXT,
+		SYSTEM_EXT,
+		USER_EXT,
 	};
 private:
 	Type m_type;
 public:
-	ImageType() {
+	ExtentionType() {
 		m_type = Type::UNKNOWN_EXT;
 	}
-	ImageType(Type type) {
+	ExtentionType(Type type) {
 		m_type = type;
 	}
 	std::string toString() {
 		switch (m_type) {
 		case Type::UNKNOWN_EXT:
 			return "Unknown";
-		case Type::PICTURE_EXT:
-			return "Picture";
-		case Type::RAW_EXT:
-			return "RAW";
+		case Type::SYSTEM_EXT:
+			return "System";
+		case Type::USER_EXT:
+			return "User";
 		}
 		return "Unknown";
 	}
@@ -71,12 +71,12 @@ public:
 			m_type = Type::UNKNOWN_EXT;
 			return true;
 		} else
-		if (SAUtils::isEquals(s, "picture")) {
-			m_type = Type::PICTURE_EXT;
+		if (SAUtils::isEquals(s, "system")) {
+			m_type = Type::SYSTEM_EXT;
 			return true;
 		} else
-		if (SAUtils::isEquals(s, "raw")) {
-			m_type = Type::RAW_EXT;
+		if (SAUtils::isEquals(s, "user")) {
+			m_type = Type::USER_EXT;
 			return true;
 		} else {
 			m_type = Type::UNKNOWN_EXT;
@@ -92,7 +92,7 @@ public:
 		m_type = type;
 	}
 
-	ImageType operator=(const char *str) {
+	ExtentionType operator=(const char *str) {
 		fromString(str);
 		return *this;
 	}
