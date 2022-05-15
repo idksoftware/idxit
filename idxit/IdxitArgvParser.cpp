@@ -37,8 +37,8 @@ void  IdxitArgvParser::defineOptions() {
 	defineCommandSyntax("scan", "iaarc scan [--source-path=<path>]\n\t"
 		"[--format-type=<output format>]\n\t[--file=<jounal file path>");
 
-	defineOption("import", "import new images to the archive.", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("import", "iaarc import [--source-path=<path>]\n\t"
+	defineOption("define", "define index creation.", ArgvParser::OptionAttributes::MasterOption);
+	defineCommandSyntax("define", "iaarc define [--source-path=<path>]\n\t"
 		"[--comment=<comment text>]\n\t[--lightroom=<On|Off>]");
 
 	defineOption("checkout", "Checkout images from archive to workspace.", ArgvParser::OptionAttributes::MasterOption);
@@ -209,9 +209,9 @@ void  IdxitArgvParser::defineOptions() {
 	defineCommandOption("scan", "format-type");
 	defineCommandOption("scan", "file");
 	
-	defineCommandOption("import", "comment");
-	defineCommandOption("import", "source-path");
-	defineCommandOption("import", "lightroom");
+	defineCommandOption("define", "comment");
+	defineCommandOption("define", "source-path");
+	defineCommandOption("define", "lightroom");
 
 	defineCommandOption("checkin", "comment");
 	defineCommandOption("checkin", "scope");

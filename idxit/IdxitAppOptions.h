@@ -189,6 +189,7 @@ private:
 	friend class IdxitArgvParser;
 	
 	friend class IdxitAbout;
+	friend class IdxitDefinition;
 	friend class IdxitScan;
 	friend class IdxitShow;
 
