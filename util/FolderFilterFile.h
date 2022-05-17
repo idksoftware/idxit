@@ -40,17 +40,12 @@
 #include "CSVArgs.h"
 
 
-	class ExtentionsFilterFile;
+	class FolderFilterFile;
 
-	enum class AllowSelectionType
-	{
-		User,
-		System,
-		All
-	};
+	
 
 
-	class ExtentionItem
+	class FolderItem
 	{
 	public:
 		enum class ExtError {
@@ -62,69 +57,42 @@
 		};
 
 	private:
-		std::string m_ext;
-		ExtentionType m_type;
-		std::string m_mimeType;
+		std::string m_path;
+		bool m_isFullPath;
 		std::string m_desciption;
-		ExtError m_error;
+		ExtError m_error{ ExtError::NoError };
 	public:
 
 		
 
-		ExtentionItem() noexcept
-		{
-			m_ext = "";
-			m_type = ExtentionType::Type::UNKNOWN_EXT;
-		}
+		FolderItem() noexcept
+		{};
 
-		ExtentionItem(const char* row, char delim = ':')
+		FolderItem(const char* row, char delim = ':')
 		{
 			std::string data = row;
 			//printf("%s", data.c_str());
 
 			CSVArgs csvArgs(delim);
 			csvArgs.process(row);
-			m_ext = csvArgs.at(0);
-			//std::string typeStr = csvArgs.at(1);
-			//m_type = typeStr.c_str();
-			m_mimeType = csvArgs.at(1);
+			m_path = csvArgs.at(0);
+			std::string fullPathStr = csvArgs.at(1);
+			m_isFullPath = (fullPathStr.compare("True") == 0);
 			m_desciption = csvArgs.at(2);
 		}
 
-		ExtentionItem(std::string& ext,
-					ExtentionType type,
-		              std::string& mimeType,
-		              std::string& desciption)
+		FolderItem(std::string& path,
+					bool isFullPath,
+					std::string& desciption)
 		{
-			m_ext = ext;
-			m_type = type;
-			m_mimeType = mimeType;
+			m_path = path;
+			m_isFullPath = isFullPath;
 			m_desciption = desciption;
 		}
 
 		const std::string& getDesciption() const
 		{
 			return m_desciption;
-		}
-
-		bool isValid()
-		{
-			if (m_type.getType() == ExtentionType::Type::UNKNOWN_EXT)
-			{
-				m_error = ExtError::UnknownImageType;
-				return false;
-			}
-			if (m_ext.empty())
-			{
-				m_error = ExtError::ExtEmpty;
-				return false;
-			}
-			if (m_mimeType.empty())
-			{
-				m_error = ExtError::MimeTypeEmpty;
-				return false;
-			}
-			return true;
 		}
 
 		std::string getErrorString() {
@@ -148,34 +116,24 @@
 			m_desciption = desciption;
 		}
 
-		const std::string& getExt()
+		const std::string& getPath()
 		{
-			return m_ext;
+			return m_path;
 		}
 
-		void setExt(const std::string& ext)
+		void setExt(const std::string& path)
 		{
-			m_ext = ext;
+			m_path = path;
 		}
 
-		const std::string& getMimeType() const
+		bool isFullPath()
 		{
-			return m_mimeType;
+			return m_isFullPath;
 		}
 
-		void setMimeType(const std::string& mimeType)
+		void setType(bool isFullPath)
 		{
-			m_mimeType = mimeType;
-		}
-
-		ExtentionType getType()
-		{
-			return m_type;
-		}
-
-		void setType(ExtentionType& type)
-		{
-			m_type = type;
+			m_isFullPath = isFullPath;
 		}
 
 		std::string toString();
@@ -185,43 +143,42 @@
 		};
 	};
 
-	typedef std::unique_ptr<ExtentionItem> ExtentionItem_Ptr;
+	typedef std::unique_ptr<FolderItem> FolderItem_Ptr;
 
-	class ExtentionsFilterObject
+	class FolderFilterObject
 	{
 	private:
 		
 		bool m_once;
-		std::shared_ptr<ExtentionsFilterFile> m_extentionsFile;
-		std::string m_extentionsFilePath;
+		std::shared_ptr<FolderFilterFile> m_folderFile;
+		std::string m_folderFilePath;
 		bool m_isError;
 		static ExtentionType defaultExtentionItem;
 	public:
-		ExtentionsFilterObject() = default;
-		~ExtentionsFilterObject() = default;
+		FolderFilterObject() = default;
+		~FolderFilterObject() = default;
 
 		bool init();
 
-		ExtentionType getType(const char* filename);
-		ExtentionType findType(const char* ext);
-		std::shared_ptr<ExtentionItem> find(const char* ext);
-		bool insert(ExtentionItem& extentionItem);
-		bool update(ExtentionItem& extentionItem);
-		bool remove(const char* ext);
+		bool findPath(const char* path);
+		std::shared_ptr<FolderItem> find(const char* path);
+		bool insert(FolderItem& folderItem);
+		bool update(FolderItem& folderItem);
+		bool remove(const char* path);
 		
-		bool isAllowed(const char* ext);
+		bool isAllowed(const char* path);
 		//bool IsValid(const char *filename);
 		bool IsValidXML(const char* filename);
 		bool write();
 
-		const std::string& getExtentionsFilePath()
+		const std::string& getFolderFilePath()
 		{
-			return m_extentionsFilePath;
+			return m_folderFilePath;
 		}
 
-		bool getList(std::vector<std::shared_ptr<ExtentionItem>>& list);
+		bool getList(std::vector<std::shared_ptr<FolderItem>>& list);
 
-		bool setExtentionsFilePath(const char* extentionsFilePath);
+		bool setFolderFilePath(const char* folderFilePath);
 
 		bool isError()
 		{

@@ -36,7 +36,7 @@
 #include <fstream>
 #include <sstream>
 #include <map>
-#include "ExtentionsFilterFile.h"
+#include "FolderFilterFile.h"
 #include "SAUtils.h"
 
 #ifdef _DEBUG
@@ -46,35 +46,35 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 
-	std::string ExtentionItem::toString()
+	std::string FolderItem::toString()
 	{
 		std::stringstream s;
-		s << m_ext << ':' << m_type.toString() << ':' << m_mimeType << ':' << m_desciption;
+		s << m_path << ':' << ((m_isFullPath)?"True":"False") << ':' << m_desciption;
 		return s.str();
 	}
 
-	typedef std::map<std::string, std::shared_ptr<ExtentionItem>> ExtentionsContainer;
+	typedef std::map<std::string, std::shared_ptr<FolderItem>> ExtentionsContainer;
 
 
-	class ExtentionsFilterFile
+	class FolderFilterFile
 	{
 		ExtentionsContainer m_extentionsContainer;
 		bool insert(const char* row);
 	public:
-		ExtentionsFilterFile() = default;
-		virtual ~ExtentionsFilterFile() = default;
+		FolderFilterFile() = default;
+		virtual ~FolderFilterFile() = default;
 
 		bool read(const char* datafile);
 		bool write(const char* datafile);
 		bool remove(const char* ext);
-		bool edit(ExtentionItem& extentionItem);
-		bool insert(ExtentionItem& extentionItem);
-		std::shared_ptr<ExtentionItem> find(const char* ext);
-		bool getList(std::vector<std::shared_ptr<ExtentionItem>>& list);
+		bool edit(FolderItem& extentionItem);
+		bool insert(FolderItem& extentionItem);
+		std::shared_ptr<FolderItem> find(const char* ext);
+		bool getList(std::vector<std::shared_ptr<FolderItem>>& list);
 	};
 
 
-	bool ExtentionsFilterFile::read(const char* datafile)
+	bool FolderFilterFile::read(const char* datafile)
 	{
 		std::string text;
 		std::ifstream file(datafile);
@@ -92,7 +92,7 @@ static char THIS_FILE[] = __FILE__;
 		return true;
 	}
 
-	bool ExtentionsFilterFile::write(const char* datafile)
+	bool FolderFilterFile::write(const char* datafile)
 	{
 		std::ofstream file(datafile);
 		if (file.is_open() == false)
@@ -101,7 +101,7 @@ static char THIS_FILE[] = __FILE__;
 		}
 		for (auto ii = m_extentionsContainer.begin(); ii != m_extentionsContainer.end(); ++ii)
 		{
-			std::shared_ptr<ExtentionItem> data = ii->second;
+			std::shared_ptr<FolderItem> data = ii->second;
 			file << data->toString() << '\n';
 		}
 
@@ -109,30 +109,30 @@ static char THIS_FILE[] = __FILE__;
 		return true;
 	}
 
-	bool ExtentionsFilterFile::getList(std::vector<std::shared_ptr<ExtentionItem>>& list)
+	bool FolderFilterFile::getList(std::vector<std::shared_ptr<FolderItem>>& list)
 	{
 		if (m_extentionsContainer.empty() == true) {
 			return true;
 		}
 		for (auto ii : m_extentionsContainer)
 		{
-			std::shared_ptr<ExtentionItem> data = ii.second;
+			std::shared_ptr<FolderItem> data = ii.second;
 			list.push_back(data);
 		}
 		return true;
 	}
 
-	bool ExtentionsFilterFile::remove(const char* ext)
+	bool FolderFilterFile::remove(const char* ext)
 	{
 		return (m_extentionsContainer.erase(ext)) ? true : false;
 	}
 
-	bool ExtentionsFilterFile::edit(ExtentionItem& extentionItem)
+	bool FolderFilterFile::edit(FolderItem& folderItem)
 	{
-		auto i = m_extentionsContainer.find(extentionItem.getExt());
+		auto i = m_extentionsContainer.find(folderItem.getPath());
 		bool replaced = (i != m_extentionsContainer.end());
-		std::shared_ptr<ExtentionItem> extentionItem_ptr = std::make_shared<ExtentionItem>(extentionItem);
-		m_extentionsContainer[extentionItem.getExt()] = extentionItem_ptr;
+		std::shared_ptr<FolderItem> extentionItem_ptr = std::make_shared<FolderItem>(folderItem);
+		m_extentionsContainer[folderItem.getPath()] = extentionItem_ptr;
 		return replaced;
 	}
 
@@ -149,35 +149,35 @@ static char THIS_FILE[] = __FILE__;
 		return true;
 	}
 	*/
-	bool ExtentionsFilterFile::insert(const char* row)
+	bool FolderFilterFile::insert(const char* row)
 	{
-		ExtentionItem extentionItem(row);
-		return insert(extentionItem);
+		FolderItem folderItem(row);
+		return insert(folderItem);
 	}
 
-	bool ExtentionsFilterFile::insert(ExtentionItem& extentionItem)
+	bool FolderFilterFile::insert(FolderItem& folderItem)
 	{
-		auto i = m_extentionsContainer.find(extentionItem.getExt());
+		auto i = m_extentionsContainer.find(folderItem.getPath());
 		if (i == m_extentionsContainer.end())
 		{
 			// insert if failed to find
-			std::shared_ptr<ExtentionItem> extentionItem_ptr = std::make_shared<ExtentionItem>(extentionItem);
-			m_extentionsContainer[extentionItem.getExt()] = extentionItem_ptr;
+			std::shared_ptr<FolderItem> extentionItem_ptr = std::make_shared<FolderItem>(folderItem);
+			m_extentionsContainer[folderItem.getPath()] = extentionItem_ptr;
 			return true;
 		}
 		return false;
 	}
 
 
-	std::shared_ptr<ExtentionItem> ExtentionsFilterFile::find(const char* ext)
+	std::shared_ptr<FolderItem> FolderFilterFile::find(const char* path)
 	{
-		std::string tmp = ext;
+		std::string tmp = path;
 		std::transform(tmp.begin(), tmp.end(), tmp.begin(), tolower);
 		auto it = m_extentionsContainer.find(tmp);
 		bool found = (it != m_extentionsContainer.end());
 		if (found)
 		{
-			std::shared_ptr<ExtentionItem> itemPtr(it->second);
+			std::shared_ptr<FolderItem> itemPtr(it->second);
 			return itemPtr;
 		}
 
@@ -190,11 +190,11 @@ static char THIS_FILE[] = __FILE__;
 	//bool ExtentionsFilterObject::m_once = true;
 	//bool ExtentionsFilterObject::m_isError = false;
 	//static ImageType defaultImageType;
-	ExtentionType ExtentionsFilterObject::defaultExtentionItem;
+	//ExtentionType ExtentionsFilterObject::defaultExtentionItem;
 
 	
-	
-	bool ExtentionsFilterObject::init()
+	/*
+	bool FolderFilterObject::init()
 	{
 		
 		if (m_once)
@@ -211,30 +211,31 @@ static char THIS_FILE[] = __FILE__;
 		}
 		return true;
 	}
+	*/
 	
 	
 
-	bool ExtentionsFilterObject::getList(std::vector<std::shared_ptr<ExtentionItem>>& list)
+	bool FolderFilterObject::getList(std::vector<std::shared_ptr<FolderItem>>& list)
 	{
-		return m_extentionsFile->getList(list);
+		return m_folderFile->getList(list);
 	}
 
-	bool ExtentionsFilterObject::write()
+	bool FolderFilterObject::write()
 	{
-		std::string path = m_extentionsFilePath;
+		std::string path = m_folderFilePath;
 		if (SAUtils::FileExists(path.c_str()) == false)
 		{
 			m_isError = true;
 			throw std::exception();
 		}
 
-		return m_extentionsFile->write(path.c_str());
+		return m_folderFile->write(path.c_str());
 	}
 	
-	bool ExtentionsFilterObject::setExtentionsFilePath(const char* extentionsFilePath)
+	bool FolderFilterObject::setFolderFilePath(const char* folderFilePath)
 	{
-		m_extentionsFilePath = extentionsFilePath;
-		std::string path = m_extentionsFilePath;
+		m_folderFilePath = folderFilePath;
+		std::string path = m_folderFilePath;
 		if (SAUtils::FileExists(path.c_str()) == false)
 		{
 			m_isError = true;
@@ -246,34 +247,34 @@ static char THIS_FILE[] = __FILE__;
 	
 
 	
-	std::shared_ptr<ExtentionItem> ExtentionsFilterObject::find(const char* filename)
+	std::shared_ptr<FolderItem> FolderFilterObject::find(const char* filename)
 	{
 		std::string ext = SAUtils::getExtention(filename);
 		std::transform(ext.begin(), ext.end(), ext.begin(), tolower);
-		std::shared_ptr<ExtentionItem> item = m_extentionsFile->find(ext.c_str());
+		std::shared_ptr<FolderItem> item = m_folderFile->find(ext.c_str());
 		return item;
 	}
 
-	bool ExtentionsFilterObject::insert(ExtentionItem& extentionItem)
+	bool FolderFilterObject::insert(FolderItem& extentionItem)
 	{
-		return m_extentionsFile->insert(extentionItem);
+		return m_folderFile->insert(extentionItem);
 	}
 
-	bool ExtentionsFilterObject::update(ExtentionItem& extentionItem)
+	bool FolderFilterObject::update(FolderItem& folderItem)
 	{
-		return m_extentionsFile->edit(extentionItem);
+		return m_folderFile->edit(folderItem);
 	}
 
-	bool ExtentionsFilterObject::remove(const char* ext)
+	bool FolderFilterObject::remove(const char* ext)
 	{
-		return m_extentionsFile->remove(ext);
+		return m_folderFile->remove(ext);
 	}
 
-	bool ExtentionsFilterObject::isAllowed(const char* ext)
+	bool FolderFilterObject::isAllowed(const char* ext)
 	{
 		std::string tmp = ext;
 		std::transform(tmp.begin(), tmp.end(), tmp.begin(), tolower);
-		std::shared_ptr<ExtentionItem> item = m_extentionsFile->find(ext);
+		std::shared_ptr<FolderItem> item = m_folderFile->find(ext);
 		if (item == nullptr)
 		{
 			return false;
@@ -281,28 +282,26 @@ static char THIS_FILE[] = __FILE__;
 		return true;
 	}
 
-	ExtentionType ExtentionsFilterObject::findType(const char* ext)
+
+	bool FolderFilterObject::findPath(const char* path)
 	{
-		std::string tmp = ext;
-		std::transform(tmp.begin(), tmp.end(), tmp.begin(), tolower);
-		std::shared_ptr<ExtentionItem> item = m_extentionsFile->find(ext);
+		/*
+		std::shared_ptr<FolderItem> item = m_extentionsFile->find(path);
 		if (item != nullptr)
 		{
 			ExtentionType type = item->getType();
 			return type;
 		}
 		return defaultExtentionItem;
-	}
-
-	ExtentionType ExtentionsFilterObject::getType(const char* filename)
-	{
-		std::string ext = SAUtils::getExtention(filename);
-		return findType(ext.c_str());
+		*/
+		return true;
 	}
 
 	
+
 	
-	bool ExtentionsFilterObject::IsValidXML(const char* filename)
+	
+	bool FolderFilterObject::IsValidXML(const char* filename)
 	{
 		if (SAUtils::hasExt(filename) == false)
 		{
