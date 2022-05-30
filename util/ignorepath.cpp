@@ -5,11 +5,13 @@
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
+#include "ignorePath.h"
+
 
 #ifdef _MSC_VER
 #pragma warning(disable:4996)
 #endif
-
+/*
 class IqnorePath {
     std::string m_pattern;
     std::string m_drivePattern;
@@ -52,7 +54,7 @@ public:
         std::cout << "************************" << std::endl;
     }
 };
-
+*/
 void IqnorePath::init()
 {
     parseEnv();
@@ -120,14 +122,16 @@ void IqnorePath::parseEnv()
 }
 
 
-void IqnorePath::parseDrive(int cpos, int position)
+void IqnorePath::parseDrive(size_t cpos, size_t position)
 {
     if (cpos == 0) {
         m_anyDrive = true;
+        m_drivePattern = "*:";
     }
     else {
         m_drivePattern = m_pattern.substr(position, cpos - position);
         if (m_drivePattern[0] == '*' && m_drivePattern.length() == 1) {
+            m_drivePattern += ':';
             m_anyDrive = true;
         }
         else if (m_drivePattern[0] == '*' && m_drivePattern[1] == ':' && m_drivePattern.length() == 2) {
@@ -154,13 +158,13 @@ void IqnorePath::parseDir()
 
 }
 
-void IqnorePath::parseFile(int cpos, int position)
+void IqnorePath::parseFile(size_t cpos, size_t position)
 {
     m_filePattern = m_pattern.substr(position, cpos - position);
     if (m_filePattern.length() == 0) {
         m_anyFile = true;
     }
-    else if (m_filePattern.length() == 1 && m_drivePattern[0] == '*') {
+    else if (m_filePattern.length() == 1 && m_filePattern[0] == '*') {
         m_anyFile = true;
     }
 }
@@ -168,20 +172,70 @@ void IqnorePath::parseFile(int cpos, int position)
 bool IqnorePath::match(const char* path)
 {
     std::string filePath = path;
-    std::vector<std::string> directories;
+    std::vector<std::string> matchList;
     size_t position = 0, currentPosition = 0;
-
+    bool firstSep = true;
     while (currentPosition != -1)
     {
+        
         currentPosition = filePath.find_first_of('\\', position);
-        directories.push_back(filePath.substr(position, currentPosition - position));
+        if (firstSep) {
+            firstSep = false;
+            if (!m_anyDrive) {
+               std::string str = filePath.substr(position, currentPosition - position);
+               if (matchDrive(str) == false) {
+                   return false;
+               }
+            }
+        }
+        if (currentPosition == -1) {
+            if (!m_anyDrive) {
+                std::string str = filePath.substr(position, currentPosition - position);
+                if (matchFile(str) == false) {
+                    return false;
+                }
+            }
+        }
+        else {
+            std::string str = filePath.substr(position, currentPosition - position);
+            matchList.push_back(str);
+            
+        }
+        //directories.push_back(filePath.substr(position, currentPosition - position));
         position = currentPosition + 1;
     }
-    for (auto it : directories)
+    for (auto it : matchList)
         std::cout << it << std::endl;
     return true;
 }
 
+bool IqnorePath::matchDrive(std::string &str)
+{
+    if (m_drivePattern[0] == str[0] && str[1] == ':') {
+        return true;
+    }
+    return false;
+}
+
+bool IqnorePath::matchFolder(std::vector<std::string> matchList)
+{
+    std::string item1 = m_folderList[0];
+    if (item1[0] == '*') {
+        // rel path
+    }
+    else {
+        
+    }
+    return true;
+}
+
+bool IqnorePath::matchFile(std::string& str)
+{
+    if (m_filePattern == str) {
+        return true;
+    }
+    return false;
+}
 /*
 int main()
 {

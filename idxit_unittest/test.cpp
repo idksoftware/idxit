@@ -3,6 +3,8 @@
 #include "ExtentionsFilterFile.h"
 #include "IndexSpecifications.h"
 #include "IgnoreList.h"
+#include "IgnorePath.h"
+
 
 TEST(TestCaseName, TestName) {
 	EXPECT_EQ(1, 1);
@@ -10,6 +12,22 @@ TEST(TestCaseName, TestName) {
 }
 
 TEST(TestCaseName, TestIgnoreFile) {
+
+	IqnorePath iqnorePath1("$(HOMEDRIVE)$(HOMEPATH)\\Pictures\\junk.txt");
+	iqnorePath1.print();
+	std::cout << "C:\\Users\\Iain Ferguson\\ImgArchive\\Pictures\\2017: " <<
+		((iqnorePath1.match("C:\\Users\\Iain Ferguson\\ImgArchive\\Pictures\\junk.txt")) ? "True" : "False") << std::endl;
+
+
+	IqnorePath iqnorePath2("$(ProgramFiles)\\.git\\*");
+	IqnorePath iqnorePath3("*:\\Windows\\System32\\*");
+	//IqnorePath iqnorePath4("c:\\*\\ttt\\.git\\*\\g");
+	//IqnorePath iqnorePath5("c?\\*\\ttt\\.git\\*\\ggg.gg");
+
+	
+	
+
+
 }
 
 TEST(TestCaseName, TestExtentionsFilterObject) {
