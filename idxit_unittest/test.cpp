@@ -2,7 +2,7 @@
 
 #include "ExtentionsFilterFile.h"
 #include "IndexSpecifications.h"
-#include "Ignore.h"
+#include "IgnoreList.h"
 
 TEST(TestCaseName, TestName) {
 	EXPECT_EQ(1, 1);

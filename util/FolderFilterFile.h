@@ -158,7 +158,7 @@
 		FolderFilterObject() = default;
 		~FolderFilterObject() = default;
 
-		bool init();
+		bool init() { return true;  }
 
 		bool findPath(const char* path);
 		std::shared_ptr<FolderItem> find(const char* path);
