@@ -11,50 +11,7 @@
 #ifdef _MSC_VER
 #pragma warning(disable:4996)
 #endif
-/*
-class IqnorePath {
-    std::string m_pattern;
-    std::string m_drivePattern;
-    std::string m_filePattern;
-    bool m_isFile{ false };
-    bool m_anyDrive{ false };
-    bool m_anyDir{ false };
-    bool m_anyFile{ false };
-    bool m_invalid{ false };
-    std::vector<std::string> m_folderList;
-    void init();
-    void parseEnv();
-    void parseDrive(int cpos, int position);
-    void parseFile(int cpos, int position);
-    void parseDir();
-public:
-    IqnorePath(const char *pattern) : m_pattern(pattern)
-    {
-        init();
-    }
-    ~IqnorePath() = default;
-    bool match(const char* path);
 
-    void print()
-    {
-        std::cout << "************************" << std::endl;
-        std::cout << "Pattern: " << m_pattern << std::endl;
-        std::cout << "Any Drive: " << ((m_anyDrive)?"True":"False") << std::endl;
-        std::cout << "Drive: " << m_drivePattern << std::endl;
-        std::cout << "Any Dir: " << ((m_anyDir) ? "True" : "False") << std::endl;
-        std::cout << "Folder list: "<< std::endl;
-        int i = 1;
-        for (auto it : m_folderList) {
-            std::cout << "    " << i++ << ':' << it << std::endl;
-        }
-        std::cout << "------: " << std::endl;
-        std::cout << "Any File: " << ((m_anyFile) ? "True" : "False") << std::endl;
-        std::cout << "File: " << m_filePattern << std::endl;
-        std::cout << "Invalid: " << ((m_invalid) ? "True" : "False") << std::endl;
-        std::cout << "************************" << std::endl;
-    }
-};
-*/
 void IqnorePath::init()
 {
     parseEnv();
@@ -187,8 +144,7 @@ bool IqnorePath::match(const char* path)
                    return false;
                }
             }
-        }
-        if (currentPosition == -1) {
+        } else if (currentPosition == -1) {
             if (!m_anyDrive) {
                 std::string str = filePath.substr(position, currentPosition - position);
                 if (matchFile(str) == false) {
@@ -204,8 +160,10 @@ bool IqnorePath::match(const char* path)
         //directories.push_back(filePath.substr(position, currentPosition - position));
         position = currentPosition + 1;
     }
-    for (auto it : matchList)
-        std::cout << it << std::endl;
+    if (matchFolder(matchList) == false) {
+        return false;
+    }
+    
     return true;
 }
 
@@ -224,7 +182,15 @@ bool IqnorePath::matchFolder(std::vector<std::string> matchList)
         // rel path
     }
     else {
-        
+        if (matchList.size() != m_folderList.size()) {
+            return false;
+        }
+        for (int i = 0; i < matchList.size(); i++) {
+            if (matchList[0] != m_folderList[0]) {
+                return false;
+            }
+        }
+      
     }
     return true;
 }

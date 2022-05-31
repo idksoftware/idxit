@@ -13,7 +13,7 @@ TEST(TestCaseName, TestName) {
 
 TEST(TestCaseName, TestIgnoreFile) {
 
-	IqnorePath iqnorePath1("$(HOMEDRIVE)$(HOMEPATH)\\Pictures\\junk.txt");
+	IqnorePath iqnorePath1("$(HOMEDRIVE)$(HOMEPATH)\\ImgArchive\\Pictures\\junk.txt");
 	iqnorePath1.print();
 	std::cout << "C:\\Users\\Iain Ferguson\\ImgArchive\\Pictures\\2017: " <<
 		((iqnorePath1.match("C:\\Users\\Iain Ferguson\\ImgArchive\\Pictures\\junk.txt")) ? "True" : "False") << std::endl;
