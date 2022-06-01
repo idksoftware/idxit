@@ -11,7 +11,12 @@ TEST(TestCaseName, TestName) {
 	EXPECT_TRUE(true);
 }
 
-TEST(TestCaseName, TestIgnoreFile) {
+TEST(TestCaseName, TestIgnoreList) {
+	IgnoreList ignoreList;
+	ignoreList.read("C:\\ProgramData\\IDK-Software\\idxit\\filters\\sys.ign");
+}
+
+TEST(TestCaseName, TestIgnorePath) {
 
 	IqnorePath iqnorePath1("$(HOMEDRIVE)$(HOMEPATH)\\ImgArchive\\Pictures\\junk.txt");
 	iqnorePath1.print();

@@ -186,7 +186,7 @@ bool IqnorePath::matchFolder(std::vector<std::string> matchList)
             return false;
         }
         for (int i = 0; i < matchList.size(); i++) {
-            if (matchList[0] != m_folderList[0]) {
+            if (matchList[i] != m_folderList[i]) {
                 return false;
             }
         }

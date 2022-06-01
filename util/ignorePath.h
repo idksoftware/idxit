@@ -33,6 +33,7 @@ public:
     }
     ~IqnorePath() = default;
     bool match(const char* path);
+    const char* getPattern() { return m_pattern.c_str(); }
 
     void print()
     {

@@ -5,10 +5,9 @@
 
 class IgnoreFilter
 {
-	bool m_isFile;
 	std::string m_filter;
 public:
-	IgnoreFilter(const char* filter, bool isFile) : m_isFile(isFile), m_filter(filter) {}
+	IgnoreFilter(const char* filter) : m_filter(filter) {}
 	bool match();
 };
 
