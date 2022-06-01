@@ -6,7 +6,9 @@
 #include <iostream>
 #include <sstream>
 #include "ignorePath.h"
+#include <algorithm>
 
+#include <functional>
 
 #ifdef _MSC_VER
 #pragma warning(disable:4996)
@@ -17,16 +19,25 @@ void IqnorePath::init()
     parseEnv();
     size_t position = 0, cpos = 0;
 
+    std::replace(m_pattern.begin(), m_pattern.end(), '\\', '/');
+
     bool firstSep = true;
     bool driveSep = true;
+    cpos = m_pattern.find_first_of(':', position);
+    if (cpos == 1) {// drive ie c:
+        parseDrive(cpos + 1, position);
+        position = cpos + 1;
+    }
     while (cpos != -1)
     {
-        cpos = m_pattern.find_first_of('\\', position);
+        cpos = m_pattern.find_first_of('/', position);
+        /*
         if (firstSep) {
             firstSep = false;
             parseDrive(cpos, position);
 
         }
+        */
         if (cpos == -1) {
             parseFile(cpos, position);
         }
@@ -81,33 +92,14 @@ void IqnorePath::parseEnv()
 
 void IqnorePath::parseDrive(size_t cpos, size_t position)
 {
-    if (cpos == 0) {
+   
+    m_drivePattern = m_pattern.substr(position, cpos - position);
+        
+    if (m_drivePattern[0] == '*') {
         m_anyDrive = true;
-        m_drivePattern = "*:";
     }
-    else {
-        m_drivePattern = m_pattern.substr(position, cpos - position);
-        if (m_drivePattern[0] == '*' && m_drivePattern.length() == 1) {
-            m_drivePattern += ':';
-            m_anyDrive = true;
-        }
-        else if (m_drivePattern[0] == '*' && m_drivePattern[1] == ':' && m_drivePattern.length() == 2) {
-            m_anyDrive = true;
-        }
-        else if (m_drivePattern[0] == '*' && m_drivePattern[1] != ':' && m_drivePattern.length() == 2) {
-            m_invalid = true;
-        }
-        else if (m_drivePattern[0] != '*' && m_drivePattern[1] == ':' && m_drivePattern.length() == 2) {
-            m_anyDrive = false;
-        }
-        else if (m_drivePattern[0] != '*' && m_drivePattern[1] != ':' && m_drivePattern.length() == 2) {
-            m_invalid = true;
-        }
-        else if (m_drivePattern.length() > 2) {
-            m_invalid = true;
-        }
-        //std::string m_drivePattern = m_pattern.substr(position, cpos - position);
-    }
+    //std::string m_drivePattern = m_pattern.substr(position, cpos - position);
+    
 }
 
 void IqnorePath::parseDir()
@@ -131,11 +123,12 @@ bool IqnorePath::match(const char* path)
     std::string filePath = path;
     std::vector<std::string> matchList;
     size_t position = 0, currentPosition = 0;
+    std::replace(filePath.begin(), m_pattern.end(), '\\', '/');
     bool firstSep = true;
     while (currentPosition != -1)
     {
         
-        currentPosition = filePath.find_first_of('\\', position);
+        currentPosition = filePath.find_first_of('/', position);
         if (firstSep) {
             firstSep = false;
             if (!m_anyDrive) {
