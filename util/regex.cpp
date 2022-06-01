@@ -75,7 +75,7 @@ public:
     }
 };
 
-
+/*
 int main()
 {
     MatchString matchString("*debug[0-9]");
@@ -85,6 +85,7 @@ int main()
     
     return 0;
 }
+*/
 
 /*
 All name files, name folders, and files and folders in any name folder

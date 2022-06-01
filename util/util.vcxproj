@@ -169,6 +169,7 @@
     <ClCompile Include="ImageIndex.cpp" />
     <ClCompile Include="IgnoreList.cpp" />
     <ClCompile Include="Quiet.cpp" />
+    <ClCompile Include="regex.cpp" />
     <ClCompile Include="SequenceNumber.cpp" />
     <ClCompile Include="sha256.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
