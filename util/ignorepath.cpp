@@ -14,6 +14,14 @@
 #pragma warning(disable:4996)
 #endif
 
+#ifdef XXXXXXX
+AbsolutePath,       // file or folder depending on ending "*:/windows/", "/lib/**/name", "/name.file"
+RelativePath,       // file or folder depending on ending "**/lib/name.file", "**/name/"
+AllNamedFile,       // "name"
+AnyNamedFolder,     // "name/"
+Unknown
+#endif // XXXXXXX
+
 void IqnorePath::init()
 {
     parseEnv();
@@ -24,37 +32,49 @@ void IqnorePath::init()
     bool firstSep = true;
     bool driveSep = true;
     cpos = m_pattern.find_first_of(':', position);
+    // find drive
     if (cpos == 1) {// drive ie c:
         parseDrive(cpos + 1, position);
-        position = cpos + 1;
+        cpos++;
+        m_patternType = PatternType::AbsolutePath;
     }
+    else {
+        m_anyDrive = true;
+        cpos = 0; // no drive so reset to folder/files char
+    }
+    
+    if (m_pattern[cpos] == '/') {
+        m_patternType = PatternType::AbsolutePath;
+        m_folderList.push_back("/");
+        m_root = true;
+        cpos++;
+    } else if (m_pattern[cpos] == '*' && m_pattern[cpos+1] == '*') { // ** found so relativePath
+        m_patternType = PatternType::RelativePath;
+        m_root = false;
+        cpos++;
+    }
+    else {
+        simplePattern();
+        return;
+    }
+    cpos = m_pattern.find_first_of('/', 0);
+    position = cpos;
+    position++;
     while (cpos != -1)
     {
         cpos = m_pattern.find_first_of('/', position);
-        /*
-        if (firstSep) {
-            firstSep = false;
-            parseDrive(cpos, position);
-
-        }
-        */
         if (cpos == -1) {
             parseFile(cpos, position);
         }
         else {
-            if (driveSep) {
-                driveSep = false;
-            }
-            else {
-                std::string str = m_pattern.substr(position, cpos - position);
-                m_folderList.push_back(str);
-            }
-            position = cpos + 1;
+            std::string str = m_pattern.substr(position, cpos - position);
+            m_folderList.push_back(str);
         }
+        position = cpos + 1;
     }
     parseDir();
-    
-   
+
+
 
 }
 
@@ -81,29 +101,31 @@ void IqnorePath::parseEnv()
             startpos = startString.length() + item.length();
             endpos = startpos;
         }
-       
+
     }
     if (envfound) {
         m_pattern = filePath;
     }
-   
+
 }
 
 
 void IqnorePath::parseDrive(size_t cpos, size_t position)
 {
-   
+
     m_drivePattern = m_pattern.substr(position, cpos - position);
-        
+
     if (m_drivePattern[0] == '*') {
         m_anyDrive = true;
     }
     //std::string m_drivePattern = m_pattern.substr(position, cpos - position);
-    
+
 }
 
 void IqnorePath::parseDir()
 {
+    for (auto it : m_folderList)
+        std::cout << it << std::endl;
 
 }
 
@@ -118,27 +140,69 @@ void IqnorePath::parseFile(size_t cpos, size_t position)
     }
 }
 
+
+#ifdef XXXXXXX
+
+RelativeFilePath,   // "**/lib/name.file"
+RelativeFolderPath, // "**/name/"
+AllNamedFile,       // "name"
+AnyNamedFolder,     // "name/"
+Realative2Root,     // "/name.file", "lib/name.file", , "/lib/**/name"
+Unknown
+#endif // XXXXXXX
+bool IqnorePath::simplePattern()
+{
+    int position = 0;
+    int cpos = 0;
+    m_anyDir = true;
+    m_anyFile = true;
+    while (cpos != -1)
+    {
+        cpos = m_pattern.find_first_of('/', position);
+        if (cpos == -1) {
+            m_patternType = PatternType::AllNamedFile;
+            parseFile(cpos, position);
+            m_anyFile = false;
+        }
+        else {
+            std::string str = m_pattern.substr(position, cpos - position);
+            m_patternType = PatternType::AnyNamedFolder;
+            m_folderList.push_back(str);
+            m_anyDir = false;
+        }
+        position = cpos + 1;
+    }
+    //int cpos = m_pattern.find_first_of('/', 0);
+    
+
+    // name
+    // name.file
+    // *.file
+    return true;
+}
+/*
+The path to be matched will be in the form:
+*:\folder\**\*
+* i.e. C:\Windows\System32\readme.txt
+*/
 bool IqnorePath::match(const char* path)
 {
     std::string filePath = path;
     std::vector<std::string> matchList;
-    size_t position = 0, currentPosition = 0;
-    std::replace(filePath.begin(), m_pattern.end(), '\\', '/');
-    bool firstSep = true;
+
+    std::replace(filePath.begin(), filePath.end(), '\\', '/');
+    std::string str = filePath.substr(0, 2);
+    if (matchDrive(str) == false) {
+        return false;
+    }
+    size_t position = 3, currentPosition = 3;
     while (currentPosition != -1)
     {
-        
+
         currentPosition = filePath.find_first_of('/', position);
-        if (firstSep) {
-            firstSep = false;
-            if (!m_anyDrive) {
-               std::string str = filePath.substr(position, currentPosition - position);
-               if (matchDrive(str) == false) {
-                   return false;
-               }
-            }
-        } else if (currentPosition == -1) {
-            if (!m_anyDrive) {
+
+        if (currentPosition == -1) {
+            if (!m_anyFile) {
                 std::string str = filePath.substr(position, currentPosition - position);
                 if (matchFile(str) == false) {
                     return false;
@@ -148,7 +212,7 @@ bool IqnorePath::match(const char* path)
         else {
             std::string str = filePath.substr(position, currentPosition - position);
             matchList.push_back(str);
-            
+
         }
         //directories.push_back(filePath.substr(position, currentPosition - position));
         position = currentPosition + 1;
@@ -156,12 +220,15 @@ bool IqnorePath::match(const char* path)
     if (matchFolder(matchList) == false) {
         return false;
     }
-    
+
     return true;
 }
 
-bool IqnorePath::matchDrive(std::string &str)
+bool IqnorePath::matchDrive(std::string& str)
 {
+    if (m_anyDrive) {
+        return true;
+    }
     if (m_drivePattern[0] == str[0] && str[1] == ':') {
         return true;
     }
@@ -170,6 +237,9 @@ bool IqnorePath::matchDrive(std::string &str)
 
 bool IqnorePath::matchFolder(std::vector<std::string> matchList)
 {
+    if (m_anyDir) {
+        return true;
+    }
     std::string item1 = m_folderList[0];
     if (item1[0] == '*') {
         // rel path
@@ -183,46 +253,35 @@ bool IqnorePath::matchFolder(std::vector<std::string> matchList)
                 return false;
             }
         }
-      
+
     }
     return true;
 }
 
 bool IqnorePath::matchFile(std::string& str)
 {
+    if (m_anyFile) {
+        return true;
+    }
     if (m_filePattern == str) {
         return true;
     }
     return false;
 }
-/*
-int main()
+
+const char* IqnorePath::patternTypeString()
 {
-    IqnorePath iqnorePath1("$(HOMEDRIVE)$(HOMEPATH)\\Pictures\\*");
-    iqnorePath1.print();
-    std::cout << "C:\\Users\\Iain Ferguson\\ImgArchive\\Pictures\\2017: " <<
-                ((iqnorePath1.match("C:\\Users\\Iain Ferguson\\ImgArchive\\Pictures\\2017")) ? "True" : "False") << std::endl;
-   
-
-    IqnorePath iqnorePath2("$(ProgramFiles)\\.git\\*");
-    IqnorePath iqnorePath3("*:\\Windows\\System32\\*");
-    //IqnorePath iqnorePath4("c:\\*\\ttt\\.git\\*\\g");
-    //IqnorePath iqnorePath5("c?\\*\\ttt\\.git\\*\\ggg.gg");
-
-    std::string filePath = "C:\\ProgramData\\Users\\CodeUncode\\Documents";
-    std::vector<std::string> directories;
-    size_t position = 0, currentPosition = 0;
-
-    while (currentPosition != -1)
-    {
-        currentPosition = filePath.find_first_of('\\', position);
-        directories.push_back(filePath.substr(position, currentPosition - position));
-        position = currentPosition + 1;
+    switch (m_patternType) {
+    case PatternType::AbsolutePath: return "Absolute Path";
+    case PatternType::RelativePath:return "Relative Path";
+    case PatternType::AllNamedFile:return "Any Named File";
+    case PatternType::AnyNamedFolder:return "Any Named Folder";
+    case PatternType::Unknown:
+    default:
+        break;
     }
-    for (auto it : directories)
-        std::cout << it << std::endl;
-
-    return 0;
+    return "Unknown";
 }
-*/
+
+
 

@@ -7,9 +7,20 @@
 #include <sstream>
 
 class IqnorePath {
+    enum class PatternType {
+        AbsolutePath,       // "*:/windows/", "/name.file"
+        RelativePath,       // "**/lib/name.file", "/lib/**/name", "**/name/"
+        AllNamedFile,       // "name"
+        AnyNamedFolder,     // "name/"
+        Unknown
+    };
+
+    PatternType m_patternType{ PatternType::Unknown };
+
     std::string m_pattern;
     std::string m_drivePattern;
     std::string m_filePattern;
+    bool m_root{ false };
     bool m_isFile{ false };
     bool m_anyDrive{ false };
     bool m_anyDir{ false };
@@ -21,11 +32,13 @@ class IqnorePath {
     void parseDrive(size_t cpos, size_t position);
     void parseFile(size_t cpos, size_t position);
     void parseDir();
+    bool simplePattern();
+    const char* patternTypeString();
 
     bool matchDrive(std::string& str);
     bool matchFolder(std::vector<std::string> matchList);
     bool matchFile(std::string& str);
-    
+
 public:
     IqnorePath(const char* pattern) : m_pattern(pattern)
     {
@@ -38,7 +51,7 @@ public:
     void print()
     {
         std::cout << "************************" << std::endl;
-        std::cout << "Pattern: " << m_pattern << std::endl;
+        std::cout << "Pattern: " << m_pattern << " Type: " << patternTypeString() << std::endl;
         std::cout << "Any Drive: " << ((m_anyDrive) ? "True" : "False") << std::endl;
         std::cout << "Drive: " << m_drivePattern << std::endl;
         std::cout << "Any Dir: " << ((m_anyDir) ? "True" : "False") << std::endl;
