@@ -60,10 +60,10 @@ void IqnorePath::init()
     cpos = m_pattern.find_first_of('/', 0);
     position = cpos;
     position++;
-    while (cpos != -1)
+    while (cpos != std::string::npos)
     {
         cpos = m_pattern.find_first_of('/', position);
-        if (cpos == -1) {
+        if (cpos == std::string::npos) {
             parseFile(cpos, position);
         }
         else {
@@ -87,10 +87,10 @@ void IqnorePath::parseEnv()
     bool envfound = false;
     std::string startString;
     std::string endString;
-    while (startpos != -1)
+    while (startpos != std::string::npos)
     {
         startpos = filePath.find_first_of("$(", endpos);
-        if (startpos != -1) {
+        if (startpos != std::string::npos) {
             endpos = filePath.find_first_of(")");
             std::string item = filePath.substr(startpos + 2, endpos - (startpos + 2));
             envfound = true;
@@ -138,9 +138,34 @@ void IqnorePath::parseFile(size_t cpos, size_t position)
     else if (m_filePattern.length() == 1 && m_filePattern[0] == '*') {
         m_anyFile = true;
     }
+    else {
+        if (m_pattern.find_first_of('.', position) == std::string::npos) {
+            m_patternType = PatternType::AnyMatch;
+            m_anyFile = true;
+
+        }
+        else {
+            m_patternType = PatternType::AnyNamedFile;
+            m_anyFile = false;
+        }   
+    }
 }
 
-
+void IqnorePath::parseFolder(size_t cpos, size_t position)
+{
+    m_folderPattern = m_pattern.substr(position, cpos - position);
+    if (m_folderPattern.length() == 0) {
+        m_anyDir = true;
+        }
+    else if (m_folderPattern.length() == 1 && m_folderPattern[0] == '*') {
+        m_anyDir = true;
+    }
+    else {
+       m_patternType = PatternType::AnyNamedFolder;
+       m_anyDir = false;
+       
+    }
+}
 #ifdef XXXXXXX
 
 RelativeFilePath,   // "**/lib/name.file"
@@ -156,28 +181,41 @@ bool IqnorePath::simplePattern()
     int cpos = 0;
     m_anyDir = true;
     m_anyFile = true;
-    while (cpos != -1)
-    {
-        cpos = m_pattern.find_first_of('/', position);
-        if (cpos == -1) {
-            m_patternType = PatternType::AllNamedFile;
-            parseFile(cpos, position);
-            m_anyFile = false;
-        }
-        else {
-            std::string str = m_pattern.substr(position, cpos - position);
-            m_patternType = PatternType::AnyNamedFolder;
-            m_folderList.push_back(str);
-            m_anyDir = false;
-        }
-        position = cpos + 1;
+    bool isFolder = (m_pattern[m_pattern.length() - 1] == '/'); // last char is '/';
+    bool isMultiFolder = false;
+    bool isNameOnly = (m_pattern.find_first_of('/', position) == std::string::npos); // no char '/' found in string
+    if (isFolder) {
+        std::string folderStr = m_pattern.substr(position, m_pattern.length() - 1);
+        isMultiFolder = (folderStr.find_first_of('/', position) != std::string::npos);
     }
-    //int cpos = m_pattern.find_first_of('/', 0);
-    
+    if (isNameOnly) {
+            parseFile(m_pattern.length(), 0);
+    }
+    else if (!isMultiFolder) {
+        parseFolder(m_pattern.length(), 0);
+    }
+    else {
+        while (cpos != std::string::npos)
+        {
+            cpos = m_pattern.find_first_of('/', position);
+            if (cpos == std::string::npos) {
+                if (isFolder) {
+                    break;
+                }
+                m_patternType = PatternType::AnyNamedFile;
+                parseFile(cpos, position);
 
-    // name
-    // name.file
-    // *.file
+            }
+            else {
+                std::string str = m_pattern.substr(position, cpos - position);
+                m_patternType = PatternType::AnyNamedFolder;
+                m_folderList.push_back(str);
+                m_anyDir = false;
+            }
+            position = cpos + 1;
+        }
+    }
+   
     return true;
 }
 /*
@@ -196,12 +234,12 @@ bool IqnorePath::match(const char* path)
         return false;
     }
     size_t position = 3, currentPosition = 3;
-    while (currentPosition != -1)
+    while (currentPosition != std::string::npos)
     {
 
         currentPosition = filePath.find_first_of('/', position);
 
-        if (currentPosition == -1) {
+        if (currentPosition == std::string::npos) {
             if (!m_anyFile) {
                 std::string str = filePath.substr(position, currentPosition - position);
                 if (matchFile(str) == false) {
@@ -240,6 +278,12 @@ bool IqnorePath::matchFolder(std::vector<std::string> matchList)
     if (m_anyDir) {
         return true;
     }
+    if (matchList.empty()) {
+        return false;
+    }
+    if (m_folderList.empty()) {
+        return false;
+    }
     std::string item1 = m_folderList[0];
     if (item1[0] == '*') {
         // rel path
@@ -273,9 +317,10 @@ const char* IqnorePath::patternTypeString()
 {
     switch (m_patternType) {
     case PatternType::AbsolutePath: return "Absolute Path";
-    case PatternType::RelativePath:return "Relative Path";
-    case PatternType::AllNamedFile:return "Any Named File";
-    case PatternType::AnyNamedFolder:return "Any Named Folder";
+    case PatternType::RelativePath: return "Relative Path";
+    case PatternType::AnyNamedFile: return "Any Named File";
+    case PatternType::AnyNamedFolder: return "Any Named Folder";
+    case PatternType::AnyMatch: return "Any Named Folder";
     case PatternType::Unknown:
     default:
         break;

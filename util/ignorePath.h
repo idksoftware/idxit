@@ -10,8 +10,9 @@ class IqnorePath {
     enum class PatternType {
         AbsolutePath,       // "*:/windows/", "/name.file"
         RelativePath,       // "**/lib/name.file", "/lib/**/name", "**/name/"
-        AllNamedFile,       // "name"
+        AnyNamedFile,       // "name.*"
         AnyNamedFolder,     // "name/"
+        AnyMatch,           // "name"
         Unknown
     };
 
@@ -20,6 +21,7 @@ class IqnorePath {
     std::string m_pattern;
     std::string m_drivePattern;
     std::string m_filePattern;
+    std::string m_folderPattern; // used for single folder
     bool m_root{ false };
     bool m_isFile{ false };
     bool m_anyDrive{ false };
@@ -31,6 +33,7 @@ class IqnorePath {
     void parseEnv();
     void parseDrive(size_t cpos, size_t position);
     void parseFile(size_t cpos, size_t position);
+    void parseFolder(size_t cpos, size_t position);
     void parseDir();
     bool simplePattern();
     const char* patternTypeString();
