@@ -6,12 +6,7 @@
 #include "IgnorePath.h"
 
 
-TEST(TestCaseName, TestName) {
-    EXPECT_EQ(1, 1);
-    EXPECT_TRUE(true);
-}
-
-
+#ifdef XXXXX
 // All name files, name folders, and files and folders in any name folder
 
 TEST(TestCaseName, TestIgnorePath0)
@@ -329,11 +324,19 @@ TEST(TestCaseName, TestIgnorePath17) {
     
 }
 
-
+#endif
 
 TEST(TestCaseName, TestIgnoreList) {
     IgnoreList ignoreList;
     ignoreList.read("C:\\ProgramData\\IDK-Software\\idxit\\filters\\sys.ign");
+
+    EXPECT_TRUE(ignoreList.match("c:\\$Recycle.Bin"));  				// Recycle bin
+    EXPECT_TRUE(ignoreList.match("C:\\ProgramData"));    				// Program Data
+    EXPECT_TRUE(ignoreList.match("C:\\Program Files"));  				// Program files for 64bit apps
+    EXPECT_TRUE(ignoreList.match("C:\\Program Files(x86)")); 			// True:Program files for 32bit apps
+    EXPECT_TRUE(ignoreList.match("C:\\windows")); 					// Program Data
+    EXPECT_TRUE(ignoreList.match("C:\\Temp")); 						// Temporary folder
+    EXPECT_TRUE(ignoreList.match("C:\\System Volume Information")); 	// System folder
 }
 
 

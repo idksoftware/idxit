@@ -22,7 +22,7 @@ AnyNamedFolder,     // "name/"
 Unknown
 #endif // XXXXXXX
 
-void IqnorePath::init()
+void IgnorePath::init()
 {
     parseEnv();
     size_t position = 0, cpos = 0;
@@ -78,7 +78,7 @@ void IqnorePath::init()
 
 }
 
-void IqnorePath::parseEnv()
+void IgnorePath::parseEnv()
 {
     std::string filePath = m_pattern;
     std::string newPath;
@@ -89,7 +89,7 @@ void IqnorePath::parseEnv()
     std::string endString;
     while (startpos != std::string::npos)
     {
-        startpos = filePath.find_first_of("$(", endpos);
+        startpos = filePath.find("$(", endpos);
         if (startpos != std::string::npos) {
             endpos = filePath.find_first_of(")");
             std::string item = filePath.substr(startpos + 2, endpos - (startpos + 2));
@@ -110,7 +110,7 @@ void IqnorePath::parseEnv()
 }
 
 
-void IqnorePath::parseDrive(size_t cpos, size_t position)
+void IgnorePath::parseDrive(size_t cpos, size_t position)
 {
 
     m_drivePattern = m_pattern.substr(position, cpos - position);
@@ -122,14 +122,14 @@ void IqnorePath::parseDrive(size_t cpos, size_t position)
 
 }
 
-void IqnorePath::parseDir()
+void IgnorePath::parseDir()
 {
     for (auto it : m_folderList)
         std::cout << it << std::endl;
 
 }
 
-void IqnorePath::parseFile(size_t cpos, size_t position)
+void IgnorePath::parseFile(size_t cpos, size_t position)
 {
     m_filePattern = m_pattern.substr(position, cpos - position);
     if (m_filePattern.length() == 0) {
@@ -151,7 +151,7 @@ void IqnorePath::parseFile(size_t cpos, size_t position)
     }
 }
 
-void IqnorePath::parseFolder(size_t cpos, size_t position)
+void IgnorePath::parseFolder(size_t cpos, size_t position)
 {
     m_folderPattern = m_pattern.substr(position, cpos - position);
     if (m_folderPattern.length() == 0) {
@@ -175,7 +175,7 @@ AnyNamedFolder,     // "name/"
 Realative2Root,     // "/name.file", "lib/name.file", , "/lib/**/name"
 Unknown
 #endif // XXXXXXX
-bool IqnorePath::simplePattern()
+bool IgnorePath::simplePattern()
 {
     int position = 0;
     int cpos = 0;
@@ -223,7 +223,7 @@ The path to be matched will be in the form:
 *:\folder\**\*
 * i.e. C:\Windows\System32\readme.txt
 */
-bool IqnorePath::match(const char* path)
+bool IgnorePath::match(const char* path)
 {
     std::string filePath = path;
     std::vector<std::string> matchList;
@@ -262,7 +262,7 @@ bool IqnorePath::match(const char* path)
     return true;
 }
 
-bool IqnorePath::matchDrive(std::string& str)
+bool IgnorePath::matchDrive(std::string& str)
 {
     if (m_anyDrive) {
         return true;
@@ -273,7 +273,7 @@ bool IqnorePath::matchDrive(std::string& str)
     return false;
 }
 
-bool IqnorePath::matchFolder(std::vector<std::string> matchList)
+bool IgnorePath::matchFolder(std::vector<std::string> matchList)
 {
     if (m_anyDir) {
         return true;
@@ -302,7 +302,7 @@ bool IqnorePath::matchFolder(std::vector<std::string> matchList)
     return true;
 }
 
-bool IqnorePath::matchFile(std::string& str)
+bool IgnorePath::matchFile(std::string& str)
 {
     if (m_anyFile) {
         return true;
@@ -313,7 +313,7 @@ bool IqnorePath::matchFile(std::string& str)
     return false;
 }
 
-const char* IqnorePath::patternTypeString()
+const char* IgnorePath::patternTypeString()
 {
     switch (m_patternType) {
     case PatternType::AbsolutePath: return "Absolute Path";

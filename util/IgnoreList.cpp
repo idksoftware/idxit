@@ -31,8 +31,9 @@ bool IgnoreList::read(const char* fullpath)
 		//ErrorCode::setErrorCode(IMGA_ERROR::OPEN_ERROR);
 		return false;
 	}
-
+	int lineNo = 0;
 	for (std::string line; std::getline(file, line);) {
+		lineNo++;
 		if (line.length() > 0) {
 			const std::string delims(" \t");
 			std::string::size_type pos = line.find_first_not_of(delims);
@@ -42,12 +43,10 @@ bool IgnoreList::read(const char* fullpath)
 			pos = line.find_first_of('#');
 			line = line.substr(0, pos);
 			line = trim(line);
-			std::shared_ptr<IgnoreFilter> item = std::make_shared<IgnoreFilter>(line.c_str());
+			std::shared_ptr<IgnorePath> item = std::make_shared<IgnorePath>(line.c_str(), lineNo, fullpath);
 			push_back(item);
 		}
-		else {
-			continue;
-		}
+
 	}
 
 
@@ -58,6 +57,11 @@ bool IgnoreList::read(const char* fullpath)
 
 bool IgnoreList::match(const char* path)
 {
+	for (auto i : *this) {
+		if (i->match(path) == true) {
+			return true;
+		}
+	}
 	return true;
 }
 

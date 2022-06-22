@@ -6,7 +6,7 @@
 #include <iostream>
 #include <sstream>
 
-class IqnorePath {
+class IgnorePath {
     enum class PatternType {
         AbsolutePath,       // "*:/windows/", "/name.file"
         RelativePath,       // "**/lib/name.file", "/lib/**/name", "**/name/"
@@ -42,12 +42,16 @@ class IqnorePath {
     bool matchFolder(std::vector<std::string> matchList);
     bool matchFile(std::string& str);
 
+    int m_line{ 0 };
+    std::string m_ignFile;
+
 public:
-    IqnorePath(const char* pattern) : m_pattern(pattern)
+    IgnorePath(const char* pattern, int line, const char *ignFile)
+        : m_pattern(pattern), m_line(line), m_ignFile(ignFile)
     {
         init();
     }
-    ~IqnorePath() = default;
+    ~IgnorePath() = default;
     bool match(const char* path);
     const char* getPattern() { return m_pattern.c_str(); }
 
@@ -69,4 +73,7 @@ public:
         std::cout << "Invalid: " << ((m_invalid) ? "True" : "False") << std::endl;
         std::cout << "************************" << std::endl;
     }
+
+    int getLine() { return m_line;  };
+    const char* getIgnFile() { return m_ignFile.c_str(); };
 };
