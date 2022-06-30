@@ -213,9 +213,6 @@ bool IdxitApp::doRun()
 	*/
 	bool noSummary = false; // Some commands do not require summery as it breaks some output i.e. XML 
 	switch (appOptions.getCommandMode()) {
-
-	
-	
 	case IdxitAppOptions::CommandMode::CM_About:
 	{
 		return about(appOptions.getTextOutputType(), appOptions.getOutputFile());

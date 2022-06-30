@@ -45,6 +45,13 @@ class IgnorePath {
     int m_line{ 0 };
     std::string m_ignFile;
 
+    bool absolutePath(std::string& filePath);
+    bool relativePath(std::string& filePath);
+    bool anyNamedFile(std::string& filePath);
+    bool anyNamedFolder(std::string& filePath);
+    bool anyMatch(std::string& filePath);
+    
+
 public:
     IgnorePath(const char* pattern, int line, const char *ignFile)
         : m_pattern(pattern), m_line(line), m_ignFile(ignFile)

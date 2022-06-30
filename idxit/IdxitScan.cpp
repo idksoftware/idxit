@@ -21,15 +21,20 @@ namespace simplearchive {
 		bool isSourePathSet = false;
 		if (getParser().foundOption("source-path") == true) {
 			std::string opt = getParser().optionValue("source-path");
-			
+			appOptions.m_sourcePath = opt;
 		}
 		if (isSourePathSet == false) {
 			//config.setSourcePath(SAUtils::getCurrentDirectory().c_str());
 		}
 
-		if (getParser().foundOption("file") == true) {
-			std::string opt = getParser().optionValue("file");
-			appOptions.m_filePath = opt;
+		if (getParser().foundOption("index-file") == true) {
+			std::string opt = getParser().optionValue("index-file");
+			appOptions.m_outputFile = opt;
+		}
+
+		if (getParser().foundOption("group") == true) {
+			std::string opt = getParser().optionValue("group");
+			appOptions.m_outputFile = opt;
 		}
 
 		if (getParser().foundOption("format-type") == true) {

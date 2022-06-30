@@ -68,7 +68,7 @@ bool IdxitAppOptions::m_master = false;
 std::string IdxitAppOptions::m_name;
 IdxitAppOptions::CommandMode IdxitAppOptions::m_commandMode = IdxitAppOptions::CommandMode::CM_Unknown;
 std::string IdxitAppOptions::m_comment;
-std::string IdxitAppOptions::m_imageAddress;
+std::string IdxitAppOptions::m_groupFile;
 std::string IdxitAppOptions::m_sourcePath;
 std::string IdxitAppOptions::m_distinationPath;
 std::string IdxitAppOptions::m_filePath;
@@ -121,8 +121,8 @@ void IdxitAppOptions::setName(const char *name) {
 const char *IdxitAppOptions::getComment() {
 	return m_comment.c_str();
 }
-const char *IdxitAppOptions::getImageAddress() {
-	return m_imageAddress.c_str();
+const char *IdxitAppOptions::getGroupFile() {
+	return m_groupFile.c_str();
 }
 
 const char* IdxitAppOptions::getVersions() {

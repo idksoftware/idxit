@@ -14,13 +14,7 @@
 #pragma warning(disable:4996)
 #endif
 
-#ifdef XXXXXXX
-AbsolutePath,       // file or folder depending on ending "*:/windows/", "/lib/**/name", "/name.file"
-RelativePath,       // file or folder depending on ending "**/lib/name.file", "**/name/"
-AllNamedFile,       // "name"
-AnyNamedFolder,     // "name/"
-Unknown
-#endif // XXXXXXX
+
 
 void IgnorePath::init()
 {
@@ -166,15 +160,7 @@ void IgnorePath::parseFolder(size_t cpos, size_t position)
        
     }
 }
-#ifdef XXXXXXX
 
-RelativeFilePath,   // "**/lib/name.file"
-RelativeFolderPath, // "**/name/"
-AllNamedFile,       // "name"
-AnyNamedFolder,     // "name/"
-Realative2Root,     // "/name.file", "lib/name.file", , "/lib/**/name"
-Unknown
-#endif // XXXXXXX
 bool IgnorePath::simplePattern()
 {
     int position = 0;
@@ -226,40 +212,24 @@ The path to be matched will be in the form:
 bool IgnorePath::match(const char* path)
 {
     std::string filePath = path;
-    std::vector<std::string> matchList;
-
-    std::replace(filePath.begin(), filePath.end(), '\\', '/');
-    std::string str = filePath.substr(0, 2);
-    if (matchDrive(str) == false) {
-        return false;
+    
+    bool rootPathSep = (filePath[2] == '/');
+    switch (m_patternType) {
+    case PatternType::AbsolutePath:
+        return absolutePath(filePath);
+    case PatternType::RelativePath:
+        return relativePath(filePath);
+    case PatternType::AnyNamedFile:
+        return anyNamedFile(filePath);
+    case PatternType::AnyNamedFolder:
+        return anyNamedFolder(filePath);
+    case PatternType::AnyMatch:
+        return anyMatch(filePath);
+    case PatternType::Unknown:
+    default:
+        break;
     }
-    size_t position = 3, currentPosition = 3;
-    while (currentPosition != std::string::npos)
-    {
-
-        currentPosition = filePath.find_first_of('/', position);
-
-        if (currentPosition == std::string::npos) {
-            if (!m_anyFile) {
-                std::string str = filePath.substr(position, currentPosition - position);
-                if (matchFile(str) == false) {
-                    return false;
-                }
-            }
-        }
-        else {
-            std::string str = filePath.substr(position, currentPosition - position);
-            matchList.push_back(str);
-
-        }
-        //directories.push_back(filePath.substr(position, currentPosition - position));
-        position = currentPosition + 1;
-    }
-    if (matchFolder(matchList) == false) {
-        return false;
-    }
-
-    return true;
+    return false;
 }
 
 bool IgnorePath::matchDrive(std::string& str)
@@ -289,10 +259,11 @@ bool IgnorePath::matchFolder(std::vector<std::string> matchList)
         // rel path
     }
     else {
-        if (matchList.size() != m_folderList.size()) {
+        // abs match
+        if (matchList.size() < m_folderList.size()) {
             return false;
         }
-        for (int i = 0; i < matchList.size(); i++) {
+        for (int i = 0; i < m_folderList.size(); i++) {
             if (matchList[i] != m_folderList[i]) {
                 return false;
             }
@@ -329,4 +300,60 @@ const char* IgnorePath::patternTypeString()
 }
 
 
+bool IgnorePath::absolutePath(std::string &filePath)
+{
+    std::vector<std::string> matchList;
+    matchList.push_back("/");
+    std::replace(filePath.begin(), filePath.end(), '\\', '/');
+    std::string str = filePath.substr(0, 2);
+    if (matchDrive(str) == false) {
+        return false;
+    }
+    size_t position = 3, currentPosition = 3;
+    while (currentPosition != std::string::npos)
+    {
+
+        currentPosition = filePath.find_first_of('/', position);
+
+        if (currentPosition == std::string::npos) {
+            if (!m_anyFile) {
+                std::string str = filePath.substr(position, currentPosition - position);
+                if (matchFile(str) == false) {
+                    return false;
+                }
+            }
+        }
+        else {
+            std::string str = filePath.substr(position, currentPosition - position);
+            matchList.push_back(str);
+
+        }
+        //directories.push_back(filePath.substr(position, currentPosition - position));
+        position = currentPosition + 1;
+    }
+    if (matchFolder(matchList) == false) {
+        return false;
+    }
+    return true;
+}
+
+bool IgnorePath::relativePath(std::string& filePath)
+{
+    return true;
+}
+
+bool IgnorePath::anyNamedFile(std::string& filePath)
+{
+    return true;
+}
+
+bool IgnorePath::anyNamedFolder(std::string& filePath)
+{
+    return true;
+}
+
+bool IgnorePath::anyMatch(std::string& filePath)
+{
+    return true;
+}
 

@@ -6,7 +6,7 @@
 #include "IgnorePath.h"
 
 
-#ifdef XXXXX
+//#ifdef XXXXX
 // All name files, name folders, and files and folders in any name folder
 
 TEST(TestCaseName, TestIgnorePath0)
@@ -17,12 +17,13 @@ TEST(TestCaseName, TestIgnorePath0)
     std::string no_match2 = "e:\\Windows\\system32\\";
 
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str(), 10, "ignore.ign");
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
 
-
+    EXPECT_TRUE(iqnorePath1.match(match1.c_str()));
+    EXPECT_TRUE(iqnorePath1.match(no_match2.c_str()));
 
 }
 
@@ -38,7 +39,7 @@ TEST(TestCaseName, TestIgnorePath1)
     std::string match2 = "/name/file.txt";
     std::string match3 = "/lib/name.log";
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str());
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
@@ -82,7 +83,7 @@ TEST(TestCaseName, TestIgnorePath4)
     std::string match1 = "/name.file";
     std::string no_match2 = "/lib/name.file";
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str(), 10, "ignore.ign");
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
@@ -101,7 +102,7 @@ TEST(TestCaseName, TestIgnorePath5)
     std::string no_match1 = "name.file";
     std::string no_match2 = "/test/lib/name.file";
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str());
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
@@ -118,7 +119,7 @@ TEST(TestCaseName, TestIgnorePath6)
     std::string match1 = "/lib/name.file";
     std::string match2 = "/test/lib/name.file";
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str(), 10, "ignore.ign");
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
@@ -135,7 +136,7 @@ TEST(TestCaseName, TestIgnorePath7)
     std::string match2 = "/lib/name/log.file";
     std::string match3 = "/name/lib/log.file";
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str(), 10, "ignore.ign");
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
@@ -154,7 +155,7 @@ TEST(TestCaseName, TestIgnorePath8)
 
     std::string no_match1 = "/name/log.file";
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str(), 10, "ignore.ign");
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
@@ -171,7 +172,7 @@ TEST(TestCaseName, TestIgnorePath9)
     std::string match1 = "/name.file";
     std::string match2 = "/lib/name.file";
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str(), 10, "ignore.ign");
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
@@ -187,7 +188,7 @@ TEST(TestCaseName, TestIgnorePath10)
     std::string match1 = "/lastname/log.file";
     std::string match2 = "/firstname/log.file";
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str(), 10, "ignore.ign");
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
@@ -205,7 +206,7 @@ TEST(TestCaseName, TestIgnorePath11)
 
     std::string no_match1 = "/names1.file";
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str(), 10, "ignore.ign");
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
@@ -224,7 +225,7 @@ TEST(TestCaseName, TestIgnorePath12)
 
     std::string no_match1 = "/name1.file";
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str(), 10, "ignore.ign");
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
@@ -243,7 +244,7 @@ TEST(TestCaseName, TestIgnorePath13)
 
     std::string no_match1 = "/names.file";
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str(), 10, "ignore.ign");
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
@@ -261,7 +262,7 @@ TEST(TestCaseName, TestIgnorePath14)
 
     std::string no_match1 = "/namesb.file";
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str(), 10, "ignore.ign");
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
@@ -281,7 +282,7 @@ TEST(TestCaseName, TestIgnorePath15)
 
     std::string no_match1 = "/name/secret.log";
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str(), 10, "ignore.ign");
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
@@ -301,7 +302,7 @@ TEST(TestCaseName, TestIgnorePath16)
 
     std::string no_match1 = "/name/secret.log";
 
-    IqnorePath iqnorePath1(pattern.c_str());
+    IgnorePath iqnorePath1(pattern.c_str(), 10, "ignore.ign");
     iqnorePath1.print();
     std::cout << "Pattern: \"" << pattern << "\" Match: \"" << match1 <<
         ((iqnorePath1.match(match1.c_str())) ? "\" True" : "\" False") << std::endl;
@@ -310,21 +311,21 @@ TEST(TestCaseName, TestIgnorePath16)
 
 TEST(TestCaseName, TestIgnorePath17) {
 
-    IqnorePath iqnorePath1("$(HOMEDRIVE)$(HOMEPATH)\\ImgArchive\\Pictures\\junk.txt");
+    IgnorePath iqnorePath1("$(HOMEDRIVE)$(HOMEPATH)\\ImgArchive\\Pictures\\junk.txt", 10, "ignore.ign");
     iqnorePath1.print();
     std::cout << "C:\\Users\\Iain Ferguson\\ImgArchive\\Pictures\\2017: " <<
         ((iqnorePath1.match("C:\\Users\\Iain Ferguson\\ImgArchive\\Pictures\\junk.txt")) ? "True" : "False") << std::endl;
 
 
-    IqnorePath iqnorePath2("$(ProgramFiles)\\.git\\*");
-    IqnorePath iqnorePath3("*:\\Windows\\System32\\*");
-    //IqnorePath iqnorePath4("c:\\*\\ttt\\.git\\*\\g");
-    //IqnorePath iqnorePath5("c?\\*\\ttt\\.git\\*\\ggg.gg");
+    IgnorePath iqnorePath2("$(ProgramFiles)\\.git\\*", 10, "ignore.ign");
+    IgnorePath iqnorePath3("*:\\Windows\\System32\\*", 10, "ignore.ign");
+    //IgnorePath iqnorePath4("c:\\*\\ttt\\.git\\*\\g");
+    //IgnorePath iqnorePath5("c?\\*\\ttt\\.git\\*\\ggg.gg");
 
     
 }
 
-#endif
+//#endif
 
 TEST(TestCaseName, TestIgnoreList) {
     IgnoreList ignoreList;

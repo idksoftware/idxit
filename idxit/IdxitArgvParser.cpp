@@ -28,19 +28,20 @@ void  IdxitArgvParser::defineOptions() {
 	addErrorCode(2, "Errors");
 	addErrorCode(3, "Fatal");
 
-	setIntroductoryDescription("iaarc - Image archive client provides the means to operate IdxIt from the command line");
+	setIntroductoryDescription("idxit - Is a command line tool for indexing storage devices");
 
 	setHelpOption();
 
 	// Subcommands
 	defineOption("scan", "scan for new images in the file sytem. Output to a jounal file.", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("scan", "iaarc scan [--source-path=<path>]\n\t"
-		"[--format-type=<output format>]\n\t[--file=<jounal file path>");
+	defineCommandSyntax("scan", "idxit scan [--source-path=<path>]\n\t"
+		"[--format-type=<output format>]\n\t[--index-file=<index file path>");
 
-	defineOption("define", "define index creation.", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("define", "iaarc define [--source-path=<path>]\n\t"
+	defineOption("define", "An index definition.", ArgvParser::OptionAttributes::MasterOption);
+	defineCommandSyntax("define", "idxit define [--source-path=<path>]\n\t"
 		"[--comment=<comment text>]\n\t[--lightroom=<On|Off>]");
 
+	/*
 	defineOption("checkout", "Checkout images from archive to workspace.", ArgvParser::OptionAttributes::MasterOption);
 	defineCommandSyntax("checkout", "iaarc checkout [--target-path=<path>]\n\t"
 		"[--comment=<comment text>]\n\t[--scope=<scope-address]\n\t[--force=<yes|No>]\n\t[--version=<vesion-num>");
@@ -99,7 +100,7 @@ void  IdxitArgvParser::defineOptions() {
 	defineCommandSyntax("journal", "iaarc journal [--image=<image-address]");
 
 	defineOption("mode", "Sets the mode in which imgarchive will be operating", ArgvParser::OptionAttributes::MasterOption);
-
+	*/
 	defineOption("about", "prints this version information", ArgvParser::OptionAttributes::MasterOption);
 	defineCommandSyntax("about", "about [--out]\n\t[--file]\n");
 
@@ -107,10 +108,14 @@ void  IdxitArgvParser::defineOptions() {
 	defineOption("b", "Goes through the motions of running the subcommand but makes no\nactual changes ether disk or repository.", ArgvParser::OptionAttributes::NoOptionAttribute);
 	defineOptionAlternative("b", "backup");
 	*/
-	defineOption("set", "Sets a metadata property:value", ArgvParser::OptionAttributes::OptionRequiresValue);
+	//defineOption("set", "Sets a metadata property:value", ArgvParser::OptionAttributes::OptionRequiresValue);
 	//defineOptionAlternative("set", "set-prop");
-	defineCommandSyntax("set", "iaarc workspace [--sync]\n\t[--logging-level=<level>]");
+	//defineCommandSyntax("set", "iaarc workspace [--sync]\n\t[--logging-level=<level>]");
 	//	"[--comment=<comment text>]\n\t[--scope=<scope-address]\n\t[--force=<yes|No>]");
+
+	defineOption("index-file", "Path to index file.", ArgvParser::OptionAttributes::OptionRequiresValue);
+	defineCommandSyntax("index-file", "index-file=<path/filename>\n");
+
 
 
 	defineOption("n", "name of the view.", ArgvParser::OptionAttributes::OptionRequiresValue);
@@ -128,23 +133,23 @@ void  IdxitArgvParser::defineOptions() {
 	defineOption("p", "source of the images", ArgvParser::OptionAttributes::OptionRequiresValue);
 	defineOptionAlternative("p", "source-path");
 
-	defineOption("L", "import from lightroom", ArgvParser::OptionAttributes::NoOptionAttribute);
-	defineOptionAlternative("L", "lightroom");
+	defineOption("g", "group of media file types", ArgvParser::OptionAttributes::OptionRequiresValue);
+	defineOptionAlternative("g", "group");
 
-	defineOption("A", "address scope", ArgvParser::OptionAttributes::OptionRequiresValue);
-	defineOptionAlternative("A", "scope");
+	//defineOption("A", "address scope", ArgvParser::OptionAttributes::OptionRequiresValue);
+	//defineOptionAlternative("A", "scope");
 
-	defineOption("R", "Remode server mode", ArgvParser::OptionAttributes::NoOptionAttribute);
-	defineOptionAlternative("R", "remote-server");
+	//defineOption("R", "Remode server mode", ArgvParser::OptionAttributes::NoOptionAttribute);
+	//defineOptionAlternative("R", "remote-server");
 
-	defineOption("d", "destination of the images", ArgvParser::OptionAttributes::OptionRequiresValue);
-	defineOptionAlternative("d", "dist-path");
+	//defineOption("d", "destination of the images", ArgvParser::OptionAttributes::OptionRequiresValue);
+	//defineOptionAlternative("d", "dist-path");
 
-	defineOption("a", "archive", ArgvParser::OptionAttributes::NoOptionAttribute);
-	defineOptionAlternative("a", "archive");
+	//defineOption("a", "archive", ArgvParser::OptionAttributes::NoOptionAttribute);
+	//defineOptionAlternative("a", "archive");
 
 
-	defineOption("image", "Specifies a image address in the form \"<date>/<image name>", ArgvParser::OptionAttributes::OptionRequiresValue);
+	//defineOption("image", "Specifies a image address in the form \"<date>/<image name>", ArgvParser::OptionAttributes::OptionRequiresValue);
 	//defineOptionAlternative("i", "image");
 
 	defineOption("F", "no output is sent to the terminal.", ArgvParser::OptionAttributes::NoOptionAttribute);
@@ -193,6 +198,8 @@ void  IdxitArgvParser::defineOptions() {
 	defineOption("file", "output file name.", ArgvParser::OptionAttributes::OptionRequiresValue);
 	defineCommandSyntax("file", "file=<filename>\n");
 
+	
+
 	defineOption("force-date", "Overrides all dates found associated with the images in the selection", ArgvParser::OptionAttributes::OptionRequiresValue);
 	defineOption("default-date", "Uses this date if none found associated with an image", ArgvParser::OptionAttributes::OptionRequiresValue);
 
@@ -207,12 +214,13 @@ void  IdxitArgvParser::defineOptions() {
 	
 	defineCommandOption("scan", "source-path");
 	defineCommandOption("scan", "format-type");
-	defineCommandOption("scan", "file");
+	defineCommandOption("scan", "index-file");
 	
 	defineCommandOption("define", "comment");
 	defineCommandOption("define", "source-path");
-	defineCommandOption("define", "lightroom");
+	
 
+	/*
 	defineCommandOption("checkin", "comment");
 	defineCommandOption("checkin", "scope");
 	defineCommandOption("checkin", "force");
@@ -291,7 +299,7 @@ void  IdxitArgvParser::defineOptions() {
 	defineCommandOption("log", "file");
 
 	//defineCommandOption("mode", "");
-
+	*/
 }
 
 

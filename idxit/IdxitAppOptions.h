@@ -216,7 +216,7 @@ private:
 	static CommandMode m_commandMode;
 	static std::string m_name;
 	static std::string m_comment;
-	static std::string m_imageAddress;
+	static std::string m_groupFile;
 	static std::string m_sourcePath;
 	static std::string m_distinationPath;
 	static std::string m_filePath;
@@ -264,7 +264,7 @@ public:
     //* Get the current comment text
 	const char *getComment();
     //* Get current image address
-	const char *getImageAddress();
+	const char *getGroupFile();
 	//* Get Versions
 	const char* getVersions();
 	//* Get Source import path

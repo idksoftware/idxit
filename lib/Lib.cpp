@@ -186,17 +186,21 @@ namespace simplearchive {
 
 		virtual bool onFile(const char* path)
 		{
-
+			CLogger& logger = CLogger::getLogger();
 
 			std::string p = path;
 			//fileInfo.print();
 			if (m_xmlFileInfoWriter != nullptr) {
-				printf("Processing File: % s\n", path);
+																  
 				if (m_fileFilterOn) {
 					if (matchFile(p)) {
 
 						FileInfo fileInfo(p);
 						m_xmlFileInfoWriter->add(fileInfo);
+						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing File: %s - File was included", path);
+					}
+					else {
+						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing File: %s - File was excluded", path);
 					}
 				}
 				else {
@@ -209,14 +213,20 @@ namespace simplearchive {
 
 		virtual bool onDirectory(const char* path)
 		{
-			printf("Dir: %s\n", path);
+			CLogger& logger = CLogger::getLogger();
+			
 			std::string p = path;
 			//fileInfo.print();
 			if (m_xmlFileInfoWriter != nullptr) {
-				printf("Processing folder: % s\n", path);
+				
 				if (m_folderFilterOn) {
+
 					if (excludeFolder(p)) {
+						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing Folder: %s - Folder was included", path);
 						return true;
+					}
+					else {
+						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing Folder: %s - Folder was included", path);
 					}
 				}
 			}
@@ -244,7 +254,7 @@ namespace simplearchive {
 	using namespace std::filesystem;
 
 
-	bool IDXLib::scan(const char* sourePath, const char* tempPath)
+	bool IDXLib::scan(const char* sourePath, const char* idxPath, const char* groupFile, , const char* ignFile)
 	{
 
 		/*
@@ -258,18 +268,19 @@ namespace simplearchive {
 		*/
 
 
-		std::string distPath = "g:\\";
+		
 		//distPath += "local";
-		std::shared_ptr<TestVisitor> testVisitor_ptr = std::make_shared<TestVisitor>("c:\\temp\\test\\gdrive.xml");
+		std::shared_ptr<TestVisitor> testVisitor_ptr = std::make_shared<TestVisitor>(idxPath);
 		//testVisitor_ptr->addFilter("*.*");
 		//testVisitor_ptr->addFilter(".h");
 		//testVisitor_ptr->addFilter(".mp4");
-		testVisitor_ptr->addFolderFilter(".vs");
-		testVisitor_ptr->addFolderFilter("games");
-		//testVisitor_ptr->addFilter(".h");
+		//testVisitor_ptr->addFolderFilter(".vs");
+		//testVisitor_ptr->addFolderFilter("games");
+		testVisitor_ptr->addFileFilter(".h");
+		testVisitor_ptr->addFileFilter(".cpp");
 		//testVisitor_ptr->addFilter(".mp4");
 		DirectoryVisitor directoryVisitor(testVisitor_ptr);
-		directoryVisitor.process(distPath.c_str());
+		directoryVisitor.process(sourePath);
 		return true;
 	}
 
