@@ -2,6 +2,16 @@
 
 #include <string>
 #include <vector>
+#include <memory>
+
+class GroupItem {
+public:
+	GroupItem() = default;
+	~GroupItem() = default;
+	std::string m_ext;
+	std::string m_mediaType;
+	std::string m_discription;
+};
 
 class GroupFile {
 	//bool compare(std::string c1, std::string c2);
@@ -9,7 +19,7 @@ class GroupFile {
 	//bool insert(uint64_t idx, const char* imagePath, const char* name, uint64_t size,
 	//	uint64_t crc, const char* sha, const char* uuid, int version, ExifDate& date, uint64_t dbIdx);
 
-	std::vector<std::string> m_list;
+	std::vector<std::shared_ptr<GroupItem>> m_list;
 public:
 	GroupFile() = default;
 		
@@ -18,9 +28,6 @@ public:
 		
 	bool read(const char* datafile);
 	bool write(const char* datafile);
-	//bool update(uint64_t idx, const char* imagePath, const char* name, uint64_t size, uint64_t crc,
-	//	const char* sha, const char* uuid, int version, ExifDate& date, uint64_t dbidx);
-	//std::shared_ptr<IdxFileItem> find(uint64_t idx);
-	//uint64_t findLast();
-
+	
+	std::vector<std::shared_ptr<GroupItem>>& getList() { return m_list; };
 };

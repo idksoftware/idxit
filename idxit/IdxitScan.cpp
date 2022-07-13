@@ -29,51 +29,51 @@ namespace simplearchive {
 
 		if (getParser().foundOption("index-file") == true) {
 			std::string opt = getParser().optionValue("index-file");
-			appOptions.m_outputFile = opt;
+			appOptions.m_indexfile = opt;
 		}
 
 		if (getParser().foundOption("ign") == true) {
 			std::string opt = getParser().optionValue("ign");
-			appOptions.m_outputFile = opt;
+			appOptions.m_ignoreFile = opt;
 		}
 
 		if (getParser().foundOption("nousys") == true) {
-			std::string opt = getParser().optionValue("inclass");
-			appOptions.m_outputFile = opt;
+			std::string opt = getParser().optionValue("nousys");
+			appOptions.m_nousys = opt;
 		}
 
 		if (getParser().foundOption("nouser") == true) {
-			std::string opt = getParser().optionValue("inclass");
-			appOptions.m_outputFile = opt;
+			std::string opt = getParser().optionValue("nouser");
+			appOptions.m_nouser = opt;
 		}
 
 		if (getParser().foundOption("nosys") == true) {
-			std::string opt = getParser().optionValue("inclass");
-			appOptions.m_outputFile = opt;
+			std::string opt = getParser().optionValue("nosys");
+			appOptions.m_nosys = opt;
 		}
 
-		if (getParser().foundOption("inclass") == true) {
-			std::string opt = getParser().optionValue("inclass");
-			appOptions.m_outputFile = opt;
+		if (getParser().foundOption("inc-group") == true) {
+			std::string opt = getParser().optionValue("inc-group");
+			appOptions.m_incGroupFile = opt;
 		}
 
-		if (getParser().foundOption("exclass") == true) {
-			std::string opt = getParser().optionValue("exclass");
-			appOptions.m_outputFile = opt;
+		if (getParser().foundOption("exc-group") == true) {
+			std::string opt = getParser().optionValue("exc-group");
+			appOptions.m_excGroupFile = opt;
 		}
 
 		if (getParser().foundOption("show-def") == true) {
-			std::string opt = getParser().optionValue("inclass");
+			std::string opt = getParser().optionValue("show-def");
 			appOptions.m_outputFile = opt;
 		}
 
 		if (getParser().foundOption("show-def-all") == true) {
-			std::string opt = getParser().optionValue("inclass");
+			std::string opt = getParser().optionValue("show-def-all");
 			appOptions.m_outputFile = opt;
 		}
 
 		if (getParser().foundOption("def-file") == true) {
-			std::string opt = getParser().optionValue("inclass");
+			std::string opt = getParser().optionValue("def-file");
 			appOptions.m_outputFile = opt;
 		}
 
@@ -90,3 +90,16 @@ namespace simplearchive {
 		return true;
 	}
 }
+
+			m_indexfile = opt;
+			appOptions.m_ignoreFile = opt;
+		
+			appOptions.m_nousys = opt;
+		
+			appOptions.m_nouser = opt;
+		
+			appOptions.m_nosys = opt;
+		
+			appOptions.m_incGroupFile = opt;
+		
+			appOptions.m_excGroupFile = opt;

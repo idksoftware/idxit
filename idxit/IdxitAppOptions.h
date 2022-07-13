@@ -220,6 +220,13 @@ private:
 	static std::string m_sourcePath;
 	static std::string m_distinationPath;
 	static std::string m_filePath;
+	static std::string m_indexfile;
+	static std::string m_ignoreFile;
+	static bool m_nousys;
+	static bool m_nouser;
+	static bool m_nosys;
+	static std::string m_incGroupFile;
+	static std::string m_excGroupFile;
 	//static ResultsPresentation::FormatType m_formatType;
 	static std::string m_version;
     static std::string m_FromDate;

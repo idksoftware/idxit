@@ -48,6 +48,7 @@
 #include "HistoryEvent.h"
 
 #include "HookCmd.h"
+#include "GroupFile.h"
 
 #include "SummaryFile.h"
 #include "CIDKDate.h"
@@ -254,7 +255,7 @@ namespace simplearchive {
 	using namespace std::filesystem;
 
 
-	bool IDXLib::scan(const char* sourePath, const char* idxPath, const char* groupFile, , const char* ignFile)
+	bool IDXLib::scan(const char* sourePath, const char* idxPath, const char* m_ignoreFile, bool nousys, bool nouser, bool nosys, const char* incGroupFile, const char* excGroupFile)
 	{
 
 		/*
@@ -266,11 +267,26 @@ namespace simplearchive {
 				storage.add(fileInfo);
 			}
 		*/
+		if (idxPath == nullptr) {
+			return false;
+		}
+		std::shared_ptr<TestVisitor> testVisitor_ptr = std::make_shared<TestVisitor>(idxPath);
 
-
+		if (incGroupFile != nullptr) {
+			GroupFile group;
+			if (group.read(incGroupFile) == false) {
+				return false;
+			}
+			std::vector<std::shared_ptr<GroupItem>>& list = group.getList();
+			for (auto i = list) {
+				std::shared_ptr<GroupItem> item = i*;
+				testVisitor_ptr->addFileFilter(item->m_ext.c_str());
+			}
+		}
+		
 		
 		//distPath += "local";
-		std::shared_ptr<TestVisitor> testVisitor_ptr = std::make_shared<TestVisitor>(idxPath);
+		
 		//testVisitor_ptr->addFilter("*.*");
 		//testVisitor_ptr->addFilter(".h");
 		//testVisitor_ptr->addFilter(".mp4");
