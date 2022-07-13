@@ -32,8 +32,48 @@ namespace simplearchive {
 			appOptions.m_outputFile = opt;
 		}
 
-		if (getParser().foundOption("group") == true) {
-			std::string opt = getParser().optionValue("group");
+		if (getParser().foundOption("ign") == true) {
+			std::string opt = getParser().optionValue("ign");
+			appOptions.m_outputFile = opt;
+		}
+
+		if (getParser().foundOption("nousys") == true) {
+			std::string opt = getParser().optionValue("inclass");
+			appOptions.m_outputFile = opt;
+		}
+
+		if (getParser().foundOption("nouser") == true) {
+			std::string opt = getParser().optionValue("inclass");
+			appOptions.m_outputFile = opt;
+		}
+
+		if (getParser().foundOption("nosys") == true) {
+			std::string opt = getParser().optionValue("inclass");
+			appOptions.m_outputFile = opt;
+		}
+
+		if (getParser().foundOption("inclass") == true) {
+			std::string opt = getParser().optionValue("inclass");
+			appOptions.m_outputFile = opt;
+		}
+
+		if (getParser().foundOption("exclass") == true) {
+			std::string opt = getParser().optionValue("exclass");
+			appOptions.m_outputFile = opt;
+		}
+
+		if (getParser().foundOption("show-def") == true) {
+			std::string opt = getParser().optionValue("inclass");
+			appOptions.m_outputFile = opt;
+		}
+
+		if (getParser().foundOption("show-def-all") == true) {
+			std::string opt = getParser().optionValue("inclass");
+			appOptions.m_outputFile = opt;
+		}
+
+		if (getParser().foundOption("def-file") == true) {
+			std::string opt = getParser().optionValue("inclass");
 			appOptions.m_outputFile = opt;
 		}
 
