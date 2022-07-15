@@ -86,7 +86,7 @@ namespace simplearchive {
 		void start();
 		int complete();
 		//int complete();
-		bool scan(const char* sourePath, const char* idxPath, const char* groupFile, const char* ignFile);
+		bool scan(const char* sourePath, const char* idxPath, const char* m_ignoreFile, bool nousys, bool nouser, bool nosys, const char* incGroupFile, const char* excGroupFile);
 
 		
 		static const int getLastCode();

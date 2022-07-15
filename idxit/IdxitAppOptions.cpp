@@ -68,10 +68,18 @@ bool IdxitAppOptions::m_master = false;
 std::string IdxitAppOptions::m_name;
 IdxitAppOptions::CommandMode IdxitAppOptions::m_commandMode = IdxitAppOptions::CommandMode::CM_Unknown;
 std::string IdxitAppOptions::m_comment;
-std::string IdxitAppOptions::m_groupFile;
+
 std::string IdxitAppOptions::m_sourcePath;
 std::string IdxitAppOptions::m_distinationPath;
 std::string IdxitAppOptions::m_filePath;
+std::string IdxitAppOptions::m_indexfile;
+std::string IdxitAppOptions::m_ignoreFile;
+bool IdxitAppOptions::m_nousys = false;
+bool IdxitAppOptions::m_nouser = false;
+bool IdxitAppOptions::m_nosys = false;
+std::string IdxitAppOptions::m_incGroupFile;
+std::string IdxitAppOptions::m_excGroupFile;
+
 std::string IdxitAppOptions::m_version = "@";
 std::string IdxitAppOptions::m_FromDate;
 std::string IdxitAppOptions::m_ToDate;
@@ -120,9 +128,6 @@ void IdxitAppOptions::setName(const char *name) {
 
 const char *IdxitAppOptions::getComment() {
 	return m_comment.c_str();
-}
-const char *IdxitAppOptions::getGroupFile() {
-	return m_groupFile.c_str();
 }
 
 const char* IdxitAppOptions::getVersions() {

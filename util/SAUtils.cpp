@@ -386,6 +386,13 @@ bool SAUtils::isEquals(const std::string& a, const std::string& b)
 		});
 }
 
+bool SAUtils::boolOptionValue(BoolOption b) {
+	if (b == BoolOption::True) return true;
+	if (b == BoolOption::False) return false;
+	throw std::exception();
+	return false;
+}
+
 BoolOption SAUtils::isTrueFalse(std::string& s)
 {
 	if (isEquals("enabled", s) || isEquals("true", s) || isEquals("on", s) || isEquals("yes", s))

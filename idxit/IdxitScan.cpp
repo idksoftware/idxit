@@ -39,17 +39,35 @@ namespace simplearchive {
 
 		if (getParser().foundOption("nousys") == true) {
 			std::string opt = getParser().optionValue("nousys");
-			appOptions.m_nousys = opt;
+			BoolOption bo = SAUtils::isTrueFalse(opt);
+			if (bo == BoolOption::Invalid) {
+				printf("Invalid argument for \"nousys\" \"%s\"\n\n", opt.c_str());
+				printf("%s", getParser().topicUsageDescription(getParser().getCurrentCommandId(), 80).c_str());
+				return false;
+			}
+			appOptions.m_nousys = SAUtils::boolOptionValue(bo);
 		}
 
 		if (getParser().foundOption("nouser") == true) {
 			std::string opt = getParser().optionValue("nouser");
-			appOptions.m_nouser = opt;
+			BoolOption bo = SAUtils::isTrueFalse(opt);
+			if (bo == BoolOption::Invalid) {
+				printf("Invalid argument for \"nousys\" \"%s\"\n\n", opt.c_str());
+				printf("%s", getParser().topicUsageDescription(getParser().getCurrentCommandId(), 80).c_str());
+				return false;
+			}
+			appOptions.m_nouser = SAUtils::boolOptionValue(bo);
 		}
 
 		if (getParser().foundOption("nosys") == true) {
 			std::string opt = getParser().optionValue("nosys");
-			appOptions.m_nosys = opt;
+			BoolOption bo = SAUtils::isTrueFalse(opt);
+			if (bo == BoolOption::Invalid) {
+				printf("Invalid argument for \"nousys\" \"%s\"\n\n", opt.c_str());
+				printf("%s", getParser().topicUsageDescription(getParser().getCurrentCommandId(), 80).c_str());
+				return false;
+			}
+			appOptions.m_nosys = SAUtils::boolOptionValue(bo);
 		}
 
 		if (getParser().foundOption("inc-group") == true) {
@@ -90,16 +108,3 @@ namespace simplearchive {
 		return true;
 	}
 }
-
-			m_indexfile = opt;
-			appOptions.m_ignoreFile = opt;
-		
-			appOptions.m_nousys = opt;
-		
-			appOptions.m_nouser = opt;
-		
-			appOptions.m_nosys = opt;
-		
-			appOptions.m_incGroupFile = opt;
-		
-			appOptions.m_excGroupFile = opt;

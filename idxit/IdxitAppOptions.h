@@ -216,7 +216,7 @@ private:
 	static CommandMode m_commandMode;
 	static std::string m_name;
 	static std::string m_comment;
-	static std::string m_groupFile;
+	
 	static std::string m_sourcePath;
 	static std::string m_distinationPath;
 	static std::string m_filePath;
@@ -303,6 +303,15 @@ public:
 	bool isCurrent();
 	bool isMaster();
 	ExifDate &getArchiveDate();
+
+	
+	static std::string getIndexfile() { return m_indexfile; };
+	static std::string getignoreFile() { return m_ignoreFile; };
+	static bool getnousys() { return m_nousys; };
+	static bool getnouser() { return m_nouser; };
+	static bool getnosys() { return m_nosys; };
+	static std::string getIncGroupFile() { return m_incGroupFile; };
+	static std::string getExcGroupFile() { return m_excGroupFile; };
 	//ResultsPresentation::FormatType& getFormatType();
     //* Ge The Show Command Option (only if the show command active).
 	ShowCommandOption getShowCommandOption() { return m_showCommandOption; };

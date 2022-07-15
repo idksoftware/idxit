@@ -220,7 +220,10 @@ bool IdxitApp::doRun()
 	case IdxitAppOptions::CommandMode::CM_Scan:
 	{
 		IDXLib idxLib;
-		return idxLib.scan(appOptions.getSourcePath(), appOptions.getOutputFile());
+
+		return idxLib.scan(appOptions.getSourcePath(), appOptions.getOutputFile(), appOptions.getignoreFile().c_str(),
+													appOptions.getnousys(), appOptions.getnouser(), appOptions.getnosys(),
+													appOptions.getIncGroupFile().c_str(), appOptions.getExcGroupFile().c_str());
 	}
 	case IdxitAppOptions::CommandMode::CM_Unknown:
 		setError( CLogger::getLastCode(), CLogger::getLastMessage());

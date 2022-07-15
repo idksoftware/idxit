@@ -255,9 +255,13 @@ namespace simplearchive {
 	using namespace std::filesystem;
 
 
-	bool IDXLib::scan(const char* sourePath, const char* idxPath, const char* m_ignoreFile, bool nousys, bool nouser, bool nosys, const char* incGroupFile, const char* excGroupFile)
+	bool IDXLib::scan(const char* sourcePath, const char* idxPath, const char* ignoreFile, bool nousys, bool nouser, bool nosys, const char* incGroupFile, const char* excGroupFile)
 	{
-
+		std::string sourcePathString = sourcePath;
+		std::string idxPathString = idxPath;
+		std::string ignoreFileString = ignoreFile;
+		std::string incGroupFileString = incGroupFile;
+		std::string excGroupFileString = excGroupFile;
 		/*
 			Storage::setPath("c://temp/vfs");
 			std::string p = "c://temp//test.txt";
@@ -272,14 +276,14 @@ namespace simplearchive {
 		}
 		std::shared_ptr<TestVisitor> testVisitor_ptr = std::make_shared<TestVisitor>(idxPath);
 
-		if (incGroupFile != nullptr) {
+		if (incGroupFile incGroupFile != nullptr) {
 			GroupFile group;
 			if (group.read(incGroupFile) == false) {
 				return false;
 			}
 			std::vector<std::shared_ptr<GroupItem>>& list = group.getList();
-			for (auto i = list) {
-				std::shared_ptr<GroupItem> item = i*;
+			for (auto i : list) {
+				std::shared_ptr<GroupItem> item = i;
 				testVisitor_ptr->addFileFilter(item->m_ext.c_str());
 			}
 		}

@@ -118,6 +118,7 @@ public:
 	static bool hasExt(const std::string& file);
 	static bool isEquals(const std::string& a, const std::string& b);
 	static BoolOption isTrueFalse(std::string& s);
+	static bool boolOptionValue(BoolOption b);
 	static bool mkDir(const char* path);
 	static bool isNumber(const std::string& s);
 	static bool setHidden(const char* path);
