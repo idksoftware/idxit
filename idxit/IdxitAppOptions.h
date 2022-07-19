@@ -305,13 +305,13 @@ public:
 	ExifDate &getArchiveDate();
 
 	
-	static std::string getIndexfile() { return m_indexfile; };
-	static std::string getignoreFile() { return m_ignoreFile; };
+	static const char *getIndexfile() { return (m_indexfile.length() == 0)? nullptr : m_indexfile.c_str(); };
+	static const char *getignoreFile() { return (m_ignoreFile.empty()) ? nullptr : m_ignoreFile.c_str(); };
 	static bool getnousys() { return m_nousys; };
 	static bool getnouser() { return m_nouser; };
 	static bool getnosys() { return m_nosys; };
-	static std::string getIncGroupFile() { return m_incGroupFile; };
-	static std::string getExcGroupFile() { return m_excGroupFile; };
+	static const char *getIncGroupFile() { return (m_incGroupFile.empty()) ? nullptr : m_incGroupFile.c_str(); };
+	static const char *getExcGroupFile() { return (m_excGroupFile.empty()) ? nullptr : m_excGroupFile.c_str(); };
 	//ResultsPresentation::FormatType& getFormatType();
     //* Ge The Show Command Option (only if the show command active).
 	ShowCommandOption getShowCommandOption() { return m_showCommandOption; };

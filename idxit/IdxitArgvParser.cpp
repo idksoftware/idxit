@@ -133,8 +133,12 @@ void  IdxitArgvParser::defineOptions() {
 	defineOption("p", "source of the images", ArgvParser::OptionAttributes::OptionRequiresValue);
 	defineOptionAlternative("p", "source-path");
 
-	defineOption("g", "group of media file types", ArgvParser::OptionAttributes::OptionRequiresValue);
-	defineOptionAlternative("g", "group");
+	defineOption("g", "group of media file types to include", ArgvParser::OptionAttributes::OptionRequiresValue);
+	defineOptionAlternative("g", "inc-group");
+
+	defineOption("g", "group of media file types to exclude", ArgvParser::OptionAttributes::OptionRequiresValue);
+	defineOptionAlternative("g", "exc-group");
+
 
 	//defineOption("A", "address scope", ArgvParser::OptionAttributes::OptionRequiresValue);
 	//defineOptionAlternative("A", "scope");
@@ -215,6 +219,8 @@ void  IdxitArgvParser::defineOptions() {
 	defineCommandOption("scan", "source-path");
 	defineCommandOption("scan", "format-type");
 	defineCommandOption("scan", "index-file");
+	defineCommandOption("scan", "inc-group");
+	defineCommandOption("scan", "exc-group");
 	
 	defineCommandOption("define", "comment");
 	defineCommandOption("define", "source-path");

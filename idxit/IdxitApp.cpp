@@ -221,9 +221,9 @@ bool IdxitApp::doRun()
 	{
 		IDXLib idxLib;
 
-		return idxLib.scan(appOptions.getSourcePath(), appOptions.getOutputFile(), appOptions.getignoreFile().c_str(),
+		return idxLib.scan(appOptions.getSourcePath(), appOptions.getIndexfile(), appOptions.getignoreFile(),
 													appOptions.getnousys(), appOptions.getnouser(), appOptions.getnosys(),
-													appOptions.getIncGroupFile().c_str(), appOptions.getExcGroupFile().c_str());
+													appOptions.getIncGroupFile(), appOptions.getExcGroupFile());
 	}
 	case IdxitAppOptions::CommandMode::CM_Unknown:
 		setError( CLogger::getLastCode(), CLogger::getLastMessage());
