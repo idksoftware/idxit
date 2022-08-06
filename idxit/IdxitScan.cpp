@@ -37,6 +37,19 @@ namespace simplearchive {
 			appOptions.m_ignoreFile = opt;
 		}
 
+		appOptions.m_scanHidden = false;
+		if (getParser().foundOption("scan-hidden") == true) {
+			std::string opt = getParser().optionValue("scan-hidden");
+			BoolOption bo = SAUtils::isTrueFalse(opt);
+			if (bo == BoolOption::Invalid) {
+				printf("Invalid argument for \"scan-hidden\" \"%s\"\n\n", opt.c_str());
+				printf("%s", getParser().topicUsageDescription(getParser().getCurrentCommandId(), 80).c_str());
+				return false;
+			}
+			appOptions.m_scanHidden = SAUtils::boolOptionValue(bo);
+		}
+
+		appOptions.m_nousys = false;
 		if (getParser().foundOption("nousys") == true) {
 			std::string opt = getParser().optionValue("nousys");
 			BoolOption bo = SAUtils::isTrueFalse(opt);
@@ -48,6 +61,7 @@ namespace simplearchive {
 			appOptions.m_nousys = SAUtils::boolOptionValue(bo);
 		}
 
+		appOptions.m_nouser = false;
 		if (getParser().foundOption("nouser") == true) {
 			std::string opt = getParser().optionValue("nouser");
 			BoolOption bo = SAUtils::isTrueFalse(opt);
@@ -59,6 +73,7 @@ namespace simplearchive {
 			appOptions.m_nouser = SAUtils::boolOptionValue(bo);
 		}
 
+		appOptions.m_nosys = false;
 		if (getParser().foundOption("nosys") == true) {
 			std::string opt = getParser().optionValue("nosys");
 			BoolOption bo = SAUtils::isTrueFalse(opt);

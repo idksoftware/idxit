@@ -164,7 +164,7 @@
     <ClCompile Include="FileVersion.cpp" />
     <ClCompile Include="FolderFilterFile.cpp" />
     <ClCompile Include="HomePaths.cpp" />
-    <ClCompile Include="ignorePath.cpp" />
+    <ClCompile Include="IgnorePattern.cpp" />
     <ClCompile Include="ImageEncode.cpp" />
     <ClCompile Include="ImageIndex.cpp" />
     <ClCompile Include="IgnoreList.cpp" />
@@ -216,7 +216,7 @@
     <ClInclude Include="FileInfo.h" />
     <ClInclude Include="FileVersion.h" />
     <ClInclude Include="FolderFilterFile.h" />
-    <ClInclude Include="ignorePath.h" />
+    <ClInclude Include="IgnorePattern.h" />
     <ClInclude Include="HomePaths.h" />
     <ClInclude Include="ImageEncode.h" />
     <ClInclude Include="ImageIndex.h" />

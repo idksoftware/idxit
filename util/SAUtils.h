@@ -122,6 +122,7 @@ public:
 	static bool mkDir(const char* path);
 	static bool isNumber(const std::string& s);
 	static bool setHidden(const char* path);
+	static bool isHidden(const char* path);
 	static bool copy(const char* from, const char* to);
 	static bool rename(const char* from, const char* to);
 	static bool verify(const char* from, const char* to);

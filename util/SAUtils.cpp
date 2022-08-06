@@ -452,6 +452,24 @@ bool SAUtils::setHidden(const char* path)
 	return true;
 }
 
+bool SAUtils::isHidden(const char* path)
+{
+#ifdef _WIN32
+	DWORD dwAttrs;
+
+	dwAttrs = GetFileAttributes(path);
+	if (dwAttrs == INVALID_FILE_ATTRIBUTES)
+	{
+		return false;
+	}
+	if ((dwAttrs & FILE_ATTRIBUTE_HIDDEN))
+	{
+		return true;
+	}
+#endif
+	return false;
+}
+
 #define BUFFER_SIZE 0x1000000
 
 bool SAUtils::fileCompare(const char* filePath1, const char* filePath2)

@@ -225,6 +225,7 @@ private:
 	static bool m_nousys;
 	static bool m_nouser;
 	static bool m_nosys;
+	static bool m_scanHidden;
 	static std::string m_incGroupFile;
 	static std::string m_excGroupFile;
 	//static ResultsPresentation::FormatType m_formatType;

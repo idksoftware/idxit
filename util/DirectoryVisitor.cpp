@@ -57,6 +57,7 @@
 #include <filesystem>
 #include "DirectoryVisitor.h"
 #include "SAUtils.h"
+#include "CLogger.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -126,6 +127,8 @@ bool DirectoryVisitor::process(const char *rf) {
 
 bool DirNode::process()
 {
+	CLogger& logger = CLogger::getLogger();
+
 	std::string path = m_dirpath;
 	
 	for (auto const& dir_entry : std::filesystem::directory_iterator{ path })
@@ -135,11 +138,18 @@ bool DirNode::process()
 		
 		if (std::filesystem::is_regular_file(p) == true) {
 			if (m_folderVisitor) {
-				m_folderVisitor->onFile(filename.c_str());
+				if (m_folderVisitor->onFile(filename.c_str()) == true) {
+					logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing File: %s - File was included", path);
+				}
+				else {
+					logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing File: %s - File was excluded", path);
+				}
 			}
 		} else {
 			if (m_folderVisitor) {
-				m_folderVisitor->onDirectory(filename.c_str());
+				if (m_folderVisitor->onDirectory(filename.c_str()) == false) {
+					continue;
+				}
 			}
 			if (m_folderVisitor != 0) {
 				m_dirNode = std::make_shared<DirNode> (nullptr, filename.c_str(), m_folderVisitor->make());

@@ -7,6 +7,6 @@
 #define LOG_PATH "/log"
 #define HISTORY_PATH "/history"
 #define BACKUP_PATH "/backup"
-#define Master_PATH "/Master"
+#define FILTERS_PATH "/filters"
 #define TOOLS_PATH "/tools"
 #define HOOKS_PATH "/hooks"

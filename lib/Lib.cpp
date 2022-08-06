@@ -76,6 +76,9 @@
 #include "DirectoryVisitor.h"
 
 #include "Storage.h"
+#include "IgnoreList.h"
+#include "DefinePaths.h"
+#include "HomePaths.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -99,6 +102,9 @@ namespace simplearchive {
 	class FileFilter : public std::vector<std::string> {
 	public:
 		bool match(std::string& ext) {
+			if (ext.empty()) {
+				return false;
+			}
 			for (auto i = begin(); i != end(); i++) {
 				if (i->compare(ext) == 0) {
 					return true;
@@ -127,10 +133,21 @@ namespace simplearchive {
 		std::string m_path;
 		static std::shared_ptr<XMLFileInfoWriter> m_xmlFileInfoWriter;
 		static std::shared_ptr<Storage> m_storage;
-		static std::shared_ptr<FileFilter> m_fileFilter;
-		static std::shared_ptr<FolderFilter> m_folderFilter;
-		static bool m_fileFilterOn;
-		static bool m_folderFilterOn;
+		static std::shared_ptr<FileFilter> m_incFileFilter;
+		static std::shared_ptr<FolderFilter> m_incFolderFilter;
+		static bool m_incFileFilterOn;
+		static bool m_incFolderFilterOn;
+		static std::shared_ptr<FileFilter> m_excFileFilter;
+		static std::shared_ptr<FolderFilter> m_excFolderFilter;
+		static bool m_excFileFilterOn;
+		static bool m_excFolderFilterOn;
+		static std::shared_ptr<IgnoreList> m_sysIgnoreList;
+		static std::shared_ptr<IgnoreList> m_usersysIgnoreList;
+		static std::shared_ptr<IgnoreList> m_userIgnoreList;
+		static bool m_sysIgnoreOn;
+		static bool m_usersysIgnoreOn;
+		static bool m_userIgnoreOn;
+		static bool m_scanHidden;
 	public:
 		TestVisitor() = default;
 		TestVisitor(const char* path) {
@@ -140,23 +157,61 @@ namespace simplearchive {
 			if (m_xmlFileInfoWriter == nullptr) {
 				m_xmlFileInfoWriter = std::make_shared<XMLFileInfoWriter>(path);
 			}
-			if (m_fileFilter == nullptr) {
-				m_fileFilter = std::make_shared<FileFilter>();
+			if (m_excFileFilter == nullptr) {
+				m_excFileFilter = std::make_shared<FileFilter>();
 			}
-			if (m_folderFilter == nullptr) {
-				m_folderFilter = std::make_shared<FolderFilter>();
+			if (m_incFolderFilter == nullptr) {
+				m_incFolderFilter = std::make_shared<FolderFilter>();
+			}
+			if (m_incFileFilter == nullptr) {
+				m_incFileFilter = std::make_shared<FileFilter>();
+			}
+			if (m_incFolderFilter == nullptr) {
+				m_incFolderFilter = std::make_shared<FolderFilter>();
+			}
+			if (m_sysIgnoreList == nullptr) {
+				m_sysIgnoreList = std::make_shared<IgnoreList>();
+			}
+			if (m_usersysIgnoreList == nullptr) {
+				m_usersysIgnoreList = std::make_shared<IgnoreList>();
+			}
+			if (m_userIgnoreList == nullptr) {
+				m_userIgnoreList = std::make_shared<IgnoreList>();
 			}
 		}
 
-		void addFileFilter(const char* ext) {
-			m_fileFilterOn = true;
-			m_fileFilter->push_back(ext);
+		void addIncFileFilter(const char* ext) {
+			m_incFileFilterOn = true;
+			m_incFileFilter->push_back(ext);
 		}
 
-		void addFolderFilter(const char* dir) {
-			m_folderFilterOn = true;
-			m_folderFilter->push_back(dir);
+		void addIncFolderFilter(const char* dir) {
+			m_incFolderFilterOn = true;
+			m_incFolderFilter->push_back(dir);
 		}
+
+		void addExcFileFilter(const char* ext) {
+			m_excFileFilterOn = true;
+			m_excFileFilter->push_back(ext);
+		}
+
+		void addExcFolderFilter(const char* dir) {
+			m_excFolderFilterOn = true;
+			m_excFolderFilter->push_back(dir);
+		}
+
+		void addSysIgnoreList(std::shared_ptr<IgnorePattern> ip) {
+			m_sysIgnoreOn = true;
+			std::shared_ptr<IgnorePattern> ipp = std::make_shared<IgnorePattern>(*ip);
+			m_sysIgnoreList->push_back(ipp);
+		}
+
+		void addUserSysIgnoreList(IgnorePattern& ip) {
+			m_usersysIgnoreOn = true;
+			std::shared_ptr<IgnorePattern> ipp = std::make_shared<IgnorePattern>(ip);
+			m_usersysIgnoreList->push_back(ipp);
+		}
+
 
 		virtual bool onStart(const char* path)
 		{
@@ -166,11 +221,21 @@ namespace simplearchive {
 			return true;
 		};
 
-		bool matchFile(std::string p) {
+		bool matchIncFile(std::string p) {
 			std::filesystem::path fullpath = p;
-			if (m_fileFilter != nullptr) {
+			if (m_incFileFilter != nullptr) {
 				std::string ext = fullpath.extension().string();
-				return m_fileFilter->match(ext);
+				if (ext.empty()) {
+					return false;
+				}
+				std::string noDotExt;
+				if (ext[0] == '.') {
+					noDotExt = ext.substr(1, ext.length() - 1);
+				}
+				else {
+					noDotExt = ext;
+				}
+				return m_incFileFilter->match(noDotExt);
 			}
 			return true;
 		}
@@ -178,9 +243,9 @@ namespace simplearchive {
 		bool excludeFolder(std::string p) {
 			std::filesystem::path fullpath = p;
 			std::string folder = fullpath.filename().string();
-			if (m_fileFilter != nullptr) {
+			if (m_excFileFilter != nullptr) {
 
-				return m_folderFilter->match(folder);
+				return m_excFolderFilter->match(folder);
 			}
 			return false;
 		}
@@ -192,23 +257,28 @@ namespace simplearchive {
 			std::string p = path;
 			//fileInfo.print();
 			if (m_xmlFileInfoWriter != nullptr) {
-																  
-				if (m_fileFilterOn) {
-					if (matchFile(p)) {
-
-						FileInfo fileInfo(p);
-						m_xmlFileInfoWriter->add(fileInfo);
-						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing File: %s - File was included", path);
+				if (SAUtils::isHidden(path)) {
+					if (m_scanHidden == false) {
+						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Found hidden File: %s Hidden files ignored", path);
+						return false;
+					}
+					logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Found hidden File: %s Hidden files to be included", path);
+				}												  
+				if (m_incFileFilterOn) {
+					if (matchIncFile(p)) {
+						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "File filter included: %s", path);
 					}
 					else {
-						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing File: %s - File was excluded", path);
+						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "File filter excluded:: %s", path);
+						return false;
 					}
 				}
 				else {
-					FileInfo fileInfo(p);
-					m_xmlFileInfoWriter->add(fileInfo);
+					logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "No file filter applied including: %s", path);
 				}
 			}
+			FileInfo fileInfo(p);
+			m_xmlFileInfoWriter->add(fileInfo);
 			return true;
 		};
 
@@ -219,8 +289,14 @@ namespace simplearchive {
 			std::string p = path;
 			//fileInfo.print();
 			if (m_xmlFileInfoWriter != nullptr) {
-				
-				if (m_folderFilterOn) {
+				if (SAUtils::isHidden(path)) {
+					if (m_scanHidden == false) {
+						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Found hidden File: %s Hidden files ignored", path);
+						return false;
+					}
+					logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Found hidden File: %s Hidden files to be included", path);
+				}
+				if (m_excFolderFilterOn) {
 
 					if (excludeFolder(p)) {
 						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing Folder: %s - Folder was included", path);
@@ -231,7 +307,9 @@ namespace simplearchive {
 					}
 				}
 			}
-			return false;
+			
+			
+			return true;
 		};
 
 		virtual bool onEnd()
@@ -247,21 +325,127 @@ namespace simplearchive {
 
 	std::shared_ptr<XMLFileInfoWriter> TestVisitor::m_xmlFileInfoWriter = nullptr;
 	std::shared_ptr<Storage> TestVisitor::m_storage = nullptr;
-	std::shared_ptr<FileFilter> TestVisitor::m_fileFilter = nullptr;
-	bool TestVisitor::m_fileFilterOn = false;
-	std::shared_ptr<FolderFilter> TestVisitor::m_folderFilter = nullptr;
-	bool TestVisitor::m_folderFilterOn = false;
+	std::shared_ptr<FileFilter> TestVisitor::m_incFileFilter = nullptr;
+	bool TestVisitor::m_incFileFilterOn = false;
+	std::shared_ptr<FolderFilter> TestVisitor::m_incFolderFilter = nullptr;
+	bool TestVisitor::m_incFolderFilterOn = false;
+	std::shared_ptr<FileFilter> TestVisitor::m_excFileFilter = nullptr;
+	bool TestVisitor::m_excFileFilterOn = false;
+	std::shared_ptr<FolderFilter> TestVisitor::m_excFolderFilter = nullptr;
+	bool TestVisitor::m_excFolderFilterOn = false;
+	std::shared_ptr<IgnoreList> TestVisitor::m_sysIgnoreList = nullptr;
+	bool TestVisitor::m_sysIgnoreOn = true;
+	std::shared_ptr<IgnoreList> TestVisitor::m_usersysIgnoreList = nullptr;
+	bool TestVisitor::m_usersysIgnoreOn = true;
+	std::shared_ptr<IgnoreList> TestVisitor::m_userIgnoreList = nullptr;
+	bool TestVisitor::m_scanHidden = false;
 
 	using namespace std::filesystem;
 
 
 	bool IDXLib::scan(const char* sourcePath, const char* idxPath, const char* ignoreFile, bool nousys, bool nouser, bool nosys, const char* incGroupFile, const char* excGroupFile)
 	{
-		std::string sourcePathString = sourcePath;
-		std::string idxPathString = idxPath;
-		std::string ignoreFileString = ignoreFile;
-		std::string incGroupFileString = incGroupFile;
-		std::string excGroupFileString = excGroupFile;
+		CLogger& logger = CLogger::getLogger();
+
+		if (sourcePath == nullptr) {
+			logger.log(LOG_COMPLETED, CLogger::Level::FATAL, "No source path found");
+			return false;
+		}
+		if (SAUtils::DirExists(sourcePath) == false) {
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Source path not found: %s", sourcePath);
+			return false;
+		}
+		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Source path found: %s", sourcePath);
+
+		if (idxPath == nullptr) {
+			logger.log(LOG_COMPLETED, CLogger::Level::FATAL, "No Index output file found");
+			return false;
+		}
+		if (SAUtils::FileExists(idxPath) == false) {
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Index output file not found: %s", idxPath);
+			return false;
+		}
+		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Index output file found: %s", idxPath);
+
+		IgnoreList ignoreList;
+		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "No system ignore {nosys) set: %s", (nosys) ? "True - file will not be read" : "False - file will be read");
+		if (nosys == false) {
+			std::string homePath = IdxItHome::getIdxItHome();
+			std::string filterPath = homePath;
+			filterPath += FILTERS_PATH;
+			filterPath += "/sys.ign";
+			ignoreList.read(filterPath.c_str());
+			// read system ignore file
+			//logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Reading system ignore file: %s", (nosys)?"True":"False");
+		}
+
+		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "No user system ignore (nousys): %s", (nousys) ? "True - file will not be read" : "False - file will be read");
+		if (nousys == false) {
+			// read system ignore file
+			//logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "No user system ignore: %s", (nousys) ? "True" : "False");
+		}
+
+		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "No user scanning (nousys): %s", (nousys) ? "True - user space will not be scanned" : "False - user space will be scanned");
+		if (nouser == false) {
+			// read system ignore file
+			//logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "No user scanning: %s", (nousys) ? "True" : "False");
+		}
+
+		if (ignoreFile != nullptr) {
+		
+			if (SAUtils::FileExists(ignoreFile) == false) {
+				logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Ignore file path not found: %s", ignoreFile);
+				return false;
+			}
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Ignore file found: %s", ignoreFile);
+		}
+		else {
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Ignore file not  enabled");
+		}
+		GroupFile group;
+		if (incGroupFile != nullptr) {
+
+			if (SAUtils::FileExists(incGroupFile) == false) {
+				logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Include group file path not found: %s", incGroupFile);
+				return false;
+			}
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Include group file found: %s", incGroupFile);
+			
+			if (group.read(incGroupFile) == false) {
+				return false;
+			}
+			
+		}
+		else {
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Include group file not enabled");
+		}
+
+		
+
+		if (excGroupFile != nullptr) {
+
+			if (SAUtils::FileExists(excGroupFile) == false) {
+				logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Exclude group file path not found: %s", excGroupFile);
+				return false;
+			}
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Exclude group file found: %s", excGroupFile);
+		}
+		else {
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Exclude group file not enabled");
+
+			if (group.read(excGroupFile) == false) {
+				return false;
+			}
+		}
+		
+		
+		//bool nousys, bool nouser, bool nosys,
+
+
+		
+		//std::string ignoreFileString = ignoreFile;
+		//std::string incGroupFileString = incGroupFile;
+		//std::string excGroupFileString = excGroupFile;
 		/*
 			Storage::setPath("c://temp/vfs");
 			std::string p = "c://temp//test.txt";
@@ -271,36 +455,22 @@ namespace simplearchive {
 				storage.add(fileInfo);
 			}
 		*/
-		if (idxPath == nullptr) {
-			return false;
-		}
+		
 		std::shared_ptr<TestVisitor> testVisitor_ptr = std::make_shared<TestVisitor>(idxPath);
 
-		if (incGroupFile incGroupFile != nullptr) {
-			GroupFile group;
-			if (group.read(incGroupFile) == false) {
-				return false;
-			}
-			std::vector<std::shared_ptr<GroupItem>>& list = group.getList();
-			for (auto i : list) {
-				std::shared_ptr<GroupItem> item = i;
-				testVisitor_ptr->addFileFilter(item->m_ext.c_str());
-			}
+		std::vector<std::shared_ptr<GroupItem>>& list = group.getList();
+		for (auto i : list) {
+			std::shared_ptr<GroupItem> item = i;
+			testVisitor_ptr->addIncFileFilter(item->m_ext.c_str());
+		}
+
+		for (auto i : ignoreList) {
+			std::shared_ptr<IgnorePattern> item = i;
+			testVisitor_ptr->addSysIgnoreList(item);
 		}
 		
-		
-		//distPath += "local";
-		
-		//testVisitor_ptr->addFilter("*.*");
-		//testVisitor_ptr->addFilter(".h");
-		//testVisitor_ptr->addFilter(".mp4");
-		//testVisitor_ptr->addFolderFilter(".vs");
-		//testVisitor_ptr->addFolderFilter("games");
-		testVisitor_ptr->addFileFilter(".h");
-		testVisitor_ptr->addFileFilter(".cpp");
-		//testVisitor_ptr->addFilter(".mp4");
 		DirectoryVisitor directoryVisitor(testVisitor_ptr);
-		directoryVisitor.process(sourePath);
+		directoryVisitor.process(sourcePath);
 		return true;
 	}
 

@@ -77,6 +77,7 @@ std::string IdxitAppOptions::m_ignoreFile;
 bool IdxitAppOptions::m_nousys = false;
 bool IdxitAppOptions::m_nouser = false;
 bool IdxitAppOptions::m_nosys = false;
+bool IdxitAppOptions::m_scanHidden = false;
 std::string IdxitAppOptions::m_incGroupFile;
 std::string IdxitAppOptions::m_excGroupFile;
 
