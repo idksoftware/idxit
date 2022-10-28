@@ -28,8 +28,7 @@ Media Pro
 <ThumbnailSource>Thumbnails_(Catalog2)\P1160039.jpg</ThumbnailSource>
 */
 
-//namespace simplearchive {
-
+	//namespace simplearchive {
 	class FileInfo
 	{
 		std::filesystem::path m_path;

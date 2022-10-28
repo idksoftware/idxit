@@ -117,3 +117,23 @@ bool XMLFileInfoWriter::add(FileInfo &fileInfo) {
 	return true;
 }
 
+bool XMLFileInfoWriter::add(FolderInfo& fileInfo) {
+
+	/*
+	CIDKDate modDate = fileInfo.getModTime();
+	std::string mod = modDate.Format(dateFormat);
+	CIDKDate createDate = fileInfo.getCreateTime();
+	std::string create = createDate.Format(dateFormat);
+	m_xmlFile << "<File>\n"
+		<< writeTag(DB_FILENAME, fileInfo.getName())
+		<< writeTag(DB_FILEPATH, fileInfo.getPath().string())
+		<< writeTag(DB_CRC, std::to_string(fileInfo.getCrc()))
+		<< writeTag(DB_MD5, fileInfo.getSha256())
+		<< writeTag(DB_MEDIA_TYPE, fileInfo.getMediaType())
+		<< writeTag(DB_SIZE, std::to_string(fileInfo.getSize()))
+		<< writeTag(DB_MOD_TIME, mod.c_str())
+		<< writeTag(DB_CREATE_TIME, create.c_str())
+		<< "</File>\n";
+		*/
+	return true;
+}

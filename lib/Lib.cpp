@@ -429,13 +429,13 @@ namespace simplearchive {
 				return false;
 			}
 			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Exclude group file found: %s", excGroupFile);
-		}
-		else {
-			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Exclude group file not enabled");
 
 			if (group.read(excGroupFile) == false) {
 				return false;
 			}
+		}
+		else {
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Exclude group file not enabled");	
 		}
 		
 		

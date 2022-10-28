@@ -131,6 +131,16 @@ static char THIS_FILE[] = __FILE__;
 		Init(path);
 	}
 
+	/*
+	const CIDKDate FolderInfo::getCreateTime() const {
+		std::filesystem::file_time_type time = std::filesystem::last_write_time(m_path);
+		time_t timet = to_time_t(time);
+		CIDKDate createTime(timet);
+
+		return createTime;
+	}
+	*/
+
 	const CIDKDate FileInfo::getCreateTime() const {
 		std::filesystem::file_time_type time = std::filesystem::last_write_time(m_path);
 		time_t timet = to_time_t(time);

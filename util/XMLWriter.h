@@ -40,7 +40,7 @@
 
 
 class FileInfo;
-
+class FolderInfo;
 
 class XMLWriter {
 protected:
@@ -60,6 +60,17 @@ public:
 	XMLFileInfoWriter(const char *path);
 	~XMLFileInfoWriter();
 	bool add(FileInfo &fileInfo);
-	
+	bool add(FolderInfo& folderInfo);
+	//bool add(std::filesystem::path m_path);
 };
 
+class XMLFolderInfoWriter : public XMLWriter {
+	std::ofstream m_xmlFile;
+	std::string m_path;
+public:
+	XMLFolderInfoWriter(const char* path);
+	~XMLFolderInfoWriterccx();
+	bool add(FileInfo& fileInfo);
+	bool add(FolderInfo& folderInfo);
+	//bool add(std::filesystem::path m_path);
+};
