@@ -10,7 +10,7 @@
 #include "ResultsList.h"
 #include "ResultsPresentation.h"
 
-namespace simplearchive {
+
 
 	//
 	// WriteHuman
@@ -381,4 +381,3 @@ namespace simplearchive {
 		}
 		return true;
 	}
-}; // namespace

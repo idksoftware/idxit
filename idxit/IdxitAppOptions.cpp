@@ -49,7 +49,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 using namespace CommandLineProcessing;
-namespace simplearchive {
+
 
 bool IdxitAppOptions::m_list = false;
 
@@ -254,4 +254,3 @@ bool StatusOptions::parse(const char* optionString)
 }
 
 
-} /* namespace simplearchive */

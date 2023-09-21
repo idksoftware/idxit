@@ -51,7 +51,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+
 
 LogFilename::LogFilename(const char *logfilePath) {
 
@@ -187,5 +187,3 @@ const std::string LogFilename::filepath() {
 
 }
 
-
-} /* namespace simplearchive */

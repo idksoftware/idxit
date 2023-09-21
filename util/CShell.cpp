@@ -55,7 +55,7 @@ static char THIS_FILE[] = __FILE__;
 
 
 #include "CShell.h"
-namespace simplearchive {
+
 
 CShell::CShell() {
 	// TODO Auto-generated constructor stub
@@ -105,6 +105,4 @@ bool CShell::exec(const char *cmd) {
 #endif
 	return true;
 }
-
-} /* namespace simplearchive */
 

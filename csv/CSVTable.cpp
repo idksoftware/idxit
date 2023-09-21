@@ -5,7 +5,7 @@
 #include "LogName.h"
 #include "pathcontroller.h"
 
-namespace simplearchive {
+
 	void CSVTable::setPath(const char* indexRoot)
 	{
 		m_indexRoot = indexRoot;
@@ -128,4 +128,3 @@ namespace simplearchive {
 	}
 
 	
-};

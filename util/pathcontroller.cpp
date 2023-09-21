@@ -12,7 +12,7 @@
 #include "pathcontroller.h"
 
 //  realpath() - linux 
-namespace simplearchive {
+
 
 
 	PathController::PathController(const char *path, bool validate)
@@ -394,4 +394,3 @@ namespace simplearchive {
 
 		return true;
 	}
-}; /* namespace simplearchive */

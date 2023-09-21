@@ -40,7 +40,7 @@
 #include <iomanip>
 #include <stdlib.h>
 
-namespace simplearchive {
+
 
 	CDate::CDate() {
 	}
@@ -108,4 +108,3 @@ namespace simplearchive {
 		//return "2014/05/21 16:49:00";
 	}
 
-} /* namespace simplearchive */

@@ -21,7 +21,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 #endif
 
-namespace simplearchive {
+
 
 	const char* MTColumn::nullStr = "";
 
@@ -932,4 +932,3 @@ namespace simplearchive {
 		}
 		return *(iter->second);
 	}
-};

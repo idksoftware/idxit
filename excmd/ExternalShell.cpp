@@ -66,7 +66,7 @@ std::string returnedExecString;
 std::string GetLastErrorStdStr();
 int ExecuteExternalFile(std::string &csExeNameAndArgs);
 
-namespace simplearchive {
+
 
 	ExternalShell::ExternalShell() {
 		// TODO Auto-generated constructor stub
@@ -134,7 +134,6 @@ namespace simplearchive {
 		system(expandCmd.c_str());
 		return true;
 	}
-} /* namespace simplearchive */
 
 #include <iostream>
 #ifdef _WIN32

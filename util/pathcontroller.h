@@ -5,7 +5,7 @@
 #include "ExifDate.h"
 
 
-namespace simplearchive {
+
 
 	class PathController
 	{
@@ -177,5 +177,3 @@ namespace simplearchive {
 			return s.find_first_not_of("0123456789") == std::string::npos;
 		}
 	};
-
-}; /* simplearchive */

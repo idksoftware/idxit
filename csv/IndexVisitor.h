@@ -42,7 +42,7 @@
 #include "AddressScope.h"
 #include "HistoryEvent.h"
 
-namespace simplearchive {
+
 
 
 	/// This class is used by the DirectoryVisitor. The DirectoryVisitor class will
@@ -161,4 +161,3 @@ namespace simplearchive {
 	};
 
 	*/
-};

@@ -4,7 +4,7 @@
 #include "SIAApplicationState.h"
 #include "CLogger.h"
 
-namespace simplearchive {
+
 
 	SIAApplicationState::RunState SIAApplicationState::m_runState = SIAApplicationState::Running;
 
@@ -38,4 +38,3 @@ namespace simplearchive {
 		return SIAApplicationState::Unknown;
 	}
 
-}

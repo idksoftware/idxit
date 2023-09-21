@@ -8,8 +8,8 @@ namespace CommandLineProcessing {
 	{
 		
 	public:
-		AppOptions();
-		~AppOptions();
+		AppOptions() = default;
+		~AppOptions() = default;
 	};
 
 };

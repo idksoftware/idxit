@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 
-namespace simplearchive {
+
 
 	class GroupItem {
 	public:
@@ -33,5 +33,3 @@ namespace simplearchive {
 
 		std::vector<std::shared_ptr<GroupItem>>& getList() { return m_list; };
 	};
-
-};

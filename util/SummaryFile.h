@@ -40,7 +40,7 @@
 #include <iostream>
 #include <memory>
 
-namespace simplearchive {
+
 
 
 
@@ -135,5 +135,4 @@ private:
 };
 
 
-} /* namespace simplearchive */
 #endif /* SUMMARYFILE_H_ */

@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace simplearchive {
+
 
 	class AppConfigBase;
 
@@ -16,5 +16,5 @@ namespace simplearchive {
 		bool update(const char* configOptionBlock, const char* configOption, const char* configValue);
 	};
 
-};
+
 

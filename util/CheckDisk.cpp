@@ -55,7 +55,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+
 
 	void ReportStatus::set(const char *str) {
 		std::string s(str);
@@ -1278,4 +1278,3 @@ bool CheckDisk::checkin(const char *filePath, const char *image) {
 	return true;
 }
 
-} /* namespace simplearchive */

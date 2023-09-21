@@ -1,7 +1,7 @@
 #pragma once
 
 #include "MetaType.h"
-namespace simplearchive {
+
 	class CSVTablePartition : public MTTable
 	{
 	public:
@@ -27,5 +27,3 @@ namespace simplearchive {
 			return false;
 		}
 	};
-
-};

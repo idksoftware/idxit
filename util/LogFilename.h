@@ -37,7 +37,7 @@
 #include <string>
 #include "ExifDate.h"
 
-namespace simplearchive {
+
 
 class LogFilename {
 	std::string m_logfilePath;
@@ -58,5 +58,5 @@ public:
 	}
 };
 
-} /* namespace simplearchive */
+
 #endif /* LOGFILENAME_H_ */

@@ -35,7 +35,7 @@
 #ifndef ARCHIVEVISITOR_H_
 #define ARCHIVEVISITOR_H_
 
-namespace simplearchive {
+
 /**
  * @brief This class is the functional class that class DirectoryVisitor uses as an action object.
  *
@@ -95,5 +95,4 @@ public:
 
 };
 
-} /* namespace simplearchive */
 #endif /* ARCHIVEVISITOR_H_ */

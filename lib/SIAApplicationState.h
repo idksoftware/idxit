@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 
-namespace simplearchive {
+
 
 	class SIAConnection;
 	class SIAApplicationState {
@@ -24,4 +24,3 @@ namespace simplearchive {
 		static RunState getState();
 	};
 
-}

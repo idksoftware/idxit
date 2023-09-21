@@ -37,8 +37,7 @@
 #include <vector>
 #include <string>
 
-namespace simplearchive
-{
+
 	class EnvItem
 	{
 		std::string m_name;
@@ -78,5 +77,5 @@ namespace simplearchive
 		virtual ~SetEnv();
 		bool process();
 	};
-} /* namespace simplearchive */
+
 #endif /* SETENV_H_ */

@@ -43,7 +43,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+
 
 	/*! \exif_mainpage Shell and Configuration file components
 	*
@@ -113,7 +113,7 @@ namespace simplearchive {
 		return str;
 	}
 
-	std::string ExternalProcess::replace(std::string &commandLine, std::string &in, std::string &out) {
+	std::string ExternalProcess::replace(std::string& commandLine, std::string& in, std::string& out) {
 
 		std::string command = commandLine;
 		command = replaceToken(command, "[input]", in.c_str());
@@ -121,5 +121,3 @@ namespace simplearchive {
 		//printf("cmd: %s", command.c_str());
 		return command;
 	}
-
-} /* namespace simplearchive */

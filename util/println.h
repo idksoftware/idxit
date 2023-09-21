@@ -39,7 +39,6 @@
 
 #include "siaglobal.h"
 
-namespace simplearchive {
 
-} // simplearchive
+
 #endif

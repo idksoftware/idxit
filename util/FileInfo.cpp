@@ -19,7 +19,7 @@ static char THIS_FILE[] = __FILE__;
 #include <random>
 #include <sstream>
 
-//namespace simplearchive {
+//
 
 /*
 	namespace uuid {

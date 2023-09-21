@@ -39,7 +39,7 @@
 
 #include <string>
 
-namespace simplearchive {
+
 
 	class ExifDateTime {
 		friend class ExifDate;
@@ -104,4 +104,3 @@ namespace simplearchive {
 
 	bool operator==(ExifDateTime& d1, ExifDateTime& d2);
 
-} /* namespace simplearchive */

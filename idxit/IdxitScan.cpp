@@ -11,7 +11,7 @@
 
 using namespace CommandLineProcessing;
 
-namespace simplearchive {
+
 
 	bool IdxitScan::doCommand() {
 
@@ -22,14 +22,17 @@ namespace simplearchive {
 		if (getParser().foundOption("source-path") == true) {
 			std::string opt = getParser().optionValue("source-path");
 			appOptions.m_sourcePath = opt;
-		}
-		if (isSourePathSet == false) {
+		} else {
 			//config.setSourcePath(SAUtils::getCurrentDirectory().c_str());
+			appOptions.m_sourcePath = SAUtils::getCurrentDirectory();
 		}
 
 		if (getParser().foundOption("index-file") == true) {
 			std::string opt = getParser().optionValue("index-file");
 			appOptions.m_indexfile = opt;
+		}
+		else {
+			appOptions.m_indexfile = SAUtils::getCurrentDirectory() + "/default.idx";
 		}
 
 		if (getParser().foundOption("ign") == true) {
@@ -122,4 +125,3 @@ namespace simplearchive {
 		appOptions.setCommandMode(IdxitAppOptions::CommandMode::CM_Scan);
 		return true;
 	}
-}

@@ -20,7 +20,7 @@
 
 
 
-namespace simplearchive {
+
 
 	SystemHistorySchema SystemHistoryRow::m_tableSchema;
 
@@ -297,4 +297,3 @@ namespace simplearchive {
 	
 	
 
-}

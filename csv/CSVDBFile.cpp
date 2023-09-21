@@ -48,7 +48,7 @@
 #include "SAUtils.h"
 #include "CSVDBFile.h"
 #include "CSVArgs.h"
-#include "ArchivePath.h"
+#include "../Lib/ArchivePath.h"
 #include "pathcontroller.h"
 
 #ifdef _DEBUG
@@ -57,7 +57,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+
 
 
 /*
@@ -838,4 +838,3 @@ uint64_t ImageInfo::getDBIdx() const
 {
 	return m_dbidx;
 }
-} /* namespace simplearchive */

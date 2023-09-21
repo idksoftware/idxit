@@ -28,7 +28,7 @@
 #include "CLogger.h"
 #include "ResultsList.h"
 
-namespace simplearchive {
+
 
 	bool CSVIndexAction::onEnd()
 	{
@@ -68,4 +68,3 @@ namespace simplearchive {
 		return true;
 	}
 
-};

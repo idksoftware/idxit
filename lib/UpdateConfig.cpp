@@ -10,7 +10,7 @@
 #include "HomePaths.h"
 #include "UpdateConfig.h"
 
-namespace simplearchive {
+
 
 	bool UpdateConfig::read(AppConfigBase&imgaConfig)
 	{
@@ -88,4 +88,4 @@ namespace simplearchive {
 		
 		return true;
 	}
-};
+

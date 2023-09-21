@@ -69,7 +69,7 @@ class XMLFolderInfoWriter : public XMLWriter {
 	std::string m_path;
 public:
 	XMLFolderInfoWriter(const char* path);
-	~XMLFolderInfoWriterccx();
+	~XMLFolderInfoWriter();
 	bool add(FileInfo& fileInfo);
 	bool add(FolderInfo& folderInfo);
 	//bool add(std::filesystem::path m_path);

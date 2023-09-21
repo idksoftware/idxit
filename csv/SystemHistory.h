@@ -12,7 +12,7 @@
 
 class AddressScope;
 
-namespace simplearchive {
+
 	
 	
 	/**
@@ -146,4 +146,3 @@ namespace simplearchive {
 	};
 
 	
-};

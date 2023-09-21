@@ -47,7 +47,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+
 
 	std::string HookCmd::m_hookPath;
 
@@ -319,4 +319,3 @@ PreProcessCmd::PreProcessCmd(): HookCmd(HookCmd::HC_PreProcess) {};
 //	init(imagePath);
 //}
 
-} /* namespace simplearchive */

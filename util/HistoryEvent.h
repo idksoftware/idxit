@@ -36,7 +36,7 @@
 #define HISTORYEVENT_H_
 
 
-namespace simplearchive {
+
 
 class HistoryEvent {
 public:
@@ -68,5 +68,5 @@ public:
 	static int maxStringSize() { return 10;  }
 };
 
-} /* namespace simplearchive */
+
 #endif /* HISTORYEVENT_H_ */

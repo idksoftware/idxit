@@ -3,7 +3,7 @@
 #include <vector>
 #include "CSVTable.h"
 
-namespace simplearchive {
+
 
 	class CSVDBBase : public std::vector<std::shared_ptr<CSVTable>> {
 	public:
@@ -11,4 +11,3 @@ namespace simplearchive {
 		virtual ~CSVDBBase() = default;
 	};
 
-}

@@ -6,7 +6,7 @@
 #include "MetaType.h"
 #include "AddressScope.h"
 
-namespace simplearchive {
+
 
 	class ResultsList;
 
@@ -57,4 +57,4 @@ namespace simplearchive {
 		}
 	};
 
-};
+

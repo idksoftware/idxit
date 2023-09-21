@@ -12,7 +12,7 @@
 #include "ResultsPresentation.h"
 #include "CSVTablePartition.h"
 
-namespace simplearchive {
+
 
 #define HISTORY_FILE "history.dat"
 	class EventList;
@@ -146,4 +146,4 @@ namespace simplearchive {
 	};
 
 	
-}
+

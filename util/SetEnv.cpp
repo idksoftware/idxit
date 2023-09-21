@@ -44,7 +44,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+
 
 SetEnv::SetEnv() {
 	// TODO Auto-generated constructor stub
@@ -72,4 +72,3 @@ bool SetEnv::process() {
 	return true;
 }
 
-} /* namespace simplearchive */

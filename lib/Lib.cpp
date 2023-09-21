@@ -32,6 +32,8 @@
 **
 ** #$$@@$$# */
 
+
+#include <filesystem>
 #include "Lib.h"
 #include "AppConfig.h"
 //#include "SIAArcAppOptions.h"
@@ -62,7 +64,7 @@
 #include "RemoteServer.h"
 #include <stdio.h>
 #include <sstream>
-#include "WorkspaceFiles.h"
+//#include "WorkspaceFiles.h"
 
 #include "UpdateConfig.h"
 
@@ -72,6 +74,7 @@
 #include <iostream>
 
 #include "XMLWriter.h"
+#include "IndexedCSV.h"
 #include "FileInfo.h"
 #include "DirectoryVisitor.h"
 
@@ -94,8 +97,7 @@ static char THIS_FILE[] = __FILE__;
 
 //int pythonmain();
 
-namespace simplearchive {
-	
+
 
 
 
@@ -106,7 +108,8 @@ namespace simplearchive {
 				return false;
 			}
 			for (auto i = begin(); i != end(); i++) {
-				if (i->compare(ext) == 0) {
+				
+				if (SAUtils::isEquals(*i, ext)) {
 					return true;
 				}
 			}
@@ -119,6 +122,7 @@ namespace simplearchive {
 	public:
 		bool match(std::string& folder) {
 			for (auto i = begin(); i != end(); i++) {
+				// May need a switch if folder is not case sensitive
 				if (i->compare(folder) == 0) {
 					return true;
 				}
@@ -131,7 +135,8 @@ namespace simplearchive {
 	class TestVisitor : public FolderVisitor {
 		//static BackupVisitor *m_this;
 		std::string m_path;
-		static std::shared_ptr<XMLFileInfoWriter> m_xmlFileInfoWriter;
+		//static std::shared_ptr<XMLFileInfoWriter> m_xmlFileInfoWriter;
+		static std::shared_ptr<ICSVFileInfoWriter> m_icsvFileInfoWriter;
 		static std::shared_ptr<Storage> m_storage;
 		static std::shared_ptr<FileFilter> m_incFileFilter;
 		static std::shared_ptr<FolderFilter> m_incFolderFilter;
@@ -151,11 +156,11 @@ namespace simplearchive {
 	public:
 		TestVisitor() = default;
 		TestVisitor(const char* path) {
-			if (m_xmlFileInfoWriter == nullptr) {
-				m_xmlFileInfoWriter = std::make_shared<XMLFileInfoWriter>(path);
-			}
-			if (m_xmlFileInfoWriter == nullptr) {
-				m_xmlFileInfoWriter = std::make_shared<XMLFileInfoWriter>(path);
+			//if (m_xmlFileInfoWriter == nullptr) {
+			//	m_xmlFileInfoWriter = std::make_shared<XMLFileInfoWriter>(path);
+			//}
+			if (m_icsvFileInfoWriter == nullptr) {
+				m_icsvFileInfoWriter = std::make_shared<ICSVFileInfoWriter>(path);
 			}
 			if (m_excFileFilter == nullptr) {
 				m_excFileFilter = std::make_shared<FileFilter>();
@@ -200,15 +205,15 @@ namespace simplearchive {
 			m_excFolderFilter->push_back(dir);
 		}
 
-		void addSysIgnoreList(std::shared_ptr<IgnorePattern> ip) {
+		void addSysIgnoreList(std::shared_ptr<IgnorePath> ip) {
 			m_sysIgnoreOn = true;
-			std::shared_ptr<IgnorePattern> ipp = std::make_shared<IgnorePattern>(*ip);
+			std::shared_ptr<IgnorePath> ipp = std::make_shared<IgnorePath>(*ip);
 			m_sysIgnoreList->push_back(ipp);
 		}
 
-		void addUserSysIgnoreList(IgnorePattern& ip) {
+		void addUserSysIgnoreList(IgnorePath& ip) {
 			m_usersysIgnoreOn = true;
-			std::shared_ptr<IgnorePattern> ipp = std::make_shared<IgnorePattern>(ip);
+			std::shared_ptr<IgnorePath> ipp = std::make_shared<IgnorePath>(ip);
 			m_usersysIgnoreList->push_back(ipp);
 		}
 
@@ -225,7 +230,8 @@ namespace simplearchive {
 			std::filesystem::path fullpath = p;
 			if (m_incFileFilter != nullptr) {
 				std::string ext = fullpath.extension().string();
-				if (ext.empty()) {
+				int len = ext.length();
+				if (len == 0) {
 					return false;
 				}
 				std::string noDotExt;
@@ -256,7 +262,7 @@ namespace simplearchive {
 
 			std::string p = path;
 			//fileInfo.print();
-			if (m_xmlFileInfoWriter != nullptr) {
+			if (m_icsvFileInfoWriter != nullptr) {
 				if (SAUtils::isHidden(path)) {
 					if (m_scanHidden == false) {
 						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Found hidden File: %s Hidden files ignored", path);
@@ -278,7 +284,8 @@ namespace simplearchive {
 				}
 			}
 			FileInfo fileInfo(p);
-			m_xmlFileInfoWriter->add(fileInfo);
+			//m_xmlFileInfoWriter->add(fileInfo);
+			m_icsvFileInfoWriter->add(fileInfo);
 			return true;
 		};
 
@@ -288,7 +295,7 @@ namespace simplearchive {
 			
 			std::string p = path;
 			//fileInfo.print();
-			if (m_xmlFileInfoWriter != nullptr) {
+			if (m_icsvFileInfoWriter != nullptr) {
 				if (SAUtils::isHidden(path)) {
 					if (m_scanHidden == false) {
 						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Found hidden File: %s Hidden files ignored", path);
@@ -323,7 +330,8 @@ namespace simplearchive {
 		}
 	};
 
-	std::shared_ptr<XMLFileInfoWriter> TestVisitor::m_xmlFileInfoWriter = nullptr;
+	//std::shared_ptr<XMLFileInfoWriter> TestVisitor::m_xmlFileInfoWriter = nullptr;
+	std::shared_ptr<ICSVFileInfoWriter> TestVisitor::m_icsvFileInfoWriter = nullptr;
 	std::shared_ptr<Storage> TestVisitor::m_storage = nullptr;
 	std::shared_ptr<FileFilter> TestVisitor::m_incFileFilter = nullptr;
 	bool TestVisitor::m_incFileFilterOn = false;
@@ -361,7 +369,10 @@ namespace simplearchive {
 			logger.log(LOG_COMPLETED, CLogger::Level::FATAL, "No Index output file found");
 			return false;
 		}
-		if (SAUtils::FileExists(idxPath) == false) {
+		std::filesystem::path p = idxPath;
+		std::string idxPathRoot = p.parent_path().string();
+		if (SAUtils::DirExists(idxPathRoot.c_str()) == false) {
+	
 			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Index output file not found: %s", idxPath);
 			return false;
 		}
@@ -465,7 +476,7 @@ namespace simplearchive {
 		}
 
 		for (auto i : ignoreList) {
-			std::shared_ptr<IgnorePattern> item = i;
+			std::shared_ptr<IgnorePath> item = i;
 			testVisitor_ptr->addSysIgnoreList(item);
 		}
 		
@@ -627,6 +638,3 @@ namespace simplearchive {
 
 	
 	
-
-	
-} // simplearchive

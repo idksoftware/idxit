@@ -38,7 +38,7 @@
 
 #include <string>
 
-namespace simplearchive {
+
 	/**
 	* This enables
 	*/
@@ -59,5 +59,5 @@ namespace simplearchive {
 		std::string replace(std::string &commandLine, std::string &in, std::string &out);
 	};
 
-} /* namespace simplearchive */
+
 #endif /* ExternalProcess_H_ */

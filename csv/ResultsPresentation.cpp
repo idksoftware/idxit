@@ -9,7 +9,7 @@
 #include "DBDefines.h"
 #include "HistoryEvent.h"
 
-namespace simplearchive {
+
 
 
 bool ResultsPresentation::write(FormatType formatType) {
@@ -172,4 +172,3 @@ std::string WriteBase::getOutput() {
 	return m_output.str();
 }
 
-} /* namespace simplearchive */

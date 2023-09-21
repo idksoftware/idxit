@@ -2,27 +2,25 @@
 #include <vector>
 #include <memory>
 #include <string>
-#include "IgnorePattern.h"
+#include "IgnorePath.h"
 
-namespace simplearchive {
 
-	class IgnoreFilter
-	{
-		std::string m_filter;
-		int m_lineNo{ 0 };
-		std::string m_fileName;
-	public:
-		IgnoreFilter(const char* filter, int line, const char* file)
-			: m_filter(filter), m_lineNo(line), m_fileName(file) {}
-		bool match();
-	};
-
-	class IgnoreList : public std::vector<std::shared_ptr<IgnorePattern>>
-	{
-	public:
-		IgnoreList() = default;
-		bool read(const char* file);
-		bool match(const char* path);
-	};
-
+class IgnoreFilter
+{
+	std::string m_filter;
+	int m_lineNo{ 0 };
+	std::string m_fileName;
+public:
+	IgnoreFilter(const char* filter, int line, const char* file)
+		: m_filter(filter), m_lineNo(line), m_fileName(file) {}
+	bool match();
 };
+
+class IgnoreList : public std::vector<std::shared_ptr<IgnorePath>>
+{
+public:
+	IgnoreList() = default;
+	bool read(const char* file);
+	bool match(const char* path);
+};
+

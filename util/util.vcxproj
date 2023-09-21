@@ -135,7 +135,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN64;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../fclib</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,11 +149,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AddressScope.cpp" />
-    <ClCompile Include="ArchivePath.cpp" />
     <ClCompile Include="ArchiveVisitor.cpp" />
     <ClCompile Include="Base16.cpp" />
     <ClCompile Include="Base64.cpp" />
-    <ClCompile Include="BasicMetadata.cpp" />
     <ClCompile Include="ChangeLog.cpp" />
     <ClCompile Include="CheckDisk.cpp" />
     <ClCompile Include="ConfigReader.cpp" />
@@ -164,23 +162,22 @@
     <ClCompile Include="FileVersion.cpp" />
     <ClCompile Include="FolderFilterFile.cpp" />
     <ClCompile Include="HomePaths.cpp" />
-    <ClCompile Include="IgnorePattern.cpp" />
+    <ClCompile Include="ignorepath.cpp" />
     <ClCompile Include="ImageEncode.cpp" />
     <ClCompile Include="ImageIndex.cpp" />
     <ClCompile Include="IgnoreList.cpp" />
+    <ClCompile Include="IndexedCSV.cpp" />
     <ClCompile Include="Quiet.cpp" />
     <ClCompile Include="regex.cpp" />
     <ClCompile Include="SequenceNumber.cpp" />
     <ClCompile Include="sha256.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="UniqueId.cpp" />
-    <ClCompile Include="Version.cpp" />
     <ClCompile Include="CLogger.cpp" />
     <ClCompile Include="ErrorCode.cpp" />
     <ClCompile Include="ExternalProcess.cpp" />
     <ClCompile Include="ExtentionsFilterFile.cpp" />
     <ClCompile Include="ipsock.cpp" />
-    <ClCompile Include="JpegEXIF.cpp" />
     <ClCompile Include="LogFilename.cpp" />
     <ClCompile Include="DirectoryVisitor.cpp" />
     <ClCompile Include="ExifDate.cpp" />
@@ -191,22 +188,18 @@
     <ClCompile Include="RunExec.cpp" />
     <ClCompile Include="SAUtils.cpp" />
     <ClCompile Include="SetEnv.cpp" />
-    <ClCompile Include="SimpleExifReader.cpp" />
     <ClCompile Include="SummaryFile.cpp" />
     <ClCompile Include="UDPOut.cpp" />
     <ClCompile Include="pathcontroller.cpp" />
     <ClCompile Include="Base32.cpp" />
-    <ClCompile Include="WorkspaceFiles.cpp" />
     <ClCompile Include="XMLWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddressScope.h" />
     <ClInclude Include="AppPaths.h" />
-    <ClInclude Include="ArchivePath.h" />
     <ClInclude Include="ArchiveVisitor.h" />
     <ClInclude Include="Base16.h" />
     <ClInclude Include="Base64.h" />
-    <ClInclude Include="BasicMetadata.h" />
     <ClInclude Include="ChangeLog.h" />
     <ClInclude Include="CheckDisk.h" />
     <ClInclude Include="ConfigReader.h" />
@@ -216,23 +209,22 @@
     <ClInclude Include="FileInfo.h" />
     <ClInclude Include="FileVersion.h" />
     <ClInclude Include="FolderFilterFile.h" />
-    <ClInclude Include="IgnorePattern.h" />
     <ClInclude Include="HomePaths.h" />
+    <ClInclude Include="ignorePath.h" />
     <ClInclude Include="ImageEncode.h" />
     <ClInclude Include="ImageIndex.h" />
     <ClInclude Include="IgnoreList.h" />
+    <ClInclude Include="IndexedCSV.h" />
     <ClInclude Include="Quiet.h" />
     <ClInclude Include="SequenceNumber.h" />
     <ClInclude Include="sha256.h" />
     <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="UniqueId.h" />
-    <ClInclude Include="Version.h" />
     <ClInclude Include="CLogger.h" />
     <ClInclude Include="DBDefines.h" />
     <ClInclude Include="DefinePaths.h" />
     <ClInclude Include="ErrorCode.h" />
     <ClInclude Include="ExternalProcess.h" />
-    <ClInclude Include="JpegEXIF.h" />
     <ClInclude Include="println.h" />
     <ClInclude Include="siaglobal.h" />
     <ClInclude Include="ExtentionsFilterFile.h" />
@@ -248,12 +240,10 @@
     <ClInclude Include="RunExec.h" />
     <ClInclude Include="SAUtils.h" />
     <ClInclude Include="SetEnv.h" />
-    <ClInclude Include="SimpleExifReader.h" />
     <ClInclude Include="SummaryFile.h" />
     <ClInclude Include="UDPOut.h" />
     <ClInclude Include="pathcontroller.h" />
     <ClInclude Include="Base32.h" />
-    <ClInclude Include="WorkspaceFiles.h" />
     <ClInclude Include="XMLWriter.h" />
   </ItemGroup>
   <ItemGroup>

@@ -36,7 +36,7 @@
 #define XMLREADER_H_
 //#include <xercesc/dom/DOM.hpp>
 //#include <xercesc/framework/LocalFileFormatTarget.hpp>
-namespace simplearchive {
+
 
 class XMLReader {
 
@@ -46,7 +46,7 @@ public:
 	virtual ~XMLReader();
 };
 
-} /* namespace simplearchive */
+
 #endif /* XMLREADER_H_ */
 
 /*

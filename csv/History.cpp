@@ -16,7 +16,7 @@
 #include "SystemHistoryResultsPresentation.h"
 #include "CLogger.h"
 
-namespace simplearchive {
+
 
 	std::unique_ptr<History> History::m_this = nullptr;
 	std::once_flag History::m_onceFlag;
@@ -213,4 +213,3 @@ namespace simplearchive {
 		return true;
 	}
 
-};

@@ -36,7 +36,7 @@
 #define ENVIRONMENT_H_
 #include <string>
 
-namespace simplearchive {
+
 
 #define HOOK_SCRIPTS_PATH       "HookScripsPath"
 #define TOOLS_PATH           	"ToolsPath"
@@ -57,5 +57,4 @@ namespace simplearchive {
 		static void setEnvironment();
 	};
 
-} /* namespace simplearchive */
 #endif /* ENVIRONMENT_H_ */

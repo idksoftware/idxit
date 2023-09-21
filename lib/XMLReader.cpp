@@ -40,7 +40,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+
 
 XMLReader::XMLReader() {
 	// TODO Auto-generated constructor stub
@@ -51,4 +51,3 @@ XMLReader::~XMLReader() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace simplearchive */

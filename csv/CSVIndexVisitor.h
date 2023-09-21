@@ -8,7 +8,7 @@
 #include "AddressScope.h"
 #include "HistoryEvent.h"
 
-namespace simplearchive {
+
 
 	/*
 	class CVSActionTrigger {
@@ -120,4 +120,3 @@ namespace simplearchive {
 		virtual ~CSVIndexMasterTable() {};
 		
 	};
-};

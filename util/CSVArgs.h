@@ -39,7 +39,7 @@
 
 #include "siaglobal.h"
 
-//namespace simplearchive {
+//
 
 	class CSVArgs : public std::vector<std::string> {
 		char m_delim;
@@ -63,5 +63,5 @@
 		std::istream& nextField(std::istringstream& s, std::string& field);
 	};
 
-//} /* namespace simplearchive */
+
 

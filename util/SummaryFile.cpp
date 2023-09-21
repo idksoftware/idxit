@@ -53,7 +53,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 //using namespace std;
-namespace simplearchive {
+
 std::string SummaryFile::m_briefFilename;
 std::string SummaryFile::m_detailedFilename;
 std::ofstream SummaryFile::m_summaryFile;
@@ -183,5 +183,3 @@ const char *SummaryFile::levelStr() {
 	}
 	return "Unknown";
 }
-
-} /* namespace simplearchive */

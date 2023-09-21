@@ -8,7 +8,7 @@
 #include "DBDefines.h"
 #include "MetaType.h"
 
-namespace simplearchive {
+
 
 	class CSVTable {
 	protected:
@@ -47,4 +47,4 @@ namespace simplearchive {
 
 	
 
-};
+

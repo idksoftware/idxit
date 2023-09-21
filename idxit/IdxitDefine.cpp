@@ -7,7 +7,7 @@
 
 using namespace CommandLineProcessing;
 
-namespace simplearchive {
+
 
 	bool IdxitDefinition::doCommand() {
 		IdxitAppOptions& appOptions = IdxitAppOptions::get();
@@ -15,4 +15,3 @@ namespace simplearchive {
 
 		return true;
 	}
-}

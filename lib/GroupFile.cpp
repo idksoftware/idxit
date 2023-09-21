@@ -4,7 +4,7 @@
 #include "CLogger.h"
 
 
-namespace simplearchive {
+
 
 	bool GroupFile::read(const char* datafile) {
 
@@ -22,6 +22,10 @@ namespace simplearchive {
 		while (std::getline(file, text)) {
 			std::shared_ptr<GroupItem> item = std::make_shared<GroupItem>();
 			csvArgs.process(text);
+			if (csvArgs.size() < 3) {
+				logger.log(LOG_COMPLETED, CLogger::Level::ERR, "Invalid line \"%s\" in file \"%s\"", text);
+				return false;
+			}
 			item->m_ext = csvArgs.at(0);
 			item->m_mediaType = csvArgs.at(1);
 			item->m_discription = csvArgs.at(2);
@@ -32,4 +36,3 @@ namespace simplearchive {
 		return res;
 	}
 
-};

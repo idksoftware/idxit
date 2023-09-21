@@ -16,7 +16,7 @@
 #include "ResultsPresentation.h"
 
 
-namespace simplearchive {
+
 	//
 		// WriteHuman
 		//
@@ -75,7 +75,7 @@ namespace simplearchive {
 		return true;
 	}
 
-	bool simplearchive::VersionListResultsPresentation::writeHuman()
+	bool VersionListResultsPresentation::writeHuman()
 	{
 		VersionListWriteHuman writeHuman(m_resultsList);
 		if (!writeHuman.write()) {
@@ -89,23 +89,22 @@ namespace simplearchive {
 		
 	}
 
-	bool simplearchive::VersionListResultsPresentation::writeXML()
+	bool VersionListResultsPresentation::writeXML()
 	{
 		return false;
 	}
 
-	bool simplearchive::VersionListResultsPresentation::writeCSV()
+	bool VersionListResultsPresentation::writeCSV()
 	{
 		return false;
 	}
 
-	bool simplearchive::VersionListResultsPresentation::writeJson()
+	bool VersionListResultsPresentation::writeJson()
 	{
 		return false;
 	}
 
-	bool simplearchive::VersionListResultsPresentation::writeHtml()
+	bool VersionListResultsPresentation::writeHtml()
 	{
 		return false;
 	}
-}

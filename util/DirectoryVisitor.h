@@ -38,7 +38,7 @@
 #include <vector>
 #include <memory>
 
-namespace simplearchive {
+
 
 class FolderItem;
 class DirNode;
@@ -82,5 +82,4 @@ public:
 	}
 };
 
-} /* namespace simplearchive */
 

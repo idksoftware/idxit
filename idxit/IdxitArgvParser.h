@@ -3,7 +3,7 @@
 
 using namespace CommandLineProcessing;
 
-namespace simplearchive {
+
 
 	class IdxitArgvParser;
 
@@ -46,5 +46,3 @@ namespace simplearchive {
 		virtual std::string generalHelp(unsigned int _width) const;
 
 	};
-
-} /* namespace */

@@ -42,8 +42,6 @@
 
 
 
-namespace simplearchive {
-
 class ReporterEvent {
 public:
 	enum class Status {
@@ -257,5 +255,4 @@ public:
 };
 
 
-} /* namespace simplearchive */
 

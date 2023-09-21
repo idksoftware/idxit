@@ -43,7 +43,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+
 
 CUnqueName::CUnqueName() {
 	m_standardType = Underscore;
@@ -102,4 +102,4 @@ std::string CUnqueName::make(const char *name) {
 	return filename;
 
 }
-} /* namespace simplearchive */
+

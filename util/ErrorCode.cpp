@@ -1,7 +1,7 @@
 #include "ErrorCode.h"
 #include <iostream>
 
-namespace simplearchive {
+
 	// Move the codes above errno codes 
 	const int ErrorCode::errorOffset = 200;
 	IMGA_ERROR ErrorCode::m_errorCode = IMGA_ERROR::SUCCESS;
@@ -49,5 +49,3 @@ namespace simplearchive {
 		m_errorCode = errorCode;
 	}
 
-	
-} /* simplearchive */

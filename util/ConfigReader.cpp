@@ -55,7 +55,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 
-namespace simplearchive {
+
 
 void ConfigBlock::printAll() {
 	const size_t size = this->size();
@@ -613,4 +613,3 @@ bool AppConfigBaseWriter::write(const char* datafile, AppConfigBase& config)
 	return false;
 }
 
-} /* namespace simplearchive */

@@ -38,7 +38,7 @@
 #include <string>
 #include <memory>
 
-namespace simplearchive {
+
 /**
  * @brief This is used as a container for the key/value pair.
  *
@@ -255,5 +255,4 @@ public:
 	bool write(const char* datafile, AppConfigBase& config);
 };
 
-} /* namespace simplearchive */
 #endif /* CONFIGREADER_H_ */

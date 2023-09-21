@@ -6,7 +6,7 @@
 #include "MetaType.h"
 #include "ResultsList.h"
 
-namespace simplearchive {
+
 	/**
 	 *
 	 */
@@ -25,7 +25,6 @@ namespace simplearchive {
 		}
 	};
 	
-	
-} /* namespace simplearchive */
+
 
 

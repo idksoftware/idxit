@@ -7,20 +7,19 @@
 
 using namespace CommandLineProcessing;
 
-namespace simplearchive
-{
+
 	bool IdxitAbout::doCommand()
 	{
 		IdxitAppOptions& appOptions = IdxitAppOptions::get();
-		if (getParser().foundOption("out") == true)
+		if (getParser().foundOption("format-type") == true)
 		{
 			OutputType outputType;
-			std::string outType = getParser().optionValue("out");
-			if (outputType.parse(getParser().optionValue("out").c_str()) == false)
+			std::string outType = getParser().optionValue("format-type");
+			if (outputType.parse(getParser().optionValue("format-type").c_str()) == false)
 			{
-				ReturnCodeObject::setReturnString("Option for argument \"out\" for sub-command: %s is invalid: %s\n\n",
+				ReturnCodeObject::setReturnString("Option for argument \"format-type\" for sub-command: %s is invalid: %s\n\n",
 				                                  getParser().getCurrentCommand().c_str(),
-				                                  getParser().optionValue("out").c_str());
+				                                  getParser().optionValue("format-type").c_str());
 				printf("%s", getParser().topicUsageDescription(getParser().getCurrentCommandId(), 80).c_str());
 				return false;
 			}
@@ -36,4 +35,4 @@ namespace simplearchive
 		appOptions.setCommandMode(IdxitAppOptions::CommandMode::CM_About);
 		return true;
 	}
-}
+

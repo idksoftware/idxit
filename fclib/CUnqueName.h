@@ -35,7 +35,7 @@
 #ifndef CUNQUENAME_H_
 #define CUNQUENAME_H_
 
-namespace simplearchive {
+
 
 class CUnqueName {
 	typedef enum {
@@ -111,5 +111,4 @@ public:
 	}
 };
 
-} /* namespace simplearchive */
 #endif /* CUNQUENAME_H_ */

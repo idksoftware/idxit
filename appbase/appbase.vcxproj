@@ -153,7 +153,6 @@
   <ItemGroup>
     <ClCompile Include="AboutCommand.cpp" />
     <ClCompile Include="AppBase.cpp" />
-    <ClCompile Include="AppOptions.cpp" />
     <ClCompile Include="argvparser.cpp" />
     <ClCompile Include="JsonCommand.cpp" />
     <ClCompile Include="ParseOptions.cpp">

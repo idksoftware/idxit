@@ -34,7 +34,7 @@
 # define NEVER(X)       (X)
 #endif
 
-namespace simplearchive {
+
 
 #define IMGA_ERRORS_START 5000
 
@@ -99,6 +99,5 @@ namespace simplearchive {
 
 	std::ostream& operator<<(std::ostream& out, const IMGA_ERROR value);
 
-} /* namespace simplearchive */
 
 

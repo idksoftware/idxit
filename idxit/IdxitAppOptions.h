@@ -42,7 +42,7 @@
 #include "ResultsPresentation.h"
 #include "ParseOptions.h"
 
-namespace simplearchive {
+
 
 /**
     @brief This class controls the commands input to the sia application.
@@ -168,13 +168,14 @@ public:
 };
 
 
-class IdxitAppOptions : public CommandLineProcessing::AppOptions{
+class IdxitAppOptions : public CommandLineProcessing::AppOptions {
 public:
 	enum class CommandMode {
 		
 		CM_About,		//< Show the current version/build of this software.
 		CM_Scan,
 		CM_Show,
+		CM_Sort,
 		CM_Unknown
 	};
 
@@ -191,6 +192,7 @@ private:
 	friend class IdxitAbout;
 	friend class IdxitDefinition;
 	friend class IdxitScan;
+	friend class IdxitSort;
 	friend class IdxitShow;
 
 	friend class StatusOptions;
@@ -321,5 +323,4 @@ public:
 	DefaultArgumentsContainer& getDefaultArguments();
 };
 
-} /* namespace simplearchive */
 #endif /* ADMINAPPOPTIONS_H_ */

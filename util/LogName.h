@@ -35,7 +35,7 @@
 #ifndef LOGNAME_H_
 #define LOGNAME_H_
 #include <string>
-namespace simplearchive {
+
 
 class CDate;
 /**
@@ -71,5 +71,4 @@ public:
 	static const int ALWAYS_CREATE = -1;
 };
 
-} /* namespace simplearchive */
 #endif /* LOGNAME_H_ */

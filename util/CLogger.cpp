@@ -56,7 +56,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+
 
 std::string CLogger::m_filename = "Log.txt";
 std::unique_ptr<CLogger> CLogger::m_this(nullptr);
@@ -682,4 +682,3 @@ CLog& CLog::operator<< (CLogger::Level level) {
 	return *this;
 }
 
-} /* namespace simplearchive */

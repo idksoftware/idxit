@@ -47,7 +47,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 using namespace std;
-namespace simplearchive {
+
 
 class ChangeLogItem {
 	std::string m_comment;
@@ -130,4 +130,3 @@ bool ChangeLog::log(const char *filepath, const char *version, const char *comme
 
 	return true;
 }
-} /* namespace simplearchive */

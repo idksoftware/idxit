@@ -38,7 +38,7 @@
  * key names to be used in the application.
  */
 
-//namespace simplearchive {
+//
 
 #define TABLE_ASSET_PROPERTIES		"AssetProperties"
 #define TABLE_CAMERA_INFORMATION	"CameraInformation"
@@ -284,7 +284,7 @@ enum class ImageHistoryIndex {
 	IH_COMMENT_IDX
 };
 
-enum class SystemHistoryIndex {
+enum class SystemHistoryIdx {
 	SH_DATEADDED_IDX,
 	SH_FILEPATH_IDX,
 	SH_VERSION_IDX,
@@ -378,7 +378,7 @@ enum class CheckoutIndex {
 #define DB_WEBSITE_IDX			16
 */
 
-//namespace simplearchive {
+//
 #define DB_SEQUENCEID					"SequenceId"	// Sequence ID of this index
 #define DB_DATABASEID					"DatabaseId" // Sequence ID of linked database
 #define DB_SHA							"Sha256"

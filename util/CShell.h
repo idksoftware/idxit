@@ -36,7 +36,7 @@
 #define CSHELL_H_
 #include <stdio.h>
 
-namespace simplearchive {
+
 
 class CShell {
 	std::string m_output;
@@ -50,5 +50,5 @@ public:
 	}
 };
 
-} /* namespace simplearchive */
+
 #endif /* CSHELL_H_ */

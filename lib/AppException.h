@@ -36,7 +36,7 @@
 #define APPEXCEPTION_H_
 #include <string>
 
-namespace simplearchive {
+
 
 struct AppException : public std::exception {
 	std::string s;
@@ -47,5 +47,4 @@ struct AppException : public std::exception {
 	}
 };
 
-} /* namespace simplearchive */
 #endif /* APPEXCEPTION_H_ */

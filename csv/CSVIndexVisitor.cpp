@@ -29,7 +29,7 @@
 #include "CSVIndexVisitor.h"
 #include "CSVIndexAction.h"
 
-namespace simplearchive {
+
 
 	CSVIndexVisitorBase::CSVIndexVisitorBase(std::shared_ptr<CSVIndexAction> indexAction) {
 		m_indexAction = indexAction;
@@ -275,4 +275,3 @@ namespace simplearchive {
 		m_indexAction->onEnd();
 		return true;
 	}
-};

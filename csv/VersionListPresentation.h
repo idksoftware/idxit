@@ -1,8 +1,7 @@
 #pragma once
 #include "ResultsPresentation.h"
 
-namespace simplearchive
-{
+
 	class VersionListResultsPresentation : public ResultsPresentation
 	{
 	public:
@@ -17,4 +16,4 @@ namespace simplearchive
 		bool writeJson() override;
 		bool writeHtml() override;
 	};
-}
+

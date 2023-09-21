@@ -16,10 +16,11 @@
 //#include "ParseProperties.h"
 #include "IdxitAbout.h"
 #include "IdxitScan.h"
+#include "IdxitSort.h"
 
 // beyond compare
 using namespace CommandLineProcessing;
-namespace simplearchive {
+
 
 void  IdxitArgvParser::defineOptions() {
 
@@ -41,11 +42,12 @@ void  IdxitArgvParser::defineOptions() {
 	defineCommandSyntax("define", "idxit define [--source-path=<path>]\n\t"
 		"[--comment=<comment text>]\n\t[--lightroom=<On|Off>]");
 
-	/*
-	defineOption("checkout", "Checkout images from archive to workspace.", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("checkout", "iaarc checkout [--target-path=<path>]\n\t"
-		"[--comment=<comment text>]\n\t[--scope=<scope-address]\n\t[--force=<yes|No>]\n\t[--version=<vesion-num>");
+	
+	defineOption("sort", "Sort an Index by file properties.", ArgvParser::OptionAttributes::MasterOption);
+	defineCommandSyntax("sort", "idxit sort [--index-file=<path>]\n\t"
+		"[--name]\n\t[--=<scope-address]\n\t[--force=<yes|No>]\n\t[--version=<vesion-num>");
 
+	/*
 	defineOption("checkin", "Checkin images from workspace into the archive.", ArgvParser::OptionAttributes::MasterOption);
 	defineCommandSyntax("checkin", "iaarc checkin [--target-path=<path>]\n\t[--logging-level=<level>]"
 		"[--comment=<comment text>]\n\t[--scope=<scope-address]\n\t[--force=<yes|No>]\n\t[--version=<vesion-num>");
@@ -181,9 +183,7 @@ void  IdxitArgvParser::defineOptions() {
 	defineOption("r", "location of the archive root folder.", ArgvParser::OptionAttributes::NoOptionAttribute);
 	defineOptionAlternative("r", "root");
 
-	defineOption("format-type", "text output format type. Can be \"Humam\", \"XML\" \"Json\" or \"cvs\" i.e format-type=XML.", ArgvParser::OptionAttributes::OptionRequiresValue);
-	//defineOptionAlternative("ft", "format-type");
-	defineCommandSyntax("format-type", "format-type=[Human] | [xml] | [json] | [html] | [csv]\n");
+	
 
 	defineOption("l", "Temporarily changes the logging level for the scope of this command session.", ArgvParser::OptionAttributes::OptionRequiresValue);
 	defineOptionAlternative("l", "logging-level");
@@ -194,8 +194,10 @@ void  IdxitArgvParser::defineOptions() {
 	defineOption("U", "Show settup", ArgvParser::OptionAttributes::NoOptionAttribute);
 	defineOptionAlternative("U", "settup");
 
-	defineOption("out", "Output type: text, xml, json or html.", ArgvParser::OptionAttributes::OptionRequiresValue);
-	defineCommandSyntax("out", "out=[plain] | [xml] | [json] | [html]\n");
+	defineOption("format-type", "text output format type. Can be \"Humam\", \"XML\" \"Json\" or \"cvs\" i.e format-type=XML.", ArgvParser::OptionAttributes::OptionRequiresValue);
+	//defineOptionAlternative("ft", "format-type");
+	defineCommandSyntax("format-type", "format-type=[Human] | [xml] | [json] | [html] | [csv]\n");
+
 
 	defineOption("o", "property option.", ArgvParser::OptionAttributes::OptionRequiresValue);
 	defineOptionAlternative("o", "option");
@@ -212,10 +214,8 @@ void  IdxitArgvParser::defineOptions() {
 	defineOption("list", "list checked out/in and delete images", ArgvParser::OptionAttributes::OptionRequiresValue); // =all =year{2015}
 	defineCommandSyntax("list", "list=[checked-out] | [checked-in] | [deleted]\n");
 
-	defineCommandOption("about", "comment");
-
-	defineCommandOption("about", "source-path");
-	defineCommandOption("about", "lightroom");
+	defineCommandOption("about", "format-type");
+	defineCommandOption("about", "file");
 
 	
 	defineCommandOption("scan", "source-path");
@@ -228,7 +228,7 @@ void  IdxitArgvParser::defineOptions() {
 	defineCommandOption("define", "comment");
 	defineCommandOption("define", "source-path");
 	
-
+	defineCommandOption("sort", "index-file");
 	/*
 	defineCommandOption("checkin", "comment");
 	defineCommandOption("checkin", "scope");
@@ -331,9 +331,12 @@ bool IdxitArgvParser::doInitalise(int argc, char **argv) {
 	
 	std::shared_ptr <IdxitAbout>		aboutCmd		= std::make_shared<IdxitAbout>(*this);
 	std::shared_ptr <IdxitScan>			scanCmd			= std::make_shared<IdxitScan>(*this);
+	std::shared_ptr <IdxitSort>			sortCmd			= std::make_shared<IdxitSort>(*this);
+
 
 	addSubCommand(aboutCmd);
 	addSubCommand(scanCmd);
+	addSubCommand(sortCmd);
 	
 	return doCommand();
 }
@@ -531,7 +534,3 @@ std::string IdxitArgvParser::generalHelp(unsigned int _width) const
 }
 
 
-
-
-
-} /* name*/

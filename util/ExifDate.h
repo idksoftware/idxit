@@ -39,7 +39,7 @@
 #include "ExifDateTime.h"
 #include "cport.h"
 
-namespace simplearchive {
+
 
 class ExifDate {
 	int m_day;
@@ -154,5 +154,4 @@ public:
 
 };
 
-} /* namespace simplearchive */
 #endif /* EXIFDATE_H_ */

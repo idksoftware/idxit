@@ -36,6 +36,14 @@ const std::string& IdxItHome::getIdxItHome() {
 
 bool IdxItHome::init() {
 
+	if (setHome() == false) {
+		return false; // m_error set
+	}
+	HomePathsBase::loadEnv();
+	if (m_valid == true) {
+		initHomePaths();
+	}
+
 	bool res = true;
 	for (auto i = m_list.begin(); i != m_list.end(); i++) {
 		auto hp = *i;
@@ -97,13 +105,13 @@ WWW image folder – $HOME/imgarchive/workspace
  *
  */
 
-bool IdxItHome::setArchiveHome()
+bool IdxItHome::setHome()
 {
 	// Set Windows Defaults (they can be overridden later)
 	std::string allUsersHomeEnvironmentPath = SAUtils::GetEnv(IDXIT_HOME, true);
 	std::string myselfHomeEnvironmentPath = SAUtils::GetEnv(IDXIT_HOME, false);
 	// All Users
-#ifdef WIN32
+#ifdef _WIN32
 	std::string allusersHomeDefaultPath = SAUtils::GetPOSIXEnv("ProgramData");
 	allusersHomeDefaultPath += DEFAULT_ALLUSER_HOME_PATH;
 	std::string myselfHomeDefaultPath = SAUtils::GetPOSIXEnv("LOCALAPPDATA");

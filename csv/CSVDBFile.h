@@ -41,7 +41,7 @@
 #include "DBDefines.h"
 #include "MetaType.h"
 
-namespace simplearchive {
+
 
 /*
  * @brief This class manages the CSV database files.
@@ -216,5 +216,4 @@ public:
 };
 */
 
-} /* namespace simplearchive */
 

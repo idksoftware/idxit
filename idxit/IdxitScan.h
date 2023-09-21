@@ -5,7 +5,7 @@
 
 using namespace CommandLineProcessing;
 
-namespace simplearchive {
+
 
 	class IdxitScan : public IdxitSubCommand {
 	public:
@@ -14,4 +14,3 @@ namespace simplearchive {
 		bool doCommand() override;
 	};
 
-};

@@ -42,7 +42,7 @@
 
 
 using namespace CommandLineProcessing;
-namespace simplearchive {
+
 
 
 /**
@@ -68,5 +68,5 @@ protected:
 	bool setExitStatus(bool commandReturn);
 };
 
-}
+
 #endif /* APP_H_ */

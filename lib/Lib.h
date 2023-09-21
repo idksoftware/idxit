@@ -42,7 +42,7 @@
 //#include "ResultsPresentation.h"
 /*
 */
-namespace simplearchive {
+
 
 
 	class ArchiveBuilder;
@@ -97,5 +97,4 @@ namespace simplearchive {
 	
 	};
 
-}
 #endif /* SIALIB_H_ */

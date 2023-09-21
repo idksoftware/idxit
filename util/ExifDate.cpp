@@ -45,7 +45,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+
 
 ExifDate::ExifDate() {
 	now();
@@ -171,4 +171,3 @@ ExifDate& ExifDate::operator=(ExifDateTime& d) {
 }
 */
 
-} /* namespace simplearchive */

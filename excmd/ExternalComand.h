@@ -37,7 +37,7 @@
 
 #include <string>
 
-namespace simplearchive {
+
 class CLogger;
 class ExifObject;
 class ExternalComand {
@@ -61,5 +61,4 @@ public:
 	bool findToken(std::string &str, const char *toklabel);
 };
 
-} /* namespace simplearchive */
 #endif /* ExternalComand_H_ */

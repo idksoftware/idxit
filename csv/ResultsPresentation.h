@@ -11,7 +11,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace simplearchive {
+
 
 	class ColumnJustification {
 		size_t* m_list;
@@ -240,4 +240,3 @@ namespace simplearchive {
 		static FormatType parse(const char* str);
 	};
 
-};

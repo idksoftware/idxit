@@ -41,7 +41,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+
 
 HistoryEvent::HistoryEvent() {
 	m_event = Event::ERROR;
@@ -106,6 +106,3 @@ const char HistoryEvent::getChar(HistoryEvent::Event evt) {
 	return 'E';
 }
 
-
-
-} /* namespace simplearchive */

@@ -39,7 +39,7 @@
 #include "SAUtils.h"
 #include "ErrorCode.h"
 
-namespace simplearchive {
+
 
 typedef std::vector<std::string> SimpleImageList;
 
@@ -154,5 +154,4 @@ public:
 	
 };
 
-} /* namespace simplearchive */
 #endif /* CHECKDISK_H_ */

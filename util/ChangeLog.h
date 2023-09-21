@@ -40,7 +40,7 @@
 #include <mutex>
 #include "HistoryEvent.h"
 
-namespace simplearchive {
+
 
 class ChangeLog {
 public:
@@ -71,5 +71,4 @@ private:
 	
 };
 
-} /* namespace simplearchive */
 #endif /* CLOGGER_H_ */

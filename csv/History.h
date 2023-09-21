@@ -9,7 +9,7 @@
 #include "MetaType.h"
 #include "ResultsPresentation.h"
 
-namespace simplearchive {
+
 
 	class HistoryEvent;
 	
@@ -57,6 +57,5 @@ namespace simplearchive {
 		//bool logSystemHistory(const char* dateFrom, const char* dateTo, LogDocument::FormatType formatType, const char* filepath);
 	};
 
-} // namespace simplearchive
 
 

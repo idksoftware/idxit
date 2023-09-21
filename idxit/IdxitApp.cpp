@@ -90,7 +90,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 
-namespace simplearchive {
+
 
 using namespace CommandLineProcessing;
 
@@ -141,6 +141,7 @@ bool IdxitApp::initaliseConfig() {
 	IDXITAppConfig config;
 
 	IdxItHome& idxItHome = IdxItHome::getObject();
+	idxItHome.init();
 	if (idxItHome.isValid() == false) {
 		setError(13, "Error found setting Index-it home folder: %s.\n", idxItHome.errorStr().c_str());
 		return false;
@@ -286,7 +287,6 @@ bool failed()
 
 
 
-} // simplearchive
 
 void ctrlHandler(int s) {
 	printf("Caught signal %d\n", s);
@@ -300,7 +300,7 @@ int main(int argc, char** argv)
 	signal(SIGINT, ctrlHandler);
 
 	bool error = false;
-	simplearchive::IdxitApp app("Idx-it");
+	IdxitApp app("Idx-it");
 	if (app.initalise(argc, argv) == false) {
 
 		error = true;

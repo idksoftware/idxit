@@ -38,7 +38,7 @@
 #include <ctime>
 #include <string>
 
-namespace simplearchive {
+
 
 class CDate {
 	time_t m_Time;
@@ -76,5 +76,4 @@ public:
 	static CDate daysAgo(int days);
 };
 
-} /* namespace simplearchive */
 #endif /* CDATE_H_ */

@@ -42,7 +42,7 @@
 #include <time.h>
 #include <stdio.h>
 #include "ExifDateTime.h"
-//#include "cport.h"
+#include "cport.h"
 #include <cctype>
 
 
@@ -52,8 +52,9 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
 
+
+/* in cport.h
 	int gmtime_p(struct tm& tmTime, const time_t* time) {
 		int err = 1;
 #ifdef _WIN32
@@ -71,6 +72,8 @@ namespace simplearchive {
 		return err;
 	}
 
+
+	
 	int localtime_p(struct tm& tmTime, const time_t* time)
 	{
 		int err = 1;
@@ -87,7 +90,7 @@ namespace simplearchive {
 #endif
 		return err;
 	}
-
+	*/
 
 	ExifDateTime::ExifDateTime() {
 		now();
@@ -321,4 +324,3 @@ namespace simplearchive {
 		return true;
 	}
 
-} /* namespace simplearchive */

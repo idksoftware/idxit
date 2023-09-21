@@ -98,12 +98,13 @@ class IdxItHome {
 	static std::string m_primaryPath;
 	void initHomePaths();
 	
-	bool setArchiveHome();
+	bool setHome();
 	
 protected:
 
 	IdxItHome() noexcept {
-		if (setArchiveHome() == false) {
+		/*
+		if (setHome() == false) {
 			return; // m_error set
 		}
 		HomePathsBase::loadEnv();
@@ -111,6 +112,7 @@ protected:
 			initHomePaths();
 			init();
 		}
+		*/
 	}
 
 public:

@@ -2,7 +2,7 @@
 
 #include "ResultsPresentation.h"
 
-namespace simplearchive {
+
 
 	class SystemHistoryResultsPresentation : public ResultsPresentation {
 	public:
@@ -15,5 +15,3 @@ namespace simplearchive {
 		bool writeJson() override;
 		bool writeHtml() override;
 	};
-
-}; // namespace

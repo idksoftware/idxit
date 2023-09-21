@@ -38,7 +38,7 @@
 #include "ExternalProcess.h"
 //#include "ImagePath.h"
 
-namespace simplearchive {
+
 //class ImagePath;
 
 /**
@@ -191,5 +191,5 @@ public:
 	OnContainerCmd(ImagePath &imagePath);
 };
 */
-} /* namespace simplearchive */
+
 #endif /* HOOKCMD_H_ */

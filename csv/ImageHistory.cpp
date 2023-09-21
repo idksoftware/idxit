@@ -48,7 +48,7 @@
 #include "SAUtils.h"
 #include "History.h"
 #include "CSVArgs.h"
-#include "ArchivePath.h"
+#include "../Lib/ArchivePath.h"
 #include "ErrorCode.h"
 #include "pathcontroller.h"
 #include "ResultsList.h"
@@ -61,7 +61,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+
 
 	// This class is used to write the log in normal operation. However reading the 
 	// log will be done by the MTRow 
@@ -255,4 +255,3 @@ namespace simplearchive {
 		return true;
 	}
 
-} /* namespace */

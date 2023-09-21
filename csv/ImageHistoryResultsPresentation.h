@@ -2,7 +2,7 @@
 
 #include "ResultsPresentation.h"
 
-namespace simplearchive {
+
 
 	class ImageHistoryResultsPresentation : public ResultsPresentation {
 	public:
@@ -16,4 +16,3 @@ namespace simplearchive {
 		bool writeHtml() override;
 	};
 
-}; // namespace

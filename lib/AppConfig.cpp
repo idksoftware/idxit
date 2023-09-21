@@ -56,7 +56,7 @@ static char THIS_FILE[] = __FILE__;
 #define STRICMP strcasecmp
 #endif
 
-namespace simplearchive {
+
 
 	std::unique_ptr<AppConfig> m_this = nullptr;
 	
@@ -471,6 +471,5 @@ namespace simplearchive {
 	}
 
 
-};
 
 

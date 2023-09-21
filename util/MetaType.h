@@ -1,5 +1,4 @@
 
-//} /* namespace simplearchive */
 //@@>>MetaType.h
 // =========== MetaType.h ===========
 //
@@ -27,7 +26,7 @@
 
 #define DELIM ','
 
-namespace simplearchive {
+
 
 	class MTTypeException : public std::exception {
 		std::string message;
@@ -1003,4 +1002,3 @@ namespace simplearchive {
 		val = col.getFloat();
 	}
 
-} /* namespace simplearchive */

@@ -37,6 +37,37 @@
 #include "ExifDateTime.h"
 
 
+#define SYSTEM_PATH					    "/system"
+#define IMAGEID_FOLDER					"/system/imageid"
+#define WORKSPACE_METADATA_PATH			"/.imga"
+#define HOOKS_PATH						"/hooks"
+#define BACKUP_DESTINATION_PATH			"/Image Backups"
+#define MASTER_CATALOGUE_PATH			"/IAPictures"
+#define MASTER_WWW_CATALOGUE_PATH		"/IAWebSite"
+#define TOOLS_PATH						"/tools"
+#define CONFIG_PATH						"/config"
+#define DERIVATIVE_PATH					"/derivative"
+#define MASTER_PATH						"/master"
+#define HISTORY_PATH					"/history"
+#define BACKUPS_PATH					"/backups"
+#define METADATA_PATH					"/metadata"
+#define METADATA_INDEX_PATH				"/metedataIdx"
+#define IMAGEID_PATH					"/imageid"		// Sequence number
+#define JOURNAL_PATH					"/journal"
+#define MASTER_IMAGE_PATH				"/images"
+#define DATABASE_PATH					"/db"
+#define TEMP_PATH						"/tmp"
+#define TEMPLATE_PATH					"/template"
+#define LOGS_PATH						"/logs"
+#define INDEX_PATH						"/index"		// CRC index
+#define PRIMARY_INDEX_PATH				"/pi"
+#define DUPS_PATH						"/dups"
+#define SQLITEDB_PATH					"/sqldb"
+#define IMAGES_PATH						"/images"
+#define LOG_PATH						"/logs"
+#define BACKUP_PATH						"/backup"
+
+
 #define SYSTEM_FOLDERS			"System Folders" /*< Path to hook scripts */
 #define MASTER_ARCHIVE			"Master Archive"	 /*< Main configuration path */ 
 //#define TOOLS_PATH_LABEL           		"ToolsPath"
@@ -137,9 +168,9 @@
 #define USER_LOCAL					"local"
 #define USER_ALL					"all"
 
-namespace simplearchive {
 
-	class AppOptions;
+
+	class AppOption;
 	/**
 	* @brief This is the main configuration object. It is used for the
 	* primary configuration options.
@@ -149,7 +180,7 @@ namespace simplearchive {
 	{
 	
 	private:
-		friend class AppOptions;
+		friend class AppOption;
 		friend class SharedConfig;
 		friend class IDXITAppConfig;
 
@@ -388,5 +419,3 @@ namespace simplearchive {
 		
 	};
 
-
-}

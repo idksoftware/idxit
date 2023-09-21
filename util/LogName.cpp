@@ -47,7 +47,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+
 
 LogName::LogName() {
 	// TODO Auto-generated constructor stub
@@ -174,4 +174,3 @@ std::string LogName::dateStringToday() {
 	return dateString(date);
 }
 
-} /* namespace simplearchive */

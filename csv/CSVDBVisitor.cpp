@@ -50,7 +50,7 @@ static char THIS_FILE[] = __FILE__;
 //#define new DEBUG_NEW
 #endif
 
-namespace simplearchive {
+
 
 CSVDBVisitor::CSVDBVisitor(CSVDBAction *folderVisitor) {
 	m_folderVisitor = folderVisitor;
@@ -114,4 +114,3 @@ bool CSVDBVisitor::process(const char *rootFolder) {
 }
 
 
-} /* namespace simplearchive */
