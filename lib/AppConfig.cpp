@@ -36,7 +36,8 @@
 #include <iomanip>
 #include "AppConfig.h"
 #include "SAUtils.h"
-#include "ArchivePath.h"
+#include "DefinePaths.h"
+
 #include "CLogger.h"
 #include "HomePaths.h"
 
@@ -229,7 +230,7 @@ static char THIS_FILE[] = __FILE__;
 
 	void SharedConfig::setHomePath(const char *homePath) {
 		AppConfig::m_homePath = homePath;
-		ArchivePath::setPathToHome(AppConfig::m_homePath);
+		
 		AppConfig::m_configPath = homePath;
 		AppConfig::m_configPath += CONFIG_PATH;
 	}

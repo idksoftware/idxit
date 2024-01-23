@@ -173,9 +173,11 @@ public:
 	enum class CommandMode {
 		
 		CM_About,		//< Show the current version/build of this software.
+		CM_Prop,
 		CM_Scan,
 		CM_Show,
 		CM_Sort,
+		CM_Define,
 		CM_Unknown
 	};
 
@@ -191,6 +193,7 @@ private:
 	
 	friend class IdxitAbout;
 	friend class IdxitDefinition;
+	friend class IdxitProperties;
 	friend class IdxitScan;
 	friend class IdxitSort;
 	friend class IdxitShow;

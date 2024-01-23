@@ -12,7 +12,7 @@
 #include "argvparser.h"
 #include "Environment.h"
 #include "EnvFunc.h"
-#include "IdxitParseOptions.h"
+#include "IdxitProperties.h"
 //#include "ParseProperties.h"
 #include "IdxitAbout.h"
 #include "IdxitScan.h"
@@ -34,6 +34,11 @@ void  IdxitArgvParser::defineOptions() {
 	setHelpOption();
 
 	// Subcommands
+	defineOption("prop", "Show properties", ArgvParser::OptionAttributes::MasterOption);
+	defineCommandSyntax("prop", "idxit prop [--s]\n\t[--logging-level=<level>]"
+		"[--scope=<scope-address]\n\t[--set=<property:value>]");
+
+
 	defineOption("scan", "scan for new images in the file sytem. Output to a jounal file.", ArgvParser::OptionAttributes::MasterOption);
 	defineCommandSyntax("scan", "idxit scan [--source-path=<path>]\n\t"
 		"[--format-type=<output format>]\n\t[--index-file=<index file path>");
@@ -217,6 +222,9 @@ void  IdxitArgvParser::defineOptions() {
 	defineCommandOption("about", "format-type");
 	defineCommandOption("about", "file");
 
+	defineCommandOption("prop", "source-path");
+	defineCommandOption("prop", "format-type");
+
 	
 	defineCommandOption("scan", "source-path");
 	defineCommandOption("scan", "format-type");
@@ -330,11 +338,13 @@ bool IdxitArgvParser::doInitalise(int argc, char **argv) {
 	}
 	
 	std::shared_ptr <IdxitAbout>		aboutCmd		= std::make_shared<IdxitAbout>(*this);
+	std::shared_ptr <IdxitProperties>	propCmd			= std::make_shared<IdxitProperties>(*this);
 	std::shared_ptr <IdxitScan>			scanCmd			= std::make_shared<IdxitScan>(*this);
 	std::shared_ptr <IdxitSort>			sortCmd			= std::make_shared<IdxitSort>(*this);
 
 
 	addSubCommand(aboutCmd);
+	addSubCommand(propCmd);
 	addSubCommand(scanCmd);
 	addSubCommand(sortCmd);
 	

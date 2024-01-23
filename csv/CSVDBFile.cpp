@@ -48,7 +48,7 @@
 #include "SAUtils.h"
 #include "CSVDBFile.h"
 #include "CSVArgs.h"
-#include "../Lib/ArchivePath.h"
+
 #include "pathcontroller.h"
 
 #ifdef _DEBUG
@@ -613,20 +613,7 @@ const char* CSVDBFile::findPath(uint64_t idx) {
 	return 0;
 }
 
-MirrorIdxDB::MirrorIdxDB() {
-	
-	if (ArchivePath::isMasterEnabled() == true) {
-		m_master = ArchivePath::getMaster().getIdxDBPath();
-	}
-	if (ArchivePath::isMasterBackup1Enabled() == true) {
-		m_backup1 = ArchivePath::getMasterBackup1().getIdxDBPath();
 
-	}
-	if (ArchivePath::isMasterBackup2Enabled() == true) {
-		m_backup2 = ArchivePath::getMasterBackup2().getIdxDBPath();;
-	}
-	
-}
 
 
 
@@ -654,33 +641,7 @@ std::string MirrorIdxDB::makeFolders(std::string &basePath, uint64_t idx) {
 	path = path + '/' + hexStr + ".csv";
 	return path;
 }
-bool MirrorIdxDB::process(unsigned int idx) {
 
-	std::string source = makeFolders(m_path, idx);
-	/*
-	if (ArchivePath::isMasterEnabled() == true) {
-		std::string fullPath = makeFolders(m_Master, idx);
-		if (SAUtils::copy(source.c_str(), fullPath.c_str()) == false) {
-			return false;
-		}
-	}
-	*/
-	
-	if (ArchivePath::isMasterBackup1Enabled() == true) {
-		std::string fullPath = makeFolders(m_backup1, idx);
-		if (SAUtils::copy(source.c_str(), fullPath.c_str()) == false) {
-			return false;
-		}
-	}
-	if (ArchivePath::isMasterBackup2Enabled() == true) {
-		std::string fullPath = makeFolders(m_backup2, idx);
-		if (SAUtils::copy(source.c_str(), fullPath.c_str()) == false) {
-			return false;
-		}
-	}
-	
-	return true;
-}
 
 /********************************/
 

@@ -97,7 +97,7 @@ public:
 		m_dirpath = dirpath;
 		m_folderVisitor = folderVisitor;
 		m_folderVisitor->onStart(dirpath);
-		printf("Create \"%s\"\n", m_dirpath.c_str());
+		//printf("Create \"%s\"\n", m_dirpath.c_str());
 	}
 	DirNode(const DirNode& x) {
 	}
@@ -150,12 +150,7 @@ bool DirNode::process()
 
 			if (std::filesystem::is_regular_file(p) == true) {
 				if (m_folderVisitor) {
-					if (m_folderVisitor->onFile(filename.c_str()) == true) {
-						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing File: %s - File was included", path.c_str());
-					}
-					else {
-						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing File: %s - File was excluded", path.c_str());
-					}
+					m_folderVisitor->onFile(filename.c_str());
 				}
 			}
 			else {

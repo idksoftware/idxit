@@ -32,7 +32,7 @@
 **
 ** #$$@@$$# */
 
-
+//#include <fileapi.h>
 #include <filesystem>
 #include "Lib.h"
 #include "AppConfig.h"
@@ -59,12 +59,12 @@
 #include "UDPOut.h"
 
 #include "TerminalServer.h"
-#include "ArchivePath.h"
+
 
 #include "RemoteServer.h"
 #include <stdio.h>
 #include <sstream>
-//#include "WorkspaceFiles.h"
+#include "CDate.h"
 
 #include "UpdateConfig.h"
 
@@ -76,12 +76,15 @@
 #include "XMLWriter.h"
 #include "IndexedCSV.h"
 #include "FileInfo.h"
+#include "IndexInfo.h"
 #include "DirectoryVisitor.h"
 
 #include "Storage.h"
 #include "IgnoreList.h"
 #include "DefinePaths.h"
 #include "HomePaths.h"
+#include "ScanVisitor.h"
+#include "JounalVisitor.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -95,265 +98,42 @@ static char THIS_FILE[] = __FILE__;
 #undef FILECODE
 #define FILECODE IDXLib_CPP
 
-//int pythonmain();
-
-
-
-
-
-	class FileFilter : public std::vector<std::string> {
-	public:
-		bool match(std::string& ext) {
-			if (ext.empty()) {
-				return false;
-			}
-			for (auto i = begin(); i != end(); i++) {
-				
-				if (SAUtils::isEquals(*i, ext)) {
-					return true;
-				}
-			}
-			return false;
-		}
-
-	};
-
-	class FolderFilter : public std::vector<std::string> {
-	public:
-		bool match(std::string& folder) {
-			for (auto i = begin(); i != end(); i++) {
-				// May need a switch if folder is not case sensitive
-				if (i->compare(folder) == 0) {
-					return true;
-				}
-			}
-			return false;
-		}
-
-	};
-
-	class TestVisitor : public FolderVisitor {
-		//static BackupVisitor *m_this;
-		std::string m_path;
-		//static std::shared_ptr<XMLFileInfoWriter> m_xmlFileInfoWriter;
-		static std::shared_ptr<ICSVFileInfoWriter> m_icsvFileInfoWriter;
-		static std::shared_ptr<Storage> m_storage;
-		static std::shared_ptr<FileFilter> m_incFileFilter;
-		static std::shared_ptr<FolderFilter> m_incFolderFilter;
-		static bool m_incFileFilterOn;
-		static bool m_incFolderFilterOn;
-		static std::shared_ptr<FileFilter> m_excFileFilter;
-		static std::shared_ptr<FolderFilter> m_excFolderFilter;
-		static bool m_excFileFilterOn;
-		static bool m_excFolderFilterOn;
-		static std::shared_ptr<IgnoreList> m_sysIgnoreList;
-		static std::shared_ptr<IgnoreList> m_usersysIgnoreList;
-		static std::shared_ptr<IgnoreList> m_userIgnoreList;
-		static bool m_sysIgnoreOn;
-		static bool m_usersysIgnoreOn;
-		static bool m_userIgnoreOn;
-		static bool m_scanHidden;
-	public:
-		TestVisitor() = default;
-		TestVisitor(const char* path) {
-			//if (m_xmlFileInfoWriter == nullptr) {
-			//	m_xmlFileInfoWriter = std::make_shared<XMLFileInfoWriter>(path);
-			//}
-			if (m_icsvFileInfoWriter == nullptr) {
-				m_icsvFileInfoWriter = std::make_shared<ICSVFileInfoWriter>(path);
-			}
-			if (m_excFileFilter == nullptr) {
-				m_excFileFilter = std::make_shared<FileFilter>();
-			}
-			if (m_incFolderFilter == nullptr) {
-				m_incFolderFilter = std::make_shared<FolderFilter>();
-			}
-			if (m_incFileFilter == nullptr) {
-				m_incFileFilter = std::make_shared<FileFilter>();
-			}
-			if (m_incFolderFilter == nullptr) {
-				m_incFolderFilter = std::make_shared<FolderFilter>();
-			}
-			if (m_sysIgnoreList == nullptr) {
-				m_sysIgnoreList = std::make_shared<IgnoreList>();
-			}
-			if (m_usersysIgnoreList == nullptr) {
-				m_usersysIgnoreList = std::make_shared<IgnoreList>();
-			}
-			if (m_userIgnoreList == nullptr) {
-				m_userIgnoreList = std::make_shared<IgnoreList>();
-			}
-		}
-
-		void addIncFileFilter(const char* ext) {
-			m_incFileFilterOn = true;
-			m_incFileFilter->push_back(ext);
-		}
-
-		void addIncFolderFilter(const char* dir) {
-			m_incFolderFilterOn = true;
-			m_incFolderFilter->push_back(dir);
-		}
-
-		void addExcFileFilter(const char* ext) {
-			m_excFileFilterOn = true;
-			m_excFileFilter->push_back(ext);
-		}
-
-		void addExcFolderFilter(const char* dir) {
-			m_excFolderFilterOn = true;
-			m_excFolderFilter->push_back(dir);
-		}
-
-		void addSysIgnoreList(std::shared_ptr<IgnorePath> ip) {
-			m_sysIgnoreOn = true;
-			std::shared_ptr<IgnorePath> ipp = std::make_shared<IgnorePath>(*ip);
-			m_sysIgnoreList->push_back(ipp);
-		}
-
-		void addUserSysIgnoreList(IgnorePath& ip) {
-			m_usersysIgnoreOn = true;
-			std::shared_ptr<IgnorePath> ipp = std::make_shared<IgnorePath>(ip);
-			m_usersysIgnoreList->push_back(ipp);
-		}
-
-
-		virtual bool onStart(const char* path)
-		{
-			//printf("Start: %s\n", path);
-
-			m_path = path;
-			return true;
-		};
-
-		bool matchIncFile(std::string p) {
-			std::filesystem::path fullpath = p;
-			if (m_incFileFilter != nullptr) {
-				std::string ext = fullpath.extension().string();
-				int len = ext.length();
-				if (len == 0) {
-					return false;
-				}
-				std::string noDotExt;
-				if (ext[0] == '.') {
-					noDotExt = ext.substr(1, ext.length() - 1);
-				}
-				else {
-					noDotExt = ext;
-				}
-				return m_incFileFilter->match(noDotExt);
-			}
-			return true;
-		}
-
-		bool excludeFolder(std::string p) {
-			std::filesystem::path fullpath = p;
-			std::string folder = fullpath.filename().string();
-			if (m_excFileFilter != nullptr) {
-
-				return m_excFolderFilter->match(folder);
-			}
-			return false;
-		}
-
-		virtual bool onFile(const char* path)
-		{
-			CLogger& logger = CLogger::getLogger();
-
-			std::string p = path;
-			//fileInfo.print();
-			if (m_icsvFileInfoWriter != nullptr) {
-				if (SAUtils::isHidden(path)) {
-					if (m_scanHidden == false) {
-						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Found hidden File: %s Hidden files ignored", path);
-						return false;
-					}
-					logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Found hidden File: %s Hidden files to be included", path);
-				}												  
-				if (m_incFileFilterOn) {
-					if (matchIncFile(p)) {
-						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "File filter included: %s", path);
-					}
-					else {
-						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "File filter excluded:: %s", path);
-						return false;
-					}
-				}
-				else {
-					logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "No file filter applied including: %s", path);
-				}
-			}
-			FileInfo fileInfo(p);
-			//m_xmlFileInfoWriter->add(fileInfo);
-			m_icsvFileInfoWriter->add(fileInfo);
-			return true;
-		};
-
-		virtual bool onDirectory(const char* path)
-		{
-			CLogger& logger = CLogger::getLogger();
-			
-			std::string p = path;
-			//fileInfo.print();
-			if (m_icsvFileInfoWriter != nullptr) {
-				if (SAUtils::isHidden(path)) {
-					if (m_scanHidden == false) {
-						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Found hidden File: %s Hidden files ignored", path);
-						return false;
-					}
-					logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Found hidden File: %s Hidden files to be included", path);
-				}
-				if (m_excFolderFilterOn) {
-
-					if (excludeFolder(p)) {
-						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing Folder: %s - Folder was included", path);
-						return true;
-					}
-					else {
-						logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing Folder: %s - Folder was included", path);
-					}
-				}
-			}
-			
-			
-			return true;
-		};
-
-		virtual bool onEnd()
-		{
-			//printf("onEnd: %s\n", m_path.c_str());
-
-			return true;
-		};
-		virtual std::shared_ptr<FolderVisitor> make() {
-			return (std::make_shared<TestVisitor>());
-		}
-	};
-
-	//std::shared_ptr<XMLFileInfoWriter> TestVisitor::m_xmlFileInfoWriter = nullptr;
-	std::shared_ptr<ICSVFileInfoWriter> TestVisitor::m_icsvFileInfoWriter = nullptr;
-	std::shared_ptr<Storage> TestVisitor::m_storage = nullptr;
-	std::shared_ptr<FileFilter> TestVisitor::m_incFileFilter = nullptr;
-	bool TestVisitor::m_incFileFilterOn = false;
-	std::shared_ptr<FolderFilter> TestVisitor::m_incFolderFilter = nullptr;
-	bool TestVisitor::m_incFolderFilterOn = false;
-	std::shared_ptr<FileFilter> TestVisitor::m_excFileFilter = nullptr;
-	bool TestVisitor::m_excFileFilterOn = false;
-	std::shared_ptr<FolderFilter> TestVisitor::m_excFolderFilter = nullptr;
-	bool TestVisitor::m_excFolderFilterOn = false;
-	std::shared_ptr<IgnoreList> TestVisitor::m_sysIgnoreList = nullptr;
-	bool TestVisitor::m_sysIgnoreOn = true;
-	std::shared_ptr<IgnoreList> TestVisitor::m_usersysIgnoreList = nullptr;
-	bool TestVisitor::m_usersysIgnoreOn = true;
-	std::shared_ptr<IgnoreList> TestVisitor::m_userIgnoreList = nullptr;
-	bool TestVisitor::m_scanHidden = false;
 
 	using namespace std::filesystem;
+
+	bool IDXLib::prop(const char* sourcePath)
+	{
+		CLogger& logger = CLogger::getLogger();
+
+		std::shared_ptr<JounalVisitor> jounalVisitor_ptr = std::make_shared<JounalVisitor>(sourcePath);
+
+		DirectoryVisitor jounalDirectoryVisitor(jounalVisitor_ptr);
+		jounalDirectoryVisitor.process(sourcePath);
+
+
+		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Number of files to be processed: %d", jounalVisitor_ptr->getNoFiles());
+		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Number of folders to be processed: %d", jounalVisitor_ptr->getNoFolders());
+		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Total number of bytes to be processed: %llu", jounalVisitor_ptr->getSize());
+
+		return true;
+	}
 
 
 	bool IDXLib::scan(const char* sourcePath, const char* idxPath, const char* ignoreFile, bool nousys, bool nouser, bool nosys, const char* incGroupFile, const char* excGroupFile)
 	{
 		CLogger& logger = CLogger::getLogger();
+
+		std::shared_ptr<JounalVisitor> jounalVisitor_ptr = std::make_shared<JounalVisitor>(sourcePath);
+		
+		DirectoryVisitor jounalDirectoryVisitor(jounalVisitor_ptr);
+		jounalDirectoryVisitor.process(sourcePath);
+		
+		
+		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Number of files to be processed: %d", jounalVisitor_ptr->getNoFiles());
+		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Number of folders to be processed: %d", jounalVisitor_ptr->getNoFolders());
+		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Total number of bytes to be processed: %llu", jounalVisitor_ptr->getSize());
+
+		std::shared_ptr<ScanVisitor> scanVisitor_ptr = std::make_shared<ScanVisitor>(sourcePath, idxPath);
 
 		if (sourcePath == nullptr) {
 			logger.log(LOG_COMPLETED, CLogger::Level::FATAL, "No source path found");
@@ -421,17 +201,17 @@ static char THIS_FILE[] = __FILE__;
 				return false;
 			}
 			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Include group file found: %s", incGroupFile);
-			
+
 			if (group.read(incGroupFile) == false) {
 				return false;
 			}
-			
+
 		}
 		else {
 			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Include group file not enabled");
 		}
 
-		
+
 
 		if (excGroupFile != nullptr) {
 
@@ -446,14 +226,14 @@ static char THIS_FILE[] = __FILE__;
 			}
 		}
 		else {
-			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Exclude group file not enabled");	
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Exclude group file not enabled");
 		}
-		
-		
+
+
 		//bool nousys, bool nouser, bool nosys,
 
 
-		
+
 		//std::string ignoreFileString = ignoreFile;
 		//std::string incGroupFileString = incGroupFile;
 		//std::string excGroupFileString = excGroupFile;
@@ -466,22 +246,70 @@ static char THIS_FILE[] = __FILE__;
 				storage.add(fileInfo);
 			}
 		*/
-		
-		std::shared_ptr<TestVisitor> testVisitor_ptr = std::make_shared<TestVisitor>(idxPath);
+
+
 
 		std::vector<std::shared_ptr<GroupItem>>& list = group.getList();
 		for (auto i : list) {
 			std::shared_ptr<GroupItem> item = i;
-			testVisitor_ptr->addIncFileFilter(item->m_ext.c_str());
+			scanVisitor_ptr->addIncFileFilter(item->m_ext.c_str());
 		}
 
 		for (auto i : ignoreList) {
 			std::shared_ptr<IgnorePath> item = i;
-			testVisitor_ptr->addSysIgnoreList(item);
+			scanVisitor_ptr->addSysIgnoreList(item);
 		}
+
+		IndexInfo& indexInfo = ScanVisitor::getIndexInfo();
+		indexInfo.setFilesToBeCompleted(jounalVisitor_ptr->getNoFiles());
+		indexInfo.setFoldersToBeCompleted(jounalVisitor_ptr->getNoFolders());
+		indexInfo.setSizeToBeCompleted(jounalVisitor_ptr->getSize());
+
 		
-		DirectoryVisitor directoryVisitor(testVisitor_ptr);
+		CDate date = CDate::timeNow();
+
+		char devicename[MAX_PATH + 1];
+		DWORD dnsize = MAX_PATH;
+		GetComputerName(devicename, &dnsize);
+		indexInfo.setDevicename(devicename);
+		char hostname[MAX_PATH + 1];
+		gethostname(hostname, MAX_PATH);
+		indexInfo.setHostname(hostname);
+
+		DirectoryVisitor directoryVisitor(scanVisitor_ptr);
+		scanVisitor_ptr->WriteHeader();
 		directoryVisitor.process(sourcePath);
+
+		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Number of files has been processed: %d", scanVisitor_ptr->getNoFiles());
+		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Number of folders has been processed: %d", scanVisitor_ptr->getNoFolders());
+		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Total number of bytes has been processed: %llu", scanVisitor_ptr->getSize());
+
+		bool completed = true;
+		if (jounalVisitor_ptr->getNoFiles() != scanVisitor_ptr->getNoFiles())
+		{
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Number of files not processed: %d", jounalVisitor_ptr->getNoFiles() - scanVisitor_ptr->getNoFiles());
+			completed = false;
+		}
+		if (jounalVisitor_ptr->getNoFolders() != scanVisitor_ptr->getNoFolders())
+		{
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Number of Folders not processed: %d", jounalVisitor_ptr->getNoFolders() - scanVisitor_ptr->getNoFolders());
+			completed = false;
+		}
+		if (jounalVisitor_ptr->getSize() != scanVisitor_ptr->getSize())
+		{
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Number of bytes not processed: %d", jounalVisitor_ptr->getSize() - scanVisitor_ptr->getSize());
+			completed = false;
+		}
+
+		if (completed == true) {
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Scan conmpeted Ok", jounalVisitor_ptr->getSize() - scanVisitor_ptr->getSize());
+		}
+		else {
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Scan conmpeted, not all files of folders processed?", jounalVisitor_ptr->getSize() - scanVisitor_ptr->getSize());
+		}
+
+		scanVisitor_ptr->WriteFooter();
+
 		return true;
 	}
 
@@ -494,7 +322,7 @@ static char THIS_FILE[] = __FILE__;
 
 	IDXLib::IDXLib() :
 		
-		m_winsockRequired(false),
+		m_winsockRequired(true),
 		m_socklibStarted(false),
 		m_enableEvents(false) 
 	{}
@@ -636,5 +464,4 @@ static char THIS_FILE[] = __FILE__;
 		return 0;
 	}
 
-	
 	

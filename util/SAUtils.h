@@ -99,6 +99,7 @@ public:
 	static bool IsFile(const char* path);
 	static time_t createTime(const char* path);
 	static time_t modTime(const char* path);
+	static uint64_t fileSize(const char* path);
 	//static std::vector<std::string *> *getFiles(const char *dirpath);
 	static FileList_Ptr getFiles_(const char* dirpath);
 	static FileList_Ptr getFiles(const char* dirpath);
@@ -145,5 +146,6 @@ public:
 	static std::string GetPOSIXEnv(const std::string& key);
 	static bool SetEnv(const std::string& key, const std::string& value, bool all = true);
 	static bool IsAdminMode();
+	static std::string humanSize(uint64_t bytes);
 };
 

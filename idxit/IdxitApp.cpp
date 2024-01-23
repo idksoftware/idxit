@@ -221,11 +221,24 @@ bool IdxitApp::doRun()
 	case IdxitAppOptions::CommandMode::CM_Scan:
 	{
 		IDXLib idxLib;
-
+		idxLib.initalise("Idxit");
 		return idxLib.scan(appOptions.getSourcePath(), appOptions.getIndexfile(), appOptions.getignoreFile(),
 													appOptions.getnousys(), appOptions.getnouser(), appOptions.getnosys(),
 													appOptions.getIncGroupFile(), appOptions.getExcGroupFile());
 	}
+
+	case IdxitAppOptions::CommandMode::CM_Prop:
+	{
+		IDXLib idxLib;
+		idxLib.initalise("Idxit");
+		return idxLib.prop(appOptions.getSourcePath());
+	}
+
+	case IdxitAppOptions::CommandMode::CM_Sort:
+		//IDXLib idxLib;
+
+		//return idxLib.sort();
+		break;
 	case IdxitAppOptions::CommandMode::CM_Unknown:
 		setError( CLogger::getLastCode(), CLogger::getLastMessage());
 		break;

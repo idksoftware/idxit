@@ -35,68 +35,29 @@
 #pragma once
 
 #define SYSTEM_PATH					    "/system"
-#define IMAGEID_FOLDER					"/system/imageid"
-#define WORKSPACE_METADATA_PATH			"/.imga"
+
+
 #define HOOKS_PATH						"/hooks"
-#define BACKUP_DESTINATION_PATH			"/Image Backups"
-#define MASTER_CATALOGUE_PATH			"/IAPictures"
-#define MASTER_WWW_CATALOGUE_PATH		"/IAWebSite"
+
 #define TOOLS_PATH						"/tools"
 #define CONFIG_PATH						"/config"
-#define DERIVATIVE_PATH					"/derivative"
-#define MASTER_PATH						"/master"
+
 #define HISTORY_PATH					"/history"
 #define BACKUPS_PATH					"/backups"
-#define METADATA_PATH					"/metadata"
-#define IMAGEID_PATH					"/imageid"		// Sequence number
-#define JOURNAL_PATH					"/journal"
-#define MASTER_IMAGE_PATH				"/images"
-#define DATABASE_PATH					"/db"
+
 #define TEMP_PATH						"/tmp"
-#define TEMPLATE_PATH					"/templates"
 #define LOGS_PATH						"/logs"
 #define INDEX_PATH						"/index"		// CRC index
-#define PRIMARY_INDEX_PATH				"/pi"
+
 #define DUPS_PATH						"/dups"
 #define SQLITEDB_PATH					"/sqldb"
-#define IMAGES_PATH						"/images"
+
 #define LOG_PATH						"/logs"
-#define BACKUP_PATH						"/backup"
 
-#define DEFAULT_MASTER_CATALOGUE_PATH	"/IAPictures"
-#define DEFAULT_PICTURES_PATH				"/Pictures"
 
-#define DEFAULT_MASTER_BACKUP1_PATH		"/backup/MasterBackup1"
-#define DEFAULT_MASTER_BACKUP2_PATH		"/backup/MasterBackup2"
-#define DEFAULT_DERIVATIVE_BACKUP1_PATH	"/backup/DerivativeBackup1"
-#define DEFAULT_DERIVATIVE_BACKUP2_PATH	"/backup/DerivativeBackup2"
-#define MASTER_BACKUP1_PATH				"/MasterBackup1"
-#define MASTER_BACKUP2_PATH				"/MasterBackup2"
-#define DERIVATIVE_BACKUP1_PATH				"/DerivativeBackup1"
-#define DERIVATIVE_BACKUP2_PATH				"/DerivativeBackup2"
-constexpr auto DEFAULT_USERSPACE_PATH			= "";
-constexpr auto DEFAULT_HIDDEN_USERSPACE_PATH	= "/.imga";
-constexpr auto DEFAULT_WORKSPACE_PATH			= "/Workspace";
-constexpr auto DEFAULT_PICTURE_PATH				= "/Pictures";
-constexpr auto DEFAULT_WWWIMAGE_PATH			= "/WWWPictures";
-constexpr auto DEFAULT_METADATA_PATH			= "/.imga/history";
 
-//#define DEFAULT_MASTER_PATH				"/IDK-Software/IMGA/master"
-//#define DEFAULT_DERIVATIVE_PATH			"/IDK-Software/IMGA/derivative"
-//#define DEFAULT_TOOLS_PATH				"/IDK-Software/IMGA/tools"
-//#define DEFAULT_BACKUP_PATH				"/IDK-Software/IMGA/backup"
-//#define DEFAULT_CONFIG_PATH				"/IDK-Software/IMGA/config"
-//#define DEFAULT_DUPLICATE_PATH			"/IDK-Software/IMGA/dups"
-//#define DEFAULT_HISTORY_PATH			"/IDK-Software/IMGA/history"
-//#define DEFAULT_HOOKS_PATH				"/IDK-Software/IMGA/hooks"
-//#define DEFAULT_LOGS_PATH				"/IDK-Software/IMGA/logs"
-//#define DEFAULT_SYSTEM_PATH				"/IDK-Software/IMGA/system"
-//#define DEFAULT_SYSTEM_PATH				"/IDK-Software/IMGA/templates"
-#define DEFAULT_SOURCE_PATH				"/Pictures"
-#define EXTERAL_EXIF_COMMAND_LINE		"\"[input]\""
 
-#define CSVDB_PATH						"/csvdb"
-#define CHKSTATUS_PATH					"/chkout"
+
 #define SQLITE3_DB						"IASqlite3.db"
 
 #define DEFAULT_HOME_PATH		   "/IDK-Software/IdxIt"

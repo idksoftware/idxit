@@ -48,7 +48,7 @@
 #include "SAUtils.h"
 #include "History.h"
 #include "CSVArgs.h"
-#include "../Lib/ArchivePath.h"
+
 #include "ErrorCode.h"
 #include "pathcontroller.h"
 #include "ResultsList.h"

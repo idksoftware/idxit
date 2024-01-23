@@ -4,10 +4,17 @@
 #include "IndexSpecifications.h"
 #include "IgnoreList.h"
 #include "IgnorePath.h"
+#include "XMLTreeReader.h"
 
 
 //#ifdef XXXXX
 // All name files, name folders, and files and folders in any name folder
+TEST(TestCaseName, TestXML)
+{
+    XMLTreeReader xmlTreeReader("C:\\Development\\idxit\\idxit\\test.idx");
+    xmlTreeReader.process("C:\\Development\\idxit\\idxit\\test.xml");
+    EXPECT_TRUE(true);
+}
 
 TEST(TestCaseName, TestIgnorePath0)
 {

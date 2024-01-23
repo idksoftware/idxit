@@ -156,13 +156,14 @@
   <ItemGroup>
     <ClInclude Include="AppConfig.h" />
     <ClInclude Include="AppException.h" />
-    <ClInclude Include="ArchivePath.h" />
     <ClInclude Include="CUnqueName.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="GroupFile.h" />
     <ClInclude Include="HookCmd.h" />
     <ClInclude Include="IndexSpecifications.h" />
+    <ClInclude Include="JounalVisitor.h" />
     <ClInclude Include="RemoteServer.h" />
+    <ClInclude Include="ScanVisitor.h" />
     <ClInclude Include="UpdateConfig.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SIAApplicationState.h" />
@@ -173,13 +174,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppConfig.cpp" />
-    <ClCompile Include="ArchivePath.cpp" />
     <ClCompile Include="CUnqueName.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="GroupFile.cpp" />
     <ClCompile Include="HookCmd.cpp" />
     <ClCompile Include="IndexSpecifications.cpp" />
+    <ClCompile Include="JounalVisitor.cpp" />
     <ClCompile Include="RemoteServer.cpp" />
+    <ClCompile Include="ScanVisitor.cpp" />
     <ClCompile Include="UpdateConfig.cpp" />
     <ClCompile Include="SIAApplicationState.cpp" />
     <ClCompile Include="Lib.cpp" />

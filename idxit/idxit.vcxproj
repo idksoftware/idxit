@@ -25,6 +25,7 @@
     <ClCompile Include="IdxitArgvParser.cpp" />
     <ClCompile Include="IdxitDefine.cpp" />
     <ClCompile Include="IdxitEnvFunc.cpp" />
+    <ClCompile Include="IdxitProperties.cpp" />
     <ClCompile Include="IdxitSort.cpp" />
     <ClCompile Include="IdxitParseOptions.cpp" />
     <ClCompile Include="IdxitScan.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="IdxitArgvParser.h" />
     <ClInclude Include="IdxitDefine.h" />
     <ClInclude Include="IdxitEnvFunc.h" />
+    <ClInclude Include="IdxitProperties.h" />
     <ClInclude Include="IdxitSort.h" />
     <ClInclude Include="IdxitParseOptions.h" />
     <ClInclude Include="IdxitScan.h" />

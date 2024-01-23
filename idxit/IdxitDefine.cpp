@@ -11,7 +11,7 @@ using namespace CommandLineProcessing;
 
 	bool IdxitDefinition::doCommand() {
 		IdxitAppOptions& appOptions = IdxitAppOptions::get();
-		appOptions.setCommandMode(IdxitAppOptions::CommandMode::CM_Show);
+		appOptions.setCommandMode(IdxitAppOptions::CommandMode::CM_Define);
 
 		return true;
 	}

@@ -68,9 +68,9 @@
 
 	private:
 		std::string m_HomePath;
-		std::shared_ptr<ArchiveBuilder> m_ArchiveBuilder;
+		//std::shared_ptr<ArchiveBuilder> m_ArchiveBuilder;
 		
-		bool m_winsockRequired;
+		bool m_winsockRequired{ true };
 		bool m_socklibStarted;
 		bool m_enableEvents;
 		int m_udpPortNum;
@@ -85,6 +85,7 @@
 		int initalise(const char* appName);
 		void start();
 		int complete();
+		bool prop(const char* sourcePath);
 		//int complete();
 		bool scan(const char* sourePath, const char* idxPath, const char* m_ignoreFile, bool nousys, bool nouser, bool nosys, const char* incGroupFile, const char* excGroupFile);
 

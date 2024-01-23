@@ -163,10 +163,10 @@
     <ClCompile Include="FolderFilterFile.cpp" />
     <ClCompile Include="HomePaths.cpp" />
     <ClCompile Include="ignorepath.cpp" />
-    <ClCompile Include="ImageEncode.cpp" />
     <ClCompile Include="ImageIndex.cpp" />
     <ClCompile Include="IgnoreList.cpp" />
     <ClCompile Include="IndexedCSV.cpp" />
+    <ClCompile Include="IndexInfo.cpp" />
     <ClCompile Include="Quiet.cpp" />
     <ClCompile Include="regex.cpp" />
     <ClCompile Include="SequenceNumber.cpp" />
@@ -184,7 +184,6 @@
     <ClCompile Include="ExifDateTime.cpp" />
     <ClCompile Include="HistoryEvent.cpp" />
     <ClCompile Include="LogName.cpp" />
-    <ClCompile Include="MetaType.cpp" />
     <ClCompile Include="RunExec.cpp" />
     <ClCompile Include="SAUtils.cpp" />
     <ClCompile Include="SetEnv.cpp" />
@@ -208,13 +207,14 @@
     <ClInclude Include="CSVArgs.h" />
     <ClInclude Include="FileInfo.h" />
     <ClInclude Include="FileVersion.h" />
+    <ClInclude Include="Filters.h" />
     <ClInclude Include="FolderFilterFile.h" />
     <ClInclude Include="HomePaths.h" />
     <ClInclude Include="ignorePath.h" />
-    <ClInclude Include="ImageEncode.h" />
     <ClInclude Include="ImageIndex.h" />
     <ClInclude Include="IgnoreList.h" />
     <ClInclude Include="IndexedCSV.h" />
+    <ClInclude Include="IndexInfo.h" />
     <ClInclude Include="Quiet.h" />
     <ClInclude Include="SequenceNumber.h" />
     <ClInclude Include="sha256.h" />
@@ -236,7 +236,6 @@
     <ClInclude Include="ExifDateTime.h" />
     <ClInclude Include="HistoryEvent.h" />
     <ClInclude Include="LogName.h" />
-    <ClInclude Include="MetaType.h" />
     <ClInclude Include="RunExec.h" />
     <ClInclude Include="SAUtils.h" />
     <ClInclude Include="SetEnv.h" />
