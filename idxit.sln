@@ -46,7 +46,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F5EA2544-E536-47EF-BCDC-B9B7B288EC60}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		doc\reference.md = doc\reference.md
 		user-guide.md = user-guide.md
+		doc\user-guide.md = doc\user-guide.md
 	EndProjectSection
 EndProject
 Global
