@@ -4,7 +4,7 @@
 Explain how your documentation is organized and how users should navigate this space. Type /IMAGE to add a diagram.
 
 
-*   [Class Files](./doc/reference/class-files.md)
+*   [Class Files](./reference/class-files.md)
     
     
     
