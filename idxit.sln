@@ -43,6 +43,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "idxit_unittest", "idxit_uni
 		{5F3E83BD-04C0-4E33-A067-0436E485EC5D} = {5F3E83BD-04C0-4E33-A067-0436E485EC5D}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F5EA2544-E536-47EF-BCDC-B9B7B288EC60}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
