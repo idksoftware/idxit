@@ -3,7 +3,7 @@
 * * *
 
 
-## 📕 User guide
+## User guide
 
 Explain how your documentation is organized and how users should navigate this space. Type /IMAGE to add a diagram.
 
