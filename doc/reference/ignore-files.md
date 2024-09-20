@@ -21,7 +21,6 @@ Each line in a `idxit ignore` file specifies a pattern. When deciding whether 
 *   Patterns read from `$GIT_DIR/info/exclude`.
     
 *   Patterns read from the file specified by the configuration variable `core.excludesFile`.
-    
 
 Which file to place a pattern in depends on how the pattern is meant to be used.
 
