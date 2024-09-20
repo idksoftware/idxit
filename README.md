@@ -9,4 +9,4 @@ Index-It can scan any disk for content type defined by Media type. The the resul
 If the disk is an external disk then Index-It enables you to label that Drive and can be then tagged with that identity so that the scan can be associated with that external disk. 
 
 The User Guide
-* [The User Guide](./The User Guide.md)
+[The User Guide](./User-Guide.md)
