@@ -38,3 +38,14 @@
 		return res;
 	}
 
+	std::shared_ptr<GroupItem> GroupFile::find(const char* ext) const
+	{
+		for (auto element : m_list)
+		{
+			if (element->m_ext.compare(ext) == 0)
+			{
+				return std::make_shared<GroupItem>(*element);
+			}
+		}
+		return nullptr;
+	}

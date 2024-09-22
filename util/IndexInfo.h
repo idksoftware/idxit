@@ -6,7 +6,7 @@
 
 class IndexInfo
 {
-
+	std::string m_volumeLetter;
 	std::string m_volumeName;
 	std::string m_volumeNameGID;
 	std::string m_disk_serialINT;
@@ -51,7 +51,7 @@ public:
 
 	void setSourcePath(std::string s) { m_sourcePath = s; };
 	void setIdxPath(std::string s) { m_idxPath = s; };
-
+	void setVolumeLetter(std::string s) { m_volumeLetter = s; };
 	void setVolumeName(std::string s) { m_volumeName = s; };
 	void setVolumeNameGID(std::string s) { m_volumeNameGID = s; };
 	void setDiskSerialINT(std::string s) { m_disk_serialINT = s; };
@@ -96,6 +96,7 @@ public:
 	std::string getSourcePath() { return m_sourcePath; };
 	std::string getIdxPath() { return m_idxPath; };
 
+	std::string getVolumeLetter() { return m_volumeLetter; };
 	std::string getVolumeName() { return m_volumeName; };
 	std::string getVolumeNameGID() { return m_volumeNameGID; };
 	std::string getDiskSerialINT() { return m_disk_serialINT; };
@@ -104,33 +105,33 @@ public:
 	std::string getDevicename() { return m_devicename; };
 	std::string getHostname() { return m_hostname; };
 
-	FileFilter& getIncFileFilter() { return *m_incFileFilter; };
-	FolderFilter& getIncFolderFilter() {  return *m_incFolderFilter; };
-	bool getIncFileFilterOn() {  return m_incFileFilterOn; };
+	FileFilter& getIncFileFilter() const { return *m_incFileFilter; };
+	FolderFilter& getIncFolderFilter() const {  return *m_incFolderFilter; };
+	bool getIncFileFilterOn() const {  return m_incFileFilterOn; };
 	bool getIncFolderFilterOn() {  return m_incFolderFilterOn; };
-	FileFilter& getExcFileFilter() {  return *m_excFileFilter; };
-	FolderFilter& getExcFolderFilter() {  return *m_excFolderFilter; };
-	bool getExcFileFilterOn() {  return m_excFileFilterOn; };
+	FileFilter& getExcFileFilter() const {  return *m_excFileFilter; };
+	FolderFilter& getExcFolderFilter() const {  return *m_excFolderFilter; };
+	bool getExcFileFilterOn() const {  return m_excFileFilterOn; };
 	bool getExcFolderFilterOn() {  return m_excFolderFilterOn; };
-	IgnoreList& getSysIgnoreList() {  return *m_sysIgnoreList; };
-	IgnoreList& getUsersysIgnoreList() {  return *m_usersysIgnoreList; };
-	IgnoreList& getUserIgnoreList() {  return *m_userIgnoreList; };
-	bool getSysIgnoreOn() {  return m_sysIgnoreOn; };
-	bool getUsersysIgnoreOn() {  return m_usersysIgnoreOn; };
-	bool getUserIgnoreOn() {  return m_userIgnoreOn; };
-	bool getScanHidden() {  return m_scanHidden; };
+	IgnoreList& getSysIgnoreList() const {  return *m_sysIgnoreList; };
+	IgnoreList& getUsersysIgnoreList() const {  return *m_usersysIgnoreList; };
+	IgnoreList& getUserIgnoreList() const {  return *m_userIgnoreList; };
+	bool getSysIgnoreOn() const {  return m_sysIgnoreOn; };
+	bool getUsersysIgnoreOn() const {  return m_usersysIgnoreOn; };
+	bool getUserIgnoreOn() const {  return m_userIgnoreOn; };
+	bool getScanHidden() const {  return m_scanHidden; };
 
-	uint64_t getNoFilesToBeCompleted() { return m_filesToBeCompleted; };
-	uint64_t getNoFoldersToBeCompleted() {  return m_foldersToBeCompleted; };
-	uint64_t getSizeToBeCompleted() { return m_sizeToBeCompleted; };
+	uint64_t getNoFilesToBeCompleted() const { return m_filesToBeCompleted; };
+	uint64_t getNoFoldersToBeCompleted() const {  return m_foldersToBeCompleted; };
+	uint64_t getSizeToBeCompleted() const { return m_sizeToBeCompleted; };
 
-	uint64_t getNoFilesCompleted() { return m_filesCompleted; };
-	uint64_t getNoFoldersCompleted() { return m_foldersCompleted; };
-	uint64_t getSizeCompleted() { return m_sizeCompleted; };
+	uint64_t getNoFilesCompleted() const { return m_filesCompleted; };
+	uint64_t getNoFoldersCompleted() const { return m_foldersCompleted; };
+	uint64_t getSizeCompleted() const { return m_sizeCompleted; };
 
 
-	uint64_t getNoIncluded() {  return m_included; };
-	uint64_t getNoExcluded() {  return m_excluded; };
+	uint64_t getNoIncluded() const {  return m_included; };
+	uint64_t getNoExcluded() const {  return m_excluded; };
 
 };
 

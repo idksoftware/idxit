@@ -33,6 +33,8 @@
 ** #$$@@$$# */
 
 #pragma once
+
+/*
 #include <string>
 #include <sstream>
 #include <iostream>
@@ -74,3 +76,5 @@ public:
 	bool add(FolderInfo& folderInfo);
 	//bool add(std::filesystem::path m_path);
 };
+
+*/

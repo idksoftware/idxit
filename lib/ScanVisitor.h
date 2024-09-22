@@ -15,7 +15,7 @@
 #include "GroupFile.h"
 #include "CIDKDate.h"
 #include "IndexedCSV.h"
-#include "XMLWriter.h"
+#include "IndexedXML.h"
 #include "DirectoryVisitor.h"
 #include "Storage.h"
 #include "IgnoreList.h"
@@ -25,12 +25,18 @@
 
 class ScanVisitor : public FolderVisitor {
 	//static BackupVisitor *m_this;
-	
+	static std::string m_diskLetter;
+	static std::string m_volumeName;
+	static std::string m_volumeNameGID;
+	static std::string m_disk_serialINT;
+	static std::string m_fileSystemNameBuffer;
+
 	static std::string m_sourcePath;
-	//static std::string m_idxPath;
-	static std::shared_ptr<XMLFileInfoWriter> m_xmlFileInfoWriter;
+	static std::string m_idxPath;
+	static std::shared_ptr<IXMLFileInfoWriter> m_xmlFileInfoWriter;
 	static std::shared_ptr<ICSVFileInfoWriter> m_icsvFileInfoWriter;
 	static std::shared_ptr<Storage> m_storage;
+	static GroupFile m_groupFile; // This provide the media type and discription of the extention type. 
 	static std::shared_ptr<FileFilter> m_incFileFilter;
 	static std::shared_ptr<FolderFilter> m_incFolderFilter;
 	static bool m_incFileFilterOn;
@@ -44,7 +50,7 @@ class ScanVisitor : public FolderVisitor {
 	static std::shared_ptr<IgnoreList> m_userIgnoreList;
 	static bool m_sysIgnoreOn;
 	static bool m_usersysIgnoreOn;
-	//static bool m_userIgnoreOn;
+	static bool m_userIgnoreOn;
 	static bool m_scanHidden;
 
 	static uint64_t m_files;
@@ -58,18 +64,21 @@ class ScanVisitor : public FolderVisitor {
 public:
 	ScanVisitor() = default;
 	ScanVisitor(const char* sourcePath, const char* idxPath) {
-		//if (m_xmlFileInfoWriter == nullptr) {
-		//	m_xmlFileInfoWriter = std::make_shared<XMLFileInfoWriter>(path);
-		//}
+		
 		m_indexInfo.setSourcePath(sourcePath);
 		m_indexInfo.setIdxPath(idxPath);
+		m_sourcePath = sourcePath;
+		m_idxPath = idxPath;
 
 		if (m_icsvFileInfoWriter == nullptr) {
 			m_icsvFileInfoWriter = std::make_shared<ICSVFileInfoWriter>(idxPath);
 		}
+		if (m_xmlFileInfoWriter == nullptr) {
+			m_xmlFileInfoWriter = std::make_shared<IXMLFileInfoWriter>("C:\\temp\\out.xml");
+		}
 		if (m_excFileFilter == nullptr) {
 			m_excFileFilter = std::make_shared<FileFilter>();
-			//m_indexInfo.setExcFileFilter(m_excFileFilter);
+			m_indexInfo.setExcFileFilter(*m_excFileFilter);
 		}
 		if (m_incFolderFilter == nullptr) {
 			m_incFolderFilter = std::make_shared<FolderFilter>();
@@ -130,7 +139,7 @@ public:
 	{
 		//printf("Start: %s\n", path);
 
-		m_sourcePath = path;
+		
 		return true;
 	};
 
@@ -176,35 +185,44 @@ public:
 		m_size += filesize;
 
 		//fileInfo.print();
-		if (m_icsvFileInfoWriter != nullptr) {
-			if (SAUtils::isHidden(path)) {
-				if (m_scanHidden == false) {
-					logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Found hidden File: %s Hidden files ignored", path);
-					logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing File: %s - File was excluded", path);
-					m_excluded++;
-					return false;
-				}
-				logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Found hidden File: %s Hidden files to be included", path);
+		
+		if (SAUtils::isHidden(path)) {
+			if (m_scanHidden == false) {
+				logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Found hidden File: %s Hidden files ignored", path);
+				logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing File: %s - File was excluded", path);
+				m_excluded++;
+				return false;
 			}
-			if (m_incFileFilterOn) {
-				if (matchIncFile(p)) {
-					logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "File filter included: %s", path);
-				}
-				else {
-					logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "File filter excluded:: %s", path);
-					logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing File: %s - File was excluded", path);
-					m_excluded++;
-					return false;
-				}
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Found hidden File: %s Hidden files to be included", path);
+		}
+		if (m_incFileFilterOn) {
+			if (matchIncFile(p)) {
+				logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "File filter included: %s", path);
 			}
 			else {
-				logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "No file filter applied including: %s", path);
+				logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "File filter excluded:: %s", path);
+				logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Processing File: %s - File was excluded", path);
+				m_excluded++;
+				return false;
 			}
 		}
+		else {
+			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "No file filter applied including: %s", path);
+		}
+		
 		FileInfo fileInfo(p);
-		//m_xmlFileInfoWriter->add(fileInfo);
-		m_icsvFileInfoWriter->add(fileInfo);
-
+		const std::shared_ptr<GroupItem> groupItem = m_groupFile.find(fileInfo.getExt().c_str());
+		if (groupItem != nullptr) {
+			fileInfo.setMediaType(groupItem->m_mediaType);
+		}
+		if (m_xmlFileInfoWriter != nullptr) {
+			//m_xmlFileInfoWriter->add(fileInfo);
+			m_xmlFileInfoWriter->add(fileInfo);
+		}
+		if (m_icsvFileInfoWriter != nullptr) {
+			//m_xmlFileInfoWriter->add(fileInfo);
+			m_icsvFileInfoWriter->add(fileInfo);
+		}
 		m_included++;
 		
 
@@ -253,6 +271,7 @@ public:
 		return (std::make_shared<ScanVisitor>());
 	}
 	static bool VolumeInformation(std::ofstream& file);
+	static bool VolumeInformation();
 	static bool WriteHeader();
 	static bool WriteFooter();
 
@@ -262,5 +281,7 @@ public:
 
 	static uint64_t getNoIncluded() { return m_included; };
 	static uint64_t getNoExcluded() { return m_excluded; };
+
+	static GroupFile& getGroupFile() { return m_groupFile; }
 };
 

@@ -76,7 +76,7 @@ static char THIS_FILE[] = __FILE__;
 		}
 	}
 */
-
+	
 
 	//#include "AppConfig.h"
 	template <typename TP>
@@ -126,9 +126,14 @@ static char THIS_FILE[] = __FILE__;
 		return error;
 	}
 
+	bool FileInfo::m_simple = false;
+
 	FileInfo::FileInfo(std::string& path)
 	{
-		Init(path);
+		m_path = path;
+		if (m_simple == false) {
+			Init(path);
+		}
 	}
 
 	/*
@@ -158,9 +163,6 @@ static char THIS_FILE[] = __FILE__;
 
 	void FileInfo::Init(std::string& path)
 	{
-
-		
-		m_path = path;
 		std::string buf;
 		try {
 			buf = getFileContents(path.c_str());

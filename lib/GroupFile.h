@@ -31,5 +31,6 @@
 		bool read(const char* datafile);
 		bool write(const char* datafile);
 
+		std::shared_ptr<GroupItem> find(const char* ext) const;
 		std::vector<std::shared_ptr<GroupItem>>& getList() { return m_list; };
 	};

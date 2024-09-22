@@ -129,7 +129,7 @@ static char THIS_FILE[] = __FILE__;
 		jounalDirectoryVisitor.process(sourcePath);
 		
 		
-		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Number of files to be processed: %d", jounalVisitor_ptr->getNoFiles());
+		logger.log(LOG_COMPLETED, CLogger::Level::ERR, "Number of files to be processed: %d", jounalVisitor_ptr->getNoFiles());
 		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Number of folders to be processed: %d", jounalVisitor_ptr->getNoFolders());
 		logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Total number of bytes to be processed: %llu", jounalVisitor_ptr->getSize());
 
@@ -193,7 +193,7 @@ static char THIS_FILE[] = __FILE__;
 		else {
 			logger.log(LOG_COMPLETED, CLogger::Level::STATUS, "Ignore file not  enabled");
 		}
-		GroupFile group;
+		GroupFile& group = scanVisitor_ptr->getGroupFile();
 		if (incGroupFile != nullptr) {
 
 			if (SAUtils::FileExists(incGroupFile) == false) {

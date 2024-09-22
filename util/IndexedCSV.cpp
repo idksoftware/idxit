@@ -172,7 +172,7 @@ bool ICSVFileInfoWriter::WriteHeader(IndexInfo& indexInfo)
 	file << "        Devicename: " << indexInfo.getDevicename() << std::endl;
 	file << "        Hostname: " << indexInfo.getHostname() << std::endl;
 	file << "    [Volume]" << std::endl;
-	file << "        Volume: " << indexInfo.getVolumeName() << std::endl;
+	file << "        Volume: " << indexInfo.getVolumeLetter() << std::endl;
 	file << "        VolumeName: " << indexInfo.getVolumeName() << std::endl;
 	file << "        VolumeGUID: " << indexInfo.getVolumeNameGID() << std::endl;
 	file << "        SerialNumnber: " << std::hex

@@ -284,8 +284,8 @@ void CLogger::status(int code, ReporterEvent::Status level, const char *format, 
 				}
 				else {
 					// No codes in console output
-					std::cout << "\n"; // << setfill('0') << setw(6) << code << '\t';
-					std::cout << message << " - " << ReporterEvent::statusString(level) << " ";
+					//std::cout << "\n"; // << setfill('0') << setw(6) << code << '\t';
+					std::cout << '[' << levelStr(CLogger::Level::STATUS) << "]\t" << message << " - " << ReporterEvent::statusString(level) << " " << std::endl;
 				}
 			}
 		}
@@ -306,12 +306,14 @@ void CLogger::status(int code, ReporterEvent::Status level, const char *format, 
 	}
 }
 
-void CLogger::setHighestLevel(Level level) {
+bool CLogger::setHighestLevel(Level level) {
 	
 	if (level > m_lastLevel)
 	{
 		m_lastLevel = level;
+		return true;
 	}
+	return false;
 }
 
 int CLogger::returnCode()
@@ -367,8 +369,14 @@ void CLogger::log(int code, Level level, const std::string& message) {
 		makeFile(m_appName);
 		m_cursize = 0;
 	}
-	// Return if the message is to low leval to be include in the log, UDP or terminal.
-	setHighestLevel(level);
+	// This is used to set the return level 
+	if (setHighestLevel(level) == true) {
+
+		//std::stringstream rm;
+		//rm << '[' << levelStr(level) << "]\t";
+		//rm << message << std::endl;
+
+	}
 	
 	ExifDateTime date;
 	date.now();
@@ -403,6 +411,7 @@ void CLogger::log(int code, Level level, const std::string& message) {
 				if (!m_isQuiet) { // if isQuiet is false then send out the log message
 					std::cout << '[' << levelStr(level) << "]\t";
 					std::cout << message << std::endl;
+
 				}
 				else {
 					//std::cout << std::endl; // << setfill('0') << setw(6) << code << ": " << date.toLogString() << '.' << count << "\t";
@@ -412,11 +421,17 @@ void CLogger::log(int code, Level level, const std::string& message) {
 			}
 		}
 
-		std::stringstream strudp;
-		strudp << std::setfill('0') << std::setw(6) << code << ":" << message;
-		const std::string udpMessage = strudp.str();
-		UDPOut::out(udpMessage.c_str());
 
+		/*
+		if (UDPOut::isEnabled()) {
+			if (IsConsoleOut(level)) {
+				std::stringstream strudp;
+				strudp << std::setfill('0') << std::setw(6) << code << "@" << date.toLogTimeString() << "@" << toString(level) << "@" << message;
+				const std::string udpMessage = strudp.str();
+				UDPOut::out(strudp.str().c_str());
+			}
+		}
+		*/
 		if (level == Level::STATUS) {
 
 		}
@@ -591,7 +606,7 @@ const char * ReporterEvent::statusString()
 	return statusString(m_status);
 }
 
-bool SummaryReporter::doProcess()
+ReporterEvent SummaryReporter::doProcess()
 {
 
 	
@@ -607,46 +622,58 @@ bool SummaryReporter::doProcess()
 		}
 	}
 	std::stringstream strSummary;
-	strSummary << '\n' << "Summary" << '\n';
-	strSummary << "  Completed: " << m_completed << '\n';
-	if (m_warning != 0) strSummary << "  Warnings:   " << m_warning << '\n';
-	if (m_error != 0) strSummary << "  Errors:     " << m_error << '\n';
-	if (m_fatal != 0) strSummary << "  Fatal:     " << m_fatal << '\n';
-	if (m_unknown != 0) strSummary << "  Unknowns:   " << m_unknown << '\n';
-	
-	setSummary(strSummary.str().c_str());
-
 	std::stringstream strResult;
-	strResult << '\n' << "Result" << '\n';
+	ReporterEvent::Status status = ReporterEvent::Status::Unkown;
+	strResult << "Result: ";
+
 	if (m_fatal != 0) {
-		strResult << "Not completed, Fatal error encountered" << '\n';
+		strResult << "Not completed, Fatal error encountered";
+		status = ReporterEvent::Status::Fatal;
 	}
 	else if (m_error != 0) {
-		strResult << "Completed with errors, some operations may not have been completed" << '\n';
+		strResult << "Completed with errors, some operations may not have been completed";
+		status = ReporterEvent::Status::Error;
+		strSummary << "Summary:";
+		if (m_error != 0) strSummary << "  Errors:     " << m_error;
+		if (m_warning != 0) strSummary << "  Warnings:   " << m_warning;
 	}
 	else if (m_warning != 0) {
-		strResult << "Completed with warnings, some operations may not have been completed as exepected" << '\n';
+		strResult << "Completed with warnings, some operations may not have been completed as exepected";
+		status = ReporterEvent::Status::Warning;
+		strSummary << "Summary:";
+		if (m_warning != 0) strSummary << "  Warnings:   " << m_warning;
 	}
 	else if (m_unknown != 0) {
-		strResult << "Unknown error has be encountered, some operations may not have been completed" << '\n';
+		strResult << "Unknown error has be encountered, some operations may not have been completed";
+		status = ReporterEvent::Status::Unkown;
+		strSummary << "Summary:";
+		if (m_unknown != 0) strSummary << "  Unknowns:   " << m_unknown;
 	}
 	else {
 		strResult << "Completed successfully" << '\n';
+		status = ReporterEvent::Status::Completed;
 	}
-	/*
-	if (m_warning != 0)
-	if (m_error != 0) 
-	if (m_fatal != 0) 
-	if (m_unknown != 0) 
-	*/
+	setSummary(strSummary.str().c_str());
+	std::string message = strResult.str().c_str();
+	ReporterEvent res(status, message);
+	
 	setResult(strResult.str().c_str());
-	return false;
+	return res;
 }
+
+/*
+strSummary << "  Completed: " << m_completed << '\n';
+		if (m_warning != 0) strSummary << "  Warnings:   " << m_warning << '\n';
+		if (m_error != 0) strSummary << "  Errors:     " << m_error << '\n';
+		if (m_fatal != 0) strSummary << "  Fatal:     " << m_fatal << '\n';
+		if (m_unknown != 0) strSummary << "  Unknowns:   " << m_unknown << '\n';
+*/
+
 
 void SummaryReporter::toConsole()
 {
 	std::cout << m_summary;
-	std::cout << '\n';
+	std::cout << std::endl;
 	std::cout << m_result;
 }
 
@@ -681,4 +708,5 @@ CLog& CLog::operator<< (CLogger::Level level) {
 	logger.log(m_code, m_level, m_currentMessage);
 	return *this;
 }
+
 

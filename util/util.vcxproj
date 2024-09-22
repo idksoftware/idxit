@@ -166,6 +166,7 @@
     <ClCompile Include="ImageIndex.cpp" />
     <ClCompile Include="IgnoreList.cpp" />
     <ClCompile Include="IndexedCSV.cpp" />
+    <ClCompile Include="IndexedXML.cpp" />
     <ClCompile Include="IndexInfo.cpp" />
     <ClCompile Include="Quiet.cpp" />
     <ClCompile Include="regex.cpp" />
@@ -191,7 +192,6 @@
     <ClCompile Include="UDPOut.cpp" />
     <ClCompile Include="pathcontroller.cpp" />
     <ClCompile Include="Base32.cpp" />
-    <ClCompile Include="XMLWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddressScope.h" />
@@ -214,6 +214,7 @@
     <ClInclude Include="ImageIndex.h" />
     <ClInclude Include="IgnoreList.h" />
     <ClInclude Include="IndexedCSV.h" />
+    <ClInclude Include="IndexedXML.h" />
     <ClInclude Include="IndexInfo.h" />
     <ClInclude Include="Quiet.h" />
     <ClInclude Include="SequenceNumber.h" />
@@ -243,7 +244,6 @@
     <ClInclude Include="UDPOut.h" />
     <ClInclude Include="pathcontroller.h" />
     <ClInclude Include="Base32.h" />
-    <ClInclude Include="XMLWriter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

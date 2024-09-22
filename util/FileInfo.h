@@ -32,11 +32,11 @@ Media Pro
 	class FileInfo
 	{
 		std::filesystem::path m_path;
-		uint64_t m_crc;
+		uint64_t m_crc{0};
 		std::string m_mediaType;
 		std::string m_sha256;
 		std::string m_uuid;
-		
+		static bool m_simple; // if true does not read contents and set CRC, sha256 and uuid.
 
 		void Init(std::string& path);
 	public:
@@ -90,6 +90,7 @@ Media Pro
 		const CIDKDate getCreateTime() const;
 		const CIDKDate getModTime() const;
 
+		static void setSimple() { m_simple = true; };
 	};
 
 

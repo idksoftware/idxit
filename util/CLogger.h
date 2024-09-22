@@ -56,6 +56,7 @@ public:
 	std::string m_message;
 	Status m_status;
 	ReporterEvent(ReporterEvent::Status status, std::string &message);
+	bool isOk() { return (m_status == Status::Completed);  }
 };
 
 typedef std::vector<ReporterEvent> StatusList;
@@ -76,20 +77,19 @@ class SummaryReporter {
 	std::string m_summary;
 	std::string m_result;
 protected:
-	int m_completed;
-	int m_warning;
-	int m_error;
-	int m_fatal;
-	int m_unknown;
-	virtual bool doProcess();
+	int m_completed{ 0 };
+	int m_warning{ 0 };
+	int m_error{ 0 };
+	int m_fatal{ 0 };
+	int m_unknown{ 0 };
+	virtual ReporterEvent doProcess();
 	std::shared_ptr<StatusList> getList() { return m_list; };
 	const char *getSummary() { return m_summary.c_str(); };
 	const char *getResult() { return m_result.c_str(); };
 public:
-	SummaryReporter(std::shared_ptr<StatusList> list) : m_list(list), 
-				m_completed(0), m_warning(0), m_error(0), m_fatal(0), m_unknown(0) {};
+	SummaryReporter(std::shared_ptr<StatusList> list) : m_list(list) {};
 
-	bool process() {
+	ReporterEvent process() {
 		return doProcess();
 	}
 
@@ -174,6 +174,10 @@ public:
 		m_isSilent = b;
 	}
 
+	static void setQuiet(bool b = false) {
+		m_isQuiet = b;
+	}
+
 	static void setConsoleLevel(Level level) {
 		m_consoleLevel = level;
 	}
@@ -237,7 +241,7 @@ private:
 	static CLogger::Level toLevel(const std::string &s);
 	static const char *toString(CLogger::Level level);
 	static CLogger::Level messageLevel(std::string message);
-	void setHighestLevel(Level level);
+	bool setHighestLevel(Level level);
 };
 
 class CLog {

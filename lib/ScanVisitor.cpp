@@ -1,6 +1,13 @@
 #include <windows.h>
 #include "ScanVisitor.h"
 #include "IndexInfo.h"
+#include <sstream>
+
+std::string ScanVisitor::m_diskLetter;
+std::string ScanVisitor::m_volumeName;
+std::string ScanVisitor::m_volumeNameGID;
+std::string ScanVisitor::m_disk_serialINT;
+std::string ScanVisitor::m_fileSystemNameBuffer;
 
 uint64_t ScanVisitor::m_files = 0;
 uint64_t ScanVisitor::m_folders = 0;
@@ -21,6 +28,7 @@ bool ScanVisitor::m_sysIgnoreOn;
 bool ScanVisitor::m_usersysIgnoreOn;
 
 std::string ScanVisitor::m_sourcePath;
+std::string ScanVisitor::m_idxPath;
 
 
 bool ScanVisitor::VolumeInformation(std::ofstream& file)
@@ -52,11 +60,56 @@ bool ScanVisitor::VolumeInformation(std::ofstream& file)
 	return 0;
 }
 
+bool ScanVisitor::VolumeInformation()
+{
+	std::string m_diskLetter = m_sourcePath.substr(0, 1);
+	std::string volume = m_diskLetter;
+	volume += ":\\";
+	char volumeName[MAX_PATH + 1];
+	char volumeNameGID[MAX_PATH + 1];
+	char fileSystemNameBuffer[MAX_PATH + 1];
+	DWORD disk_serialINT;
+
+	GetVolumeNameForVolumeMountPoint(volume.c_str(), volumeNameGID, MAX_PATH);
+
+	if (!GetVolumeInformation(volume.c_str(), volumeName, MAX_PATH, &disk_serialINT, NULL,
+		NULL, fileSystemNameBuffer, MAX_PATH))
+	{
+		
+		return false;
+	}
+	m_volumeName = volume;
+	m_volumeName = volumeName;
+	m_volumeNameGID = volumeNameGID;
+
+	std::stringstream str;
+	str << m_disk_serialINT << std::hex
+		<< disk_serialINT;
+	m_disk_serialINT = str.str();
+
+	m_fileSystemNameBuffer = fileSystemNameBuffer;
+
+	m_indexInfo.setVolumeLetter(m_diskLetter);
+	m_indexInfo.setVolumeName(m_volumeName);
+	m_indexInfo.setVolumeNameGID(m_volumeNameGID);
+	m_indexInfo.setDiskSerialINT(m_disk_serialINT);
+
+
+	return 0;
+}
+
+
+
+std::string m_volumeName;
+std::string m_volumeNameGID;
+std::string m_disk_serialINT;
+std::string m_fileSystemNameBuffer;
+
 
 bool ScanVisitor::WriteHeader()
 {
 
-	m_indexInfo.setSourcePath(m_sourcePath);
+	
 	//m_indexInfo.setIdxPath(m_idxPath);
 	
 
@@ -87,15 +140,18 @@ bool ScanVisitor::WriteHeader()
 
 	m_indexInfo.setIncluded(m_included);
 	m_indexInfo.setExcluded(m_excluded);
+
+	VolumeInformation();
 	
 	m_icsvFileInfoWriter->WriteHeader(m_indexInfo);
-
+	m_xmlFileInfoWriter->WriteHeader(m_indexInfo);
 	return true;
 }
 
 bool ScanVisitor::WriteFooter()
 {
 	m_icsvFileInfoWriter->WriteFooter(m_indexInfo);
+	m_xmlFileInfoWriter->WriteFooter(m_indexInfo);
 	return true;
 }
 
@@ -103,9 +159,10 @@ bool ScanVisitor::WriteFooter()
 //std::string ScanVisitor::m_sourcePath;
 //std::string ScanVisitor::m_idxPath;
 std::shared_ptr<ICSVFileInfoWriter> ScanVisitor::m_icsvFileInfoWriter = nullptr;
-std::shared_ptr<XMLFileInfoWriter> ScanVisitor::m_xmlFileInfoWriter = nullptr;
+std::shared_ptr<IXMLFileInfoWriter> ScanVisitor::m_xmlFileInfoWriter = nullptr;
 std::shared_ptr<Storage> ScanVisitor::m_storage = nullptr;
 std::shared_ptr<FileFilter> ScanVisitor::m_incFileFilter = nullptr;
+GroupFile ScanVisitor::m_groupFile;
 //bool ScanVisitor::m_incFileFilterOn = false;
 std::shared_ptr<FolderFilter> ScanVisitor::m_incFolderFilter = nullptr;
 //bool ScanVisitor::m_incFolderFilterOn = false;
