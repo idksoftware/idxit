@@ -61,7 +61,7 @@ using namespace std;
 
 #include <string>
 #include <vector>
-#include "AppOptions.h"
+#include "FileInfo.h"
 #include "IdxitAppOptions.h"
 #include "IdxitArgvParser.h"
 //#include "Threads.h"
@@ -98,7 +98,7 @@ IdxitApp::IdxitApp(const char* appName) : AppBase(appName, std::make_shared<Idxi
 
 class CheckoutSummary : public SummaryReporter {
 protected:
-	virtual bool doProcess() {
+	virtual ReporterEvent doProcess() {
 		std::stringstream str;
 		//int warnings = 0;
 		//int errors = 0;
@@ -109,8 +109,9 @@ protected:
 			
 		}
 		setSummary(str.str().c_str());
-
-		return false;
+		std::string message = str.str();
+		ReporterEvent re(ReporterEvent::Status::Unkown, message);
+		return re;
 	}
 };
 
@@ -222,6 +223,10 @@ bool IdxitApp::doRun()
 	{
 		IDXLib idxLib;
 		idxLib.initalise("Idxit");
+		if (appOptions.isQuick())
+		{
+			FileInfo::setSimple();
+		}
 		return idxLib.scan(appOptions.getSourcePath(), appOptions.getIndexfile(), appOptions.getignoreFile(),
 													appOptions.getnousys(), appOptions.getnouser(), appOptions.getnosys(),
 													appOptions.getIncGroupFile(), appOptions.getExcGroupFile());

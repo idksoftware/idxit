@@ -88,6 +88,10 @@ using namespace CommandLineProcessing;
 			appOptions.m_nosys = SAUtils::boolOptionValue(bo);
 		}
 
+		if (getParser().foundOption("quick") == true) {
+			appOptions.m_quick = true;
+		}
+
 		if (getParser().foundOption("inc-group") == true) {
 			std::string opt = getParser().optionValue("inc-group");
 			appOptions.m_incGroupFile = opt;

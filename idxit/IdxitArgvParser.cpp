@@ -52,62 +52,7 @@ void  IdxitArgvParser::defineOptions() {
 	defineCommandSyntax("sort", "idxit sort [--index-file=<path>]\n\t"
 		"[--name]\n\t[--=<scope-address]\n\t[--force=<yes|No>]\n\t[--version=<vesion-num>");
 
-	/*
-	defineOption("checkin", "Checkin images from workspace into the archive.", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("checkin", "iaarc checkin [--target-path=<path>]\n\t[--logging-level=<level>]"
-		"[--comment=<comment text>]\n\t[--scope=<scope-address]\n\t[--force=<yes|No>]\n\t[--version=<vesion-num>");
-
-	defineOption("uncheckout", "Un-checkout images from workspace into the archive.", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("uncheckout", "iaarc uncheckout [--logging-level=<level>]"
-		"[--comment=<comment text>]\n\t[--scope=<scope-address>]\n\t[--force=<yes|No>]\n\t[--version=<vesion-num>");
-
-	defineOption("get", "Get images from archive to workspace.", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("get", "iaarc get [--logging-level=<level>]"
-		"[--comment=<comment text>]\n\t[--scope=<scope-address>]\n\t[--force=<yes|No>]\n\t[--version=<vesion-num>");
-
-	defineOption("delete", "Delete images in the archive.", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("delete", "iaarc delete [--logging-level=<level>]"
-		"[--comment=<comment text>]\n\t[--scope=<scope-address>]\n\t[--version=<vesion-num>");
-
-	defineOption("undelete", "Undelete images in the archive.", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("undelete", "iaarc undelete [--logging-level=<level>]"
-		"[--comment=<comment text>]\n\t[--scope=<scope-address>]\n\t[--version=<vesion-num>");
-
-	defineOption("export", "Export images from archive into a destination folder.", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("export", "iaarc export [--target-path=<path>]\n\t[--logging-level=<level>]"
-		"[--comment=<comment text>]\n\t[--scope=<scope-address]\n\t[--force=<yes|No>]\n\t[--version=<vesion-num>");
-
-	defineOption("prop", "Manage image properties", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("prop", "iaarc prop [--s]\n\t[--logging-level=<level>]"
-		"[--scope=<scope-address]\n\t[--set=<property:value>]");
-
-	defineOption("metadata", "Show Metadata properties", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("metadata", "iaarc metadata [--s]\n\t[--format-type=<type>]"
-		"[--comment=<comment text>]\n\t[--scope=<scope-address]\n\t[--master=<yes|No>]");
-
-	defineOption("template", "Manage metadata template", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("template", "iaarc template [--current=<yes|no>]\n\t[--logging-level=<level>]"
-		"[--current=<yes|no>]\n\t[--comment=<comment text>]\n\t[--scope=<scope-address]\n\t[--force=<yes|No>]");
-
-	defineOption("status", "show check in/out status", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("status", "iaarc status [--list>]\n\t[--logging-level=<level>]"
-		"[--current=<yes|no>]\n\t[--comment=<comment text>]\n\t[--scope=<scope-address]\n\t[--force=<yes|No>]");
-
-	defineOption("history", "shows the check in/out status history for the archive.", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("history", "iaarc status [--list>]\n\t[--logging-level=<level>]"
-		"[--current=<yes|no>]\n\t[--comment=<comment text>]\n\t[--scope=<scope-address]\n\t[--force=<yes|No>]");
-
-	defineOption("show", "Show details", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("show", "iaarc show [--history=<image-address>]\n\t");
-
-	defineOption("log", "Show logs", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("log", "iaarc log [--image=<image-address]");
-
-	defineOption("journal", "Show journals", ArgvParser::OptionAttributes::MasterOption);
-	defineCommandSyntax("journal", "iaarc journal [--image=<image-address]");
-
-	defineOption("mode", "Sets the mode in which imgarchive will be operating", ArgvParser::OptionAttributes::MasterOption);
-	*/
+	
 	defineOption("about", "prints this version information", ArgvParser::OptionAttributes::MasterOption);
 	defineCommandSyntax("about", "about [--out]\n\t[--file]\n");
 
@@ -149,8 +94,8 @@ void  IdxitArgvParser::defineOptions() {
 	defineOption("E", "group of media file types to exclude", ArgvParser::OptionAttributes::OptionRequiresValue);
 	defineOptionAlternative("E", "scan-hidden");
 	
-	//defineOption("A", "address scope", ArgvParser::OptionAttributes::OptionRequiresValue);
-	//defineOptionAlternative("A", "scope");
+	defineOption("Q", "quick scan", ArgvParser::OptionAttributes::NoOptionAttribute);
+	defineOptionAlternative("Q", "quick");
 
 	//defineOption("R", "Remode server mode", ArgvParser::OptionAttributes::NoOptionAttribute);
 	//defineOptionAlternative("R", "remote-server");
@@ -232,91 +177,13 @@ void  IdxitArgvParser::defineOptions() {
 	defineCommandOption("scan", "inc-group");
 	defineCommandOption("scan", "exc-group");
 	defineCommandOption("scan", "scan-hidden");
+	defineCommandOption("scan", "quick");
 	
 	defineCommandOption("define", "comment");
 	defineCommandOption("define", "source-path");
 	
 	defineCommandOption("sort", "index-file");
-	/*
-	defineCommandOption("checkin", "comment");
-	defineCommandOption("checkin", "scope");
-	defineCommandOption("checkin", "force");
-	defineCommandOption("checkin", "image");
-	defineCommandOption("checkout", "version");
-
-	defineCommandOption("checkout", "comment");
-	defineCommandOption("checkout", "scope");
-	defineCommandOption("checkout", "force");
-	defineCommandOption("checkout", "image");
-	defineCommandOption("checkout", "version");
-
-	defineCommandOption("uncheckout", "comment");
-	defineCommandOption("uncheckout", "scope");
-	defineCommandOption("uncheckout", "force");
-	defineCommandOption("uncheckout", "image");
-	defineCommandOption("checkout", "version");
-
-	defineCommandOption("get", "comment");
-	defineCommandOption("get", "scope");
-	defineCommandOption("get", "force");
-	defineCommandOption("get", "image");
-	defineCommandOption("checkout", "version");
-
-	defineCommandOption("delete", "comment");
-	defineCommandOption("delete", "scope");
-	defineCommandOption("delete", "force");
-	defineCommandOption("delete", "image");
-	defineCommandOption("checkout", "version");
-
-	defineCommandOption("undelete", "comment");
-	defineCommandOption("undelete", "scope");
-	defineCommandOption("undelete", "force");
-	defineCommandOption("undelete", "image");
-	defineCommandOption("checkout", "version");
-
-	defineCommandOption("export", "logging-level");
-	defineCommandOption("export", "dist-path");
-	defineCommandOption("export", "comment");
-	defineCommandOption("export", "scope");
-	defineCommandOption("export", "force");
-	defineCommandOption("export", "version");
-
-	defineCommandOption("status", "list");
-	defineCommandOption("status", "scope");
-	defineCommandOption("status", "format-type");
-	defineCommandOption("status", "file");
-
-	defineCommandOption("history", "list");
-	defineCommandOption("history", "scope");
-	defineCommandOption("history", "format-type");
-	defineCommandOption("history", "file");
-
 	
-	defineCommandOption("metadata", "scope");
-	defineCommandOption("metadata", "format-type");
-	defineCommandOption("metadata", "file");
-
-	defineCommandOption("show", "settup");
-
-	defineCommandOption("journal", "image");
-	defineCommandOption("journal", "import");
-	defineCommandOption("journal", "format-type");
-	defineCommandOption("journal", "file");
-
-	defineCommandOption("prop", "scope");
-	defineCommandOption("prop", "set");
-
-	defineCommandOption("template", "current");
-	defineCommandOption("template", "archive");
-	defineCommandOption("template", "option");
-
-	defineCommandOption("log", "image");
-	defineCommandOption("log", "scope");
-	defineCommandOption("log", "format-type");
-	defineCommandOption("log", "file");
-
-	//defineCommandOption("mode", "");
-	*/
 }
 
 

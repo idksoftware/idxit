@@ -201,7 +201,9 @@ private:
 	friend class StatusOptions;
 	static IdxitAppOptions *m_this;
 	static bool m_list;
-	
+
+
+	static bool m_quick;
 	static bool m_peekOnly;
 	static bool m_eventsOn; // UDP events
 	static bool m_serverOn;
@@ -303,6 +305,7 @@ public:
 	
 	bool getUseFileDate();
 	bool getUseDateToday();
+	bool isQuick();
 	bool isDataForced();
 	bool isForced();
 	bool isSync();

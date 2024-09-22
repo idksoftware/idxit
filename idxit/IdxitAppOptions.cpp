@@ -50,7 +50,7 @@ static char THIS_FILE[] = __FILE__;
 
 using namespace CommandLineProcessing;
 
-
+bool IdxitAppOptions::m_quick = false;
 bool IdxitAppOptions::m_list = false;
 
 bool IdxitAppOptions::m_peekOnly = false;
@@ -123,6 +123,8 @@ void IdxitAppOptions::setCommandMode(const IdxitAppOptions::CommandMode mode)
 	m_commandMode = mode;
 }
 
+
+
 void IdxitAppOptions::setName(const char *name) {
 	m_name = name;
 }
@@ -164,6 +166,10 @@ const char* IdxitAppOptions::getOption()
 const char* IdxitAppOptions::getValue()
 {
 	return m_value.c_str();
+}
+
+bool IdxitAppOptions::isQuick() {
+	return m_quick;
 }
 
 bool IdxitAppOptions::isEnventsOn() {
